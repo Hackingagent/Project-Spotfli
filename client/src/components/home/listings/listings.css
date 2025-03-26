@@ -1,0 +1,73 @@
+.listing{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.5rem 0.8rem;
+    border-radius: 15px;
+    transition: 0.3s ease-in-out;
+}
+
+.listing:hover{
+    background: rgba(63, 62, 62, 0.081);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.154);
+}
+.listing .img{
+    /* height: 9rem; */
+    width: 100%;
+    position: relative;
+    justify-self: center;
+    align-self: center;
+}
+.listing .img img{
+    width: 100%;
+    border-radius: 15px;
+}
+.listing .img i{
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.3rem;
+    color: rgb(209, 8, 8);
+}
+.listing-description{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 1rem;
+}
+.listing-description .descriptions{
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.listing-description .rating{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+.listing-description .rating i{
+    color: rgb(221, 188, 4);
+}
+.listing-description .listing-title{
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+    color: var(--bg-2);
+}
+.listing-description .distance{
+    color: rgba(0, 0, 0, 0.582);
+}
+.listing-description .price{
+    color: var(--text-color);
+    font-size: 0.9rem;
+    span{
+        color: var(--bg-2);
+    }
+}
+
+
+/* ************************* Responsivenes Design ************************* */
+
+@media screen and (max-width: 1250px){
+
+}

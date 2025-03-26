@@ -1,0 +1,92 @@
+
+.register-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.setup{
+    padding-top: 5rem;
+}
+.register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 2rem;
+}
+.register-form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+.register-form form{
+    display: flex;
+    flex-direction: column;
+}
+.register-form{
+    background: var(--bg-2);
+    padding: 1rem 1.4rem;
+    color: var(--background-color);
+    border-radius: 10px;
+    flex-basis: 50%;
+    width: 400px;
+}
+.register img{
+    width: 600px;
+    flex-basis: 50%;
+
+}
+.register-form form input,
+select
+{
+    padding: 0.4rem 0.8rem;
+    margin: 0.5rem 0;
+    border-radius: 5px;
+    border: none;
+
+    outline: none;
+}
+.register-form form textarea{
+    height: 5rem;
+    margin: 0.5rem 0;
+    background-color: var(--bg-w2);
+    color: var(--bg-1);
+    border: none;
+    outline: none;
+
+}
+
+.gender{
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+.register-btn{
+    padding: 0.6rem;
+    background: var(--bg-4);
+    border: none;
+    color: var(--background-color);
+    font-size: 1rem;
+    letter-spacing: 0.11rem;
+    text-align: center;
+    text-decoration: none;
+    margin: 0.5rem 0;
+
+}
+.terms-conditions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+}
+.terms-conditions span{
+    font-size: 0.8rem;
+}
+.terms-conditions span a{
+    color: var(--bg-w2);
+}
+Link{
+    cursor: pointer;
+}

@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300&display=swap");
+:root {
+  --bg-white: #ffffff;
+  --background-color: #F9F8F7;
+  --text-color: #232A2F;
+  --bg-1: #153147;
+  --bg-2: #0a4978;
+  --bg-3: #0b5f9f;
+  --bg-4: #0f7bcd;
+  --bg-w1: #ADB8BB;
+  --bg-w2: #EDEAE4;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--bg-white);
+  margin: 0;
+  padding: 0;
+  /* place-items: center; */
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+i{
+  cursor: pointer;
+}
+button{
+  cursor: pointer;
+}
+.btn{
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.links{
+  text-decoration: none;
+}
+
+.btn-primary{
+  background-color: var(--bg-4);
+  color: var(--bg-white);
+}
+.fade-up{
+  opacity: 0;
+  animation: fadeUp 0.6s ease-in forwards;
+}
+@keyframes fadeUp{
+  from{
+      opacity: 0;
+      transform: translateY(30px);
+  }
+  to{
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

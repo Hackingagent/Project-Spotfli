@@ -1,0 +1,80 @@
+.sidebar-container{
+    /* display: none; */
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    background-color: var(--bg-2);
+    height: 100vh;
+    width: 0%;
+    display: none;
+    flex-direction: column;
+    padding: 1rem 0;
+    overflow-x: hidden;
+    animation: slideRight 0.4s ease-in forwards;
+}
+
+  
+  .sidebar-container.open {
+    display: flex;
+
+  }
+
+.side-bar-top{
+    display: flex;
+    justify-content: space-between;
+
+}
+.side-bar-top i{
+    font-size: 2rem;
+    color: var(--bg-white);
+    margin-right: 1.2rem;
+}
+@keyframes slideRight{
+    from{
+        width: 0%;
+        overflow-x: hidden;
+    }
+    to{
+        width: 20%;
+        overflow-x: scroll;
+
+    }
+}
+.sidebar-container .side-bar img{
+    width: 7rem;
+    margin-left: 2rem;
+
+}
+.sidebar-content li{
+    list-style: none;
+    color: var(--bg-w2);
+    padding: 0.8rem 0;
+}
+.sidebar-content li .sideLinks{
+    color: var(--bg-white);
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+
+.side-bar-buttons{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.side-bar-buttons .sideLinks{
+    text-decoration: none;
+    color: var(--bg-white);
+    text-align: center;
+}
+.side-bar-buttons .notification{
+    padding: 0.7rem 1rem;
+    background-color: var(--bg-w2);
+    color: var(--text-color);
+    margin: 0 0.7rem;
+}
+.side-bar-buttons .logout{
+    padding: 0.7rem 1rem;
+    background-color: rgb(180, 9, 9);
+    margin: 0 0.7rem;
+}

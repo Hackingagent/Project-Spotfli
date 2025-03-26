@@ -1,0 +1,40 @@
+.account-type{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.account-type h1{
+    color: var(--bg-3);
+}
+.account-type-image img{
+    width: 410px;
+    /* flex-basis: 50%; */
+}
+.register-options{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+.register-options .option{
+    background-color: var(--bg-4);
+    padding: 0.9rem;
+    color: var(--bg-white);
+    cursor: pointer;
+    border-radius: 6px;
+
+
+}
+.option .acc-route i{
+    font-size: 2.2rem;
+}
+.option .acc-route{
+    text-decoration: none;
+    color: var(--bg-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+}

@@ -1,0 +1,29 @@
+.navbar-container{
+    position: sticky;
+    top: 0;
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-w2);
+    color: var(--bg-white);
+    padding: 0.3rem 2rem;
+}
+nav .logo{
+    width: 7rem;
+}
+.nav-links{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    gap: 1rem;
+}
+.nav-links .link{
+    color: var(--bg-1);
+    text-decoration: none;
+}
+.nav-links .link i{
+    color: var(--bg-4);
+}

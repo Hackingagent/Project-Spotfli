@@ -1,0 +1,48 @@
+/* .home-container img{
+    width: 6.5rem;
+} */
+
+.section-title{
+    padding: 0 2rem;
+}
+.all-listings{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.listings-container{
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.2rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.7s ease-in forwards;
+}
+@keyframes fadeUp{
+    from{
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ************************* Responsivenes Design ************************* */
+@media screen and (max-width: 1250px){
+    .listings-container{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media screen and (max-width: 1050px){
+    .listings-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media screen and (max-width: 700px){
+    .listings-container{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
