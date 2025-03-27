@@ -9,6 +9,7 @@ import ExperienceLevel from './components/register/serviceProvider/ExperienceLev
 import Login from './components/login/Login';
 import Home from './components/home/Home';
 import PropertyDetails from './components/propertyDetails/PropertyDetails';
+import ChatApp from './components/chat-system/ChatApp';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/propertyDetails" element={<PropertyDetails/>} />
         <Route path='/login' element={<Login />} />
         <Route path='/home' element={<Home />} />
+        <Route path='/chat' element={<ChatApp />} />
       </Routes>
       </BrowserRouter>
     </div>

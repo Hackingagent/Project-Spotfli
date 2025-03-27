@@ -1,0 +1,253 @@
+/* src/components/ChatApp.css */
+.chat-app {
+    display: flex;
+    height: 100vh;
+    /* overflow: hidden; */
+}
+
+.sidebar {
+    width: 25%;
+    background: #f4f4f4;
+    padding: 10px;
+}
+
+.user {
+    cursor: pointer;
+}
+
+.user:hover {
+    background: #e0e0e0;
+}
+
+
+
+
+/* SideBar Styling */
+
+.sidebar-header .top{
+    display: flex;
+    justify-content:  space-between;
+}
+
+.sidebar-header .bottom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-header .bottom input {
+    border-radius: 15px;
+    height: 25px;
+    width: 80%;
+    font-family: monospace;
+    padding-left: 30px;
+    border: 1px rgb(72, 64, 50) solid;
+}
+.user-info{
+    display: grid;
+    grid-template-columns: 25% 75%;
+    align-items: start;
+}
+
+.user-info img {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+
+.info-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-info .info .info-top span{
+    color: gray;
+    margin-top: 15px;
+}
+
+.user-info .info .info-top h4{
+    margin-bottom: 10px;
+}
+
+.info p{
+    margin-top: 0;
+    color: gray;
+}
+
+
+
+/* Chat Window Styling */
+.chat-window {
+    width: 70%;
+    flex: 1;
+    padding-right: 12px;
+    background: #fff;
+}
+
+.chat-window-empty{
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-window-empty img{
+    width: 60%;
+}
+
+.chat-window-header{
+    background-color: #f4f4f4;
+    display: grid;
+    grid-template-columns: 30% 70%;
+    border-left: #e7e1e1 solid 1px;
+}
+
+.chat-window-header .left{
+    display: flex;
+    margin-left: 5px;
+}
+
+.chat-window-header .left .user-info{
+    display: block;
+    margin-left: 5px;
+}
+.chat-window-header .left .user-info h4{
+    margin-bottom: 10px;
+}
+.chat-window-header .left .user-info span{
+    color: grey;
+}
+
+
+.chat-window-header .left img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.chat-window-header .right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    
+}
+
+.chat-window-header .right .icons{
+    width: 30px;
+    height: 20px;
+    margin: 5px;
+    color: #007bff;
+      
+}
+
+.chat-window-main{
+    background-color: #e0e0e0;
+    overflow-y: auto;
+    height: calc(90vh - 100px);
+
+
+}
+.chat-window-main .message-top{
+    display: grid;
+    place-items: center;
+    /* background-color: #007bff; */
+    padding-top: 30px;
+}
+.chat-window-main .message-top img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.chat-window-main .message-top button{
+    background-color: #adabab;
+    height: 34px;
+    width: 13%;
+    border-radius: 20px;
+    border: none;
+    font-weight: bold;
+    margin-top: 25px;
+}
+.chat-window-main .message-top h4{
+    /* background-color: #007bff; */
+    margin: 8px;
+}
+
+
+.chat-messages {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+  
+.message {
+    margin: 0 10px;
+    padding: 5px;
+    border-radius: 10px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+  
+.sent {
+    background-color: #007bff;
+    align-self: flex-end;
+    max-width: 40%;
+}
+  
+.received {
+    background-color: #adabab;
+    align-self: flex-start;
+    max-width: 40%;
+}
+  
+.timestamp {
+    font-size: 12px;
+    color: #666;
+}
+
+
+.chat-window-footer{
+    display: flex;
+    margin-top: 20px;
+}
+
+.chat-window-footer input {
+    flex: 1;
+    padding: 10px 10px 10px 30px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    border-radius: 30px;
+    margin-left: 5px;
+}
+
+.chat-window-footer button {
+    padding: 10px;
+    margin-left: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.chat-window-footer .right-icons {
+    color: #007bff;
+    position: absolute;
+    transform: translateY(-50%);
+    left: 86%;
+    margin-top: 23px;
+    
+}
+.chat-window-footer .right-icons .input-icons {
+    width: 35px;    
+}
+
+.chat-window-footer .left-icon {
+    color: #007bff;
+    position: absolute;
+    transform: translateY(-50%);
+    margin-top: 20px;
+    width: 45px;
+}
+
+
