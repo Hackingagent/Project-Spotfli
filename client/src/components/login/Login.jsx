@@ -22,7 +22,7 @@ const Login = () => {
 
                             <label htmlFor="Password">Password:</label>
                             <input type="password" />
-                            <Link className="register-btn" to="/home">Sign In <i className="fa fa-user"></i></Link>
+                            <Link className="register-btn" to="/">Sign In <i className="fa fa-user"></i></Link>
                         </form>
                     </div>
                 </div>

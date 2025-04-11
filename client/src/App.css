@@ -10,6 +10,9 @@
   --bg-w1: #ADB8BB;
   --bg-w2: #EDEAE4;
 }
+.container{
+  padding: 1.7rem 2rem;
+}
 body {
   font-family: Arial, sans-serif;
   background-color: var(--bg-white);
@@ -34,11 +37,23 @@ button{
 }
 .links{
   text-decoration: none;
+  color: var(--text-color);
 }
-
+li{
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
 .btn-primary{
   background-color: var(--bg-4);
   color: var(--bg-white);
+  transition: 0.2s ease-in;
+}
+.btn-primary:hover{
+  background-color: transparent;
+  border: 2px solid var(--bg-4);
+  color: var(--bg-4);
 }
 .fade-up{
   opacity: 0;

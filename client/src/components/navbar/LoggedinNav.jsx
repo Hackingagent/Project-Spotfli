@@ -10,7 +10,9 @@ const LogedinNav = () => {
   return (
    <div className='loggedin-nav'>
       <div className="nav-left">
+          <Link to='/'>
           <img className="logo" src={logo} alt="logo" />
+          </Link>
           <div className="search-bar">
             <input type="text" placeholder='Ask me anything' />
             <i className="fa fa-microphone"></i>

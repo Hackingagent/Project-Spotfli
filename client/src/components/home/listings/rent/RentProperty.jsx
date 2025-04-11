@@ -1,10 +1,10 @@
-import React from 'react';
-import './listings.css';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import '../listings.css';
 
-const Listings = (props) => {
+import { Link } from 'react-router-dom';
+const RentProperty = (props) => {
   return (
-    <>
+    <div>
     <Link className='links' to='/propertydetails'>
     <div className='listing'>
       <div className="img">
@@ -26,8 +26,8 @@ const Listings = (props) => {
 
     </div>
     </Link>
-    </>
+    </div>
   )
 }
 
-export default Listings
+export default RentProperty

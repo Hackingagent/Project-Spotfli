@@ -28,6 +28,9 @@
     left: 1rem;
     font-size: 1.3rem;
     color: rgb(209, 8, 8);
+    background-color: var(--bg-white);
+    border-radius: 50%;
+    padding: 0.4rem;
 }
 .listing-description{
     display: flex;
@@ -64,7 +67,6 @@
         color: var(--bg-2);
     }
 }
-
 
 /* ************************* Responsivenes Design ************************* */
 

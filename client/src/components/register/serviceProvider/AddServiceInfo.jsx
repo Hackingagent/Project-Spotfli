@@ -32,6 +32,8 @@ const AddServiceInfo = () => {
                       <option value="nails">Nails</option>
                       <option value="massage">Massage</option>
                       <option value="mechanic">Mechanic</option>
+                      <option value="shoeMender">Shoe Mender</option>
+
                     </select>
 
                     <label htmlFor="username">City/Town:</label>

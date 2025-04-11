@@ -71,22 +71,6 @@ const propertyList = [
         price: 25000,
         rating: 4.2,
         image: house1,
-      },
-      {
-        id: 9,
-        title: 'Up Quaters-Bambili' ,
-        type: '3 Bed Room Apartment',
-        price: 25000,
-        rating: 3.7,
-        image: house4,
-      },
-      {
-        id: 10,
-        title: 'Up Quaters-Bambili' ,
-        type: 'Studio',
-        price: 25000,
-        rating: 2.8,
-        image: house5,
       }
 ]
 export default propertyList;

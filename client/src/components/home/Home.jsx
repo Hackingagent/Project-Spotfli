@@ -7,6 +7,7 @@ import Listings from './listings/Listings';
 import propertyList from './listings/propertyList';
 import SideBar from './sideBar/SideBar';
 import { Link } from 'react-router-dom';
+import DefaultListings from './listings/DefaultListings';
 
 const Home = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to control sidebar visibility
@@ -23,25 +24,7 @@ const Home = () => {
           <OptionBar toggleSidebar={toggleSidebar} /> {/* Pass the toggle function */}
         </div>
         <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} /> {/* Pass isOpen and toggle function */}
-        <h2 className="section-title">
-          Houses Near You <i className="fa fa-location"></i>
-        </h2>
-        <Link className='links' to='/propertyDetails'>
-        <div className="all-listings">
-          <div className="listings-container">
-            {propertyList.map((property) => (
-              <Listings
-                key={property.id}
-                image={property.image}
-                title={property.title}
-                type={property.type}
-                price={property.price}
-                rating={property.rating}
-              />
-            ))}
-          </div>
-        </div>
-        </Link>
+        
       </div>
     </>
   );

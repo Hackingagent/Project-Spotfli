@@ -1,11 +1,10 @@
-import React from 'react';
-import './listings.css';
+import React from 'react'
+import '../../listings/listings.css';
 import { Link } from 'react-router-dom';
 
-const Listings = (props) => {
+const ServicesComponent = (props) => {
   return (
-    <>
-    <Link className='links' to='/propertydetails'>
+   <Link className='links' to='/singleProvider'>
     <div className='listing'>
       <div className="img">
         <i className="fa fa-heart"></i>
@@ -13,9 +12,9 @@ const Listings = (props) => {
       </div>
       <div className="listing-description">
         <div className="descriptions">
-          <div className='listing-title'>{props.title}</div>
-          <span className="distance">{props.type}</span>
-          <div className="price">XAF {props.price}/<span>Month</span></div>
+          <div className='listing-title'>{props.name} <i className="fa fa-check verified"></i></div>
+          <span className="distance">{props.category}</span>
+          <div className="price">{props.availability}</div>
         </div>
 
         <div className="rating">
@@ -26,8 +25,7 @@ const Listings = (props) => {
 
     </div>
     </Link>
-    </>
   )
 }
 
-export default Listings
+export default ServicesComponent

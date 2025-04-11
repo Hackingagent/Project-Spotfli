@@ -1,0 +1,34 @@
+.service-provider-details{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1rem;
+}
+.book-provider{
+    display: flex;
+    gap: 1rem;
+}
+.service-provider-sec1{
+    width: 100%;
+    flex-basis: 50%;
+}
+.service-provider-sec1 img{
+    width: 100%;
+    border-radius: 20px;
+}
+.service-provider-sec2 {
+    flex-basis: 50%;
+}
+.service-provider-sec2 h1{
+    color: var(--bg-w1);
+}
+
+.servicep-rating{
+    display: flex;
+    gap: 0.8rem;
+}
+.servicep-rating span{
+    background: var(--bg-w1);
+    border-radius: 5px;
+    padding: 0.8rem;
+}

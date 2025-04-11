@@ -1,10 +1,10 @@
 import React from 'react';
-import './listings.css';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import '../listings.css';
 
-const Listings = (props) => {
+const HotelComponent = (props) => {
   return (
-    <>
+    <div>
     <Link className='links' to='/propertydetails'>
     <div className='listing'>
       <div className="img">
@@ -13,9 +13,9 @@ const Listings = (props) => {
       </div>
       <div className="listing-description">
         <div className="descriptions">
-          <div className='listing-title'>{props.title}</div>
+          <div className='listing-title'>{props.hotelname}</div>
           <span className="distance">{props.type}</span>
-          <div className="price">XAF {props.price}/<span>Month</span></div>
+          <div className="price">XAF {props.price}/<span>Night</span></div>
         </div>
 
         <div className="rating">
@@ -26,8 +26,8 @@ const Listings = (props) => {
 
     </div>
     </Link>
-    </>
+    </div>
   )
 }
 
-export default Listings
+export default HotelComponent
