@@ -1,0 +1,14 @@
+.container{
+    background-color: rgb(24, 68, 150);
+    margin-top: 0;
+    height: fit-content;
+    padding: 20px;
+    color: rgb(237, 235, 235);
+    border-radius: 10px;
+}
+
+.container div h1 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bolder;
+    font-size: 70px;
+}
