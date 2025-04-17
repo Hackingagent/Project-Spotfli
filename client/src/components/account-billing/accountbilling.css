@@ -1,0 +1,36 @@
+.account-billing-options{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.6rem;
+    margin-top: 0.9rem;
+}
+.ab-option{
+    background: var(--bg-white);
+    border-radius: 15px;
+    padding: 0.8rem;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.349);
+    transition: 0.2s ease-in;
+    cursor: pointer;
+}
+.ab-option:hover{
+    transform: translateY(-10px);
+}
+.ab-option i{
+    font-size: 1.6rem;
+    color: var(--bg-4);
+}
+
+/* medium size devices */
+@media screen and (max-width: 1050px){
+    .account-billing-options{
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.6rem;
+    }
+}
+/* smaller screen size devices */
+@media screen and (max-width: 750px){
+    .account-billing-options{
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.6rem;
+    }
+}

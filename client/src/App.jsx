@@ -17,6 +17,10 @@ import Hotel from './components/home/listings/hotel/Hotel';
 import Rent from './components/home/listings/rent/Rent';
 import CoLiving from './components/home/listings/co-living/CoLiving';
 import SingleProvider from './components/home/listings/service provider/SingleProvider';
+import AccountBilling from './components/account-billing/AccountBilling';
+import HelpSupport from './components/help-support/HelpSupport';
+import VacationPlan from './components/VacationPlan/VacationPlan';
+import RoommateFinder from './components/home/listings/roomate/RoommateFinder';
 
 function App() {
   return (
@@ -77,12 +81,33 @@ function App() {
       <Route path='/coliving' element={
         <>
         <Home />
-        <CoLiving />
+        <RoommateFinder />
         </>
       } />
 
-      {/*  */}
+      {/* Account And Billing Route */}
 
+      <Route path='/accountbilling' element={
+        <>
+        <Home />
+        <AccountBilling />
+        </>
+      }/>
+      {/* Help and Support Route */}
+      <Route path='/help'  element={
+        <>
+        <Home />
+        <HelpSupport />
+        </>
+      }/>
+
+      {/* Vacation Plan Route */}
+      <Route path='/vacationPlan' element={
+        <>
+        <Home />
+        <VacationPlan />
+        </>
+      }/>
 
 
 

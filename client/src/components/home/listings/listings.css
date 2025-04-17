@@ -67,6 +67,27 @@
         color: var(--bg-2);
     }
 }
+.filter-page-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    /* background-color: var(--bg-w1); */
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.331);
+    cursor: pointer;
+  
+  }
+  .filter-page-content i {
+    font-size: 1.4rem;
+  }
+  .listings-top{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+  }
 
 /* ************************* Responsivenes Design ************************* */
 

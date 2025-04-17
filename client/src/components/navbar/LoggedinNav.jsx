@@ -4,9 +4,9 @@ import './loggedInNav.css';
 import bell from '../../assets/bell.png';
 import message from '../../assets/comment.png';
 import profile from '../../assets/profile.jpg';
-import light from '../../assets/light.png';
+// import light from '../../assets/light.png';
 import { Link } from 'react-router-dom';
-const LogedinNav = () => {
+const LogedinNav = ({toggleAccountBar}) => {
   return (
    <div className='loggedin-nav'>
       <div className="nav-left">
@@ -25,13 +25,13 @@ const LogedinNav = () => {
             <div className="theme">
             <img src={message} alt="" />
               <img src={bell} alt="" />
-              <img src={light} alt="" />
+              {/* <img src={light} alt="" /> */}
             </div>
-            <Link  to='/register'>
+            
             <div className="profile-settings">
-              <img src={profile} alt="" />
+              <img src={profile} alt="" onClick={toggleAccountBar} />
             </div>
-            </Link>
+        
         </div>
     </div>
   )

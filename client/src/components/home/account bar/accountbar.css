@@ -1,0 +1,43 @@
+.account-bar-container{
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    right: 0.8rem;
+    top: 4.7rem;
+    background-color: var(--bg-white);
+    z-index: 2;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.514);
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+}
+.account-bar-container.open{
+    display: flex;    
+}
+.account-links{
+    margin: 0;
+    padding: 0.5rem 0;
+    border-top: 1px solid var(--bg-w1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.account-links .account-lang{
+    display: flex;
+    gap: 0.9rem;
+}
+.accountbar-picture{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.1rem;
+    font-size: 1.1rem;
+    font-family: cursive;
+    font-weight: bold;
+    padding: 0.5rem 0;
+}
+.accountbar-picture img{
+    width: 2.5rem;
+    border-radius: 3rem;
+}

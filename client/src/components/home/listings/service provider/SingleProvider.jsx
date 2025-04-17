@@ -1,18 +1,28 @@
 import React from 'react';
+import { useState } from 'react';
 import provider from '../../../../assets/service images/service6.jpg';
 import { Link } from 'react-router-dom';
+import BookingModal from '../../../book/BookingModal';
 import './serviceprovider.css';
+import '../listings.css'
 
 const SingleProvider = () => {
+    const [booking, isBooking] = useState(false);
+    function showBookModal (){
+        isBooking(!booking);
+    }
+    
   return (
+    <>
+    {booking && <BookingModal />}
     <div className='container'>
         <div className="service-provider-details fade-up">
             <div className="service-provider-sec1">
                 <img src={provider}/>
                 <h2>Kutuh Joseph <i className="fa fa-check verified"></i></h2>
                 <div className="book-provider">
-                    <Link className='links btn btn-primary'>Book Now <i class="fas fa-calendar-check"></i></Link>
-                    <Link className='links btn btn-primary'>Write Review <i class="fas fa-comments"></i></Link>
+                    <div onClick={showBookModal} className='links btn btn-primary'>Book Now <i class="fas fa-calendar-check"></i></div>
+                    <div className='links btn btn-primary'>Write Review <i class="fas fa-comments"></i></div>
                 </div>
             </div>
             <div className="service-provider-sec2">
@@ -39,6 +49,7 @@ const SingleProvider = () => {
             </div>
         </div>
     </div>
+    </>
   )
 }
 

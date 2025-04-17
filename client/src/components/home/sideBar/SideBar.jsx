@@ -18,17 +18,17 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
             </Link>
           </li>
           <li>
-            <Link className="sideLinks" to="/">
+            <Link className="sideLinks" to="/accountbilling">
               Manage Account <i className="fa fa-user"></i>{' '}
             </Link>
           </li>
           <li>
-            <Link className="sideLinks" to="/">
-              Messages <i className="fa fa-envelope"></i>{' '}
+            <Link className="sideLinks" to="/coliving">
+              Find Room-Mate <i className="fa fa-bed"></i>{' '}
             </Link>
           </li>
           <li>
-            <Link className="sideLinks" to="/">
+            <Link className="sideLinks" to="/vacationPlan">
               Vacation Plan <i className="fa fa-hotel"></i>{' '}
             </Link>
           </li>

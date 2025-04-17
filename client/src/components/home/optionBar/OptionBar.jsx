@@ -11,7 +11,7 @@ import './optionBar.css';
 import { Link } from 'react-router-dom';
 
 
-const OptionBar = ({ toggleSidebar }) => { // Receive toggleSidebar as a prop
+const OptionBar = ({ toggleSidebar, toggleFilter }) => { // Receive toggleSidebar as a prop
   return (
     <div className="option-bar">
       <div className="menu" onClick={toggleSidebar}> {/* Add onClick event */}
@@ -72,7 +72,6 @@ const OptionBar = ({ toggleSidebar }) => { // Receive toggleSidebar as a prop
             <span>Service Provider</span>
         </div>
         </Link>
-
 
       </div>
     </div>

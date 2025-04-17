@@ -1,0 +1,244 @@
+/* Help & Support Main Container */
+.help-support-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: var(--bg-white);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Header Section */
+  .help-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .help-header h2 {
+    color: var(--bg-1);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .header-icon {
+    color: var(--bg-3);
+  }
+  
+  .help-header p {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  /* Support Options Grid */
+  .support-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .support-card {
+    background-color: var(--background-color);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--bg-w2);
+  }
+  
+  .support-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: white;
+  }
+  
+  .live-chat {
+    background-color: var(--bg-3);
+  }
+  
+  .contact-support {
+    background-color: var(--bg-4);
+  }
+  
+  .email-support {
+    background-color: var(--bg-2);
+  }
+  
+  .support-card h3 {
+    color: var(--bg-1);
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+  }
+  
+  .support-card p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .support-button {
+    background-color: var(--bg-3);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  .support-button:hover {
+    background-color: var(--bg-4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .availability {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--bg-1);
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
+  
+  /* FAQ Section */
+  .faq-section {
+    margin-top: 3rem;
+  }
+  
+  .faq-section h3 {
+    color: var(--bg-1);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .faq-list {
+    margin-bottom: 2rem;
+  }
+  
+  .faq-item {
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--bg-w2);
+  }
+  
+  .faq-question {
+    width: 100%;
+    padding: 1.2rem;
+    text-align: left;
+    background-color: var(--background-color);
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    color: var(--bg-1);
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  
+  .faq-question:hover {
+    background-color: var(--bg-w2);
+  }
+  
+  .toggle-icon {
+    font-size: 1.3rem;
+    color: var(--bg-3);
+  }
+  
+  .faq-answer {
+    padding: 1rem;
+    background-color: var(--bg-white);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: none;
+  }
+  
+  .faq-item.active .faq-answer {
+    display: block;
+  }
+  
+  .faq-item.active .toggle-icon {
+    transform: rotate(45deg);
+  }
+  
+  .view-all-faq {
+    display: block;
+    margin: 0 auto;
+    background: none;
+    border: 2px solid var(--bg-3);
+    color: var(--bg-3);
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .view-all-faq:hover {
+    background-color: var(--bg-3);
+    color: white;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .help-support-container {
+      margin: 1rem;
+      padding: 1rem;
+    }
+    
+    .help-header h2 {
+      font-size: 1.5rem;
+    }
+    
+    .support-options {
+      grid-template-columns: 1fr;
+    }
+    
+    .faq-question {
+      font-size: 1rem;
+      padding: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .help-header h2 {
+      font-size: 1.3rem;
+    }
+    
+    .support-card {
+      padding: 1.5rem;
+    }
+    
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      font-size: 1.5rem;
+    }
+  }

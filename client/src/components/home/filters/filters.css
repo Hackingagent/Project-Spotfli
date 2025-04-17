@@ -1,0 +1,473 @@
+.filter-container {
+    position: fixed;
+    top: 0;
+    width: 40%;
+    background-color: var(--bg-white);
+    color: var(--text-color);
+    border-radius: 20px;
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.355);
+    padding: 1.2rem 1.7rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.filter-listings{
+    display: flex;
+    justify-content: center;
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.564);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.filter-tiltle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--bg-w2);
+    color: var(--bg-1);
+}
+
+.filter-tiltle span {
+    cursor: pointer;
+    color: var(--bg-w1);
+    transition: all 0.2s;
+}
+
+.filter-tiltle span:hover {
+    color: var(--bg-3);
+    transform: scale(1.1);
+}
+
+.filter-container .filters {
+    height: 30rem;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+/* Custom scrollbar */
+.filters::-webkit-scrollbar {
+    width: 6px;
+}
+
+.filters::-webkit-scrollbar-track {
+    background: var(--bg-w2);
+    border-radius: 10px;
+}
+
+.filters::-webkit-scrollbar-thumb {
+    background: var(--bg-w1);
+    border-radius: 10px;
+}
+
+.filters::-webkit-scrollbar-thumb:hover {
+    background: var(--bg-1);
+}
+
+.filter-location, 
+.property-type, 
+.price-range, 
+.rooms-and-bath, 
+.Special-includes {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--bg-w2);
+}
+
+.filter-location h3, 
+.property-type h3, 
+.price-range h3, 
+.rooms-and-bath h3, 
+.Special-includes h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--bg-1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.filter-location input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--bg-w1);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background-color: var(--background-color);
+}
+
+.filter-location input:focus {
+    outline: none;
+    border-color: var(--bg-3);
+    box-shadow: 0 0 0 2px rgba(11, 95, 159, 0.2);
+}
+
+.property-type {
+    display: flex;
+    flex-direction: column;
+}
+
+.property-type span {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin: 0.3rem;
+    background-color: var(--bg-w2);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    color: var(--bg-1);
+}
+
+.property-type span:hover {
+    background-color: var(--bg-3);
+    color: var(--bg-white);
+}
+
+/* Custom range input styling */
+.price-range {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--bg-1);
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: var(--bg-w2);
+    outline: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--bg-3);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    background: var(--bg-4);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    background: linear-gradient(to right, var(--bg-3), var(--bg-3));
+    background-size: var(--background-size, 0%) 100%;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+}
+
+/* Rooms and Bath styling */
+.rooms-and-bath .rooms {
+    margin-bottom: 1rem;
+}
+
+.rooms-and-bath label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--bg-1);
+}
+
+.addsub-rooms {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.addsub-rooms button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background-color: var(--bg-3);
+    color: var(--bg-white);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.addsub-rooms button:hover {
+    background-color: var(--bg-4);
+    transform: scale(1.05);
+}
+
+.addsub-rooms span {
+    min-width: 40px;
+    text-align: center;
+    color: var(--text-color);
+}
+
+/* Special includes styling */
+.specials {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.specials span {
+    color: var(--text-color);
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--bg-w1);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    background-color: var(--background-color);
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--bg-3);
+    border-color: var(--bg-3);
+}
+
+input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: 0.8rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Filter actions styling */
+.filter-actions {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.filter-actions input[type="submit"] {
+    background-color: var(--bg-3);
+    color: var(--bg-white);
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.filter-actions input[type="submit"]:hover {
+    background-color: var(--bg-4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Availability and Rating Styling */
+.availability, .rating {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--bg-w2);
+}
+
+.rating-stars {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.rating-stars .star {
+    color: var(--bg-w1);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rating-stars .star:hover,
+.rating-stars .star.active {
+    color: var(--bg-3);
+}
+
+/* Service Category specific styling */
+.property-type span {
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive adjustments */
+/* @media (max-width: 768px) {
+    .filter-container {
+        left: 5%;
+        width: 90%;
+    }
+} */
+
+/* ==================== */
+/* RESPONSIVE STYLES */
+/* ==================== */
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .filter-container {
+        left: 30%;
+        width: 40rem;
+    }
+}
+
+/* Medium devices (tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .filter-container {
+        left: 20%;
+        width: 35rem;
+    }
+    
+    .property-type span {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Small devices (landscape phones, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .filter-container {
+        left: 10%;
+        width: 30rem;
+        top: 0;
+    }
+    
+    .filter-tiltle {
+        font-size: 1.3rem;
+    }
+    
+    .filters {
+        height: 25rem !important;
+    }
+    
+    .property-type span {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575px) {
+    .filter-container {
+        left: 0;
+        right: 0;
+        width: auto;
+        margin: 0 1rem;
+        top: 5%;
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .filter-tiltle {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .filters {
+        height: calc(100vh - 150px) !important;
+        padding-right: 0.3rem;
+    }
+    
+    .filter-location h3,
+    .property-type h3,
+    .price-range h3,
+    .rooms-and-bath h3,
+    .Special-includes h3,
+    .availability h3,
+    .rating h3 {
+        font-size: 1rem;
+    }
+    
+    .property-type {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .property-type span {
+        margin: 0;
+        text-align: center;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .filter-location input {
+        padding: 0.6rem;
+    }
+    
+    .addsub-rooms button {
+        width: 25px;
+        height: 25px;
+        font-size: 0.9rem;
+    }
+    
+    .filter-actions input[type="submit"] {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .rating-stars .star {
+        font-size: 1.2rem;
+    }
+    
+    .specials {
+        font-size: 0.85rem;
+    }
+}
+
+/* Very small devices (phones under 400px) */
+@media (max-width: 400px) {
+    .filter-container {
+        margin: 0 0.5rem;
+        padding: 0.8rem;
+    }
+    
+    .property-type {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-tiltle {
+        font-size: 1.1rem;
+    }
+    
+    .filters {
+        height: calc(100vh - 130px) !important;
+    }
+}
