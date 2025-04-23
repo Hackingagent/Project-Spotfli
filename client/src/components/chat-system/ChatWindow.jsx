@@ -3,7 +3,8 @@ import React from 'react';
 import icon from '../../assets/logo1.png';
 import { FaPhone } from "react-icons/fa6";
 import { IoMdVideocam } from "react-icons/io";
-import { FaSmile, FaMicrophone, FaRegHeart } from "react-icons/fa";
+import { IoIosSend } from "react-icons/io";
+import { FaSmile, FaMicrophone, FaRegHeart,  } from "react-icons/fa";
 import { MdPhotoSizeSelectActual } from "react-icons/md";
 
 import { RiInformationFill } from "react-icons/ri";
@@ -80,7 +81,7 @@ const ChatWindow = ({ user }) => {
                     <MdPhotoSizeSelectActual className='input-icons'/>
                     <FaRegHeart className='input-icons' />
                 </div>
-                <button >Send</button>
+                <button ><IoIosSend size={25}/></button>
             </footer>
             
         </div>

@@ -75,6 +75,133 @@
     color: gray;
 }
 
+.dropButton{
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+
+.dropdown {
+    position: absolute;
+    top: 50px; /* Adjust based on button height */
+    left: 22%;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10; /* Ensure it appears above other content */
+}
+
+.menu {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.menu li {
+    margin: 10px 0;
+    border-bottom: 1px solid black;
+}
+
+.menu a {
+    color: #403f3f;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    display: block; /* Make the entire area clickable */
+    padding: 5px;
+}
+
+.menu a span{
+    margin-left: 10px;
+}
+
+.menu a:hover {
+    background-color: #e0e0e0; /* Highlight on hover */
+}
+
+.modal{
+    position: absolute;
+    background-color: #e0e0e0;
+    left: 30%;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.modal header {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #403f3f;
+}
+
+.modal header button{
+    background: none;
+    border: none;
+    position: relative;
+    left: 35%;
+}
+
+.modal .account{
+    border-bottom: 1px solid #403f3f;
+}
+
+.modal .account .details{
+    display: grid;
+    grid-template-columns: 10% 90%;
+    align-items: start;
+}
+
+.modal .account .details div{
+    position: relative;
+    bottom: 20px;
+}
+
+.modal .account .details div p{
+    font-weight: bold;
+}
+
+.modal .account .details div span{
+    color: gray;
+}
+
+
+.modal .account .details img{
+   height: 50px;
+   width: 50px;
+   border-radius: 50%;
+}
+
+.modal .active {
+    margin-top: 5px;
+    display: flex;
+    border-bottom: 1px solid #403f3f;
+}
+
+.modal .active img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.modal .active p{
+    font-weight: bolder;
+    margin-left: 10px;
+}
+
+.modal .notification .not{
+    display: grid;
+    grid-template-columns: 5% 85% 10%;
+}
+
+.modal .notification .not div{
+    position: relative;
+    bottom: 10px;
+}
+
+.modal .notification .not div span{
+    font-weight: bolder;
+    font-size: 20px;
+}
+
 
 
 /* Chat Window Styling */
@@ -200,6 +327,9 @@
     align-self: flex-start;
     max-width: 40%;
 }
+
+
+
   
 .timestamp {
     font-size: 12px;

@@ -16,12 +16,17 @@ import ServiceProviderSidebar from './components/navigation/serviceProvider/serv
 import PropertyOwnerSidebar from './components/navigation/propertyOwner/property-owner-sidebar';
 import ViewProperty from './components/views/property-owner/view-property/view-property';
 import MyPropertyDetails from './components/views/property-owner/view-property/property-details';
+import AddProperty from './components/views/property-owner/add-property/add-property';
+import MoreInfo from './components/views/property-owner/add-property/more-info/more-info';
 
 function App() {
   return (
     <div>
       <BrowserRouter>
       <Routes>
+
+        <Route path='/more' element={<MoreInfo />} />
+
         <Route path="/" element={<Home/>} />
         <Route path="/register" element={<AccountType/>} />
         <Route path="/registerPS" element={<Register />} />
@@ -45,6 +50,7 @@ function App() {
           <Route element={<PropertyOwnerSidebar />}>
             <Route index />
             <Route path='view-properties' element={<ViewProperty />} />
+            <Route path='add-property' element={<AddProperty />} />
             <Route path="my-property-details" element={<MyPropertyDetails />} />
 
           </Route>

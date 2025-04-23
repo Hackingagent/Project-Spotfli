@@ -1,0 +1,94 @@
+.body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 70px;
+}
+
+.container{
+    margin-top: 50px;
+    border: 1px solid rgb(187, 184, 184);
+    width: 50%;
+    border-radius: 30px;
+}
+
+.container p{
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    /* margin-left: 5px; */
+}
+
+.input{
+    display: block;
+    margin-left: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.input input{
+    display: block;
+    border: 1px #989696 solid;
+    border-radius: 8px;
+    margin-top: 10px;
+    height: 40px;
+    width: 90%;
+    margin-bottom: 30px;
+    background-color: #f2eeee;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.input select{
+    display: block;
+    border: 1px #989696 solid;
+    border-radius: 8px;
+    margin-top: 10px;
+    height: 40px;
+    width: 90%;
+    margin-bottom: 30px;
+    background-color: #f2eeee;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.container .next {
+    background-color: #184496;
+    height: 40px;
+    width: 10%;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    margin-left: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.container .back {
+    background-color: #e83c3c;
+    height: 40px;
+    width: 10%;
+    border-radius: 5px;
+    color: white;
+    border: none;
+    margin-left: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.file_uploader{
+    border: 2px dashed #184496;
+    border-radius: 4px;
+    height: 40px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin: 2px 30px 20px 20px;
+}
+
+.file_uploader input{
+    display: none;
+}
