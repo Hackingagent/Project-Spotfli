@@ -18,6 +18,11 @@ import ViewProperty from './components/views/property-owner/view-property/view-p
 import MyPropertyDetails from './components/views/property-owner/view-property/property-details';
 import AddProperty from './components/views/property-owner/add-property/add-property';
 import MoreInfo from './components/views/property-owner/add-property/more-info/more-info';
+import TableComponent from './components/sections/table/table-component';
+import AllUnits from './components/views/admin/all-units/all-units';
+import PendingUnits from './components/views/admin/pending-units/pending-units';
+import RejectedUnits from './components/views/admin/rejected-units/rejected-units';
+import ReportedUnits from './components/views/admin/reported-units/reported-units';
 
 function App() {
   return (
@@ -42,6 +47,10 @@ function App() {
         <Route path='/admin'>
           <Route element={<AdminSidebar />}>
             <Route index element={<AdminDashboard />} />
+            <Route path='all-units' element={<AllUnits />}/>
+            <Route path='pending-units' element={<PendingUnits />}/>
+            <Route path='rejected-units' element={<RejectedUnits />}/>
+            <Route path='reported-units' element={<ReportedUnits />}/>
           </Route>
 
         </Route>

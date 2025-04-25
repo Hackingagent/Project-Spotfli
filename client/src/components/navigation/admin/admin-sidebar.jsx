@@ -1,32 +1,44 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import styles from '../sidebar.module.css';
+import { FaBars, FaWindowClose } from "react-icons/fa";
+
 const AdminSidebar = () => {
-    return (
-        <div className={styles.app}>
-            <div className={styles.navbar}>
-                <div><h2>LOGO</h2></div>
-                <div>UserName</div>
-            </div>
-            <div className={styles.mainContent}>
-                <div className={styles.sidebar}>
-                    <ul>
-                        <li>DashBoard</li>
-                        <li>All Unit</li>
-                        <li>Pending Units</li>
-                        <li>Rejected Units</li>
-                        <li>Reported Units</li>
-                    </ul>
-                </div>
+  const [isOpen, setIsOpen] = useState(false);
 
-                <div className={styles.outlet}>
-                    <Outlet />
-                </div>
-            </div>
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
 
-        </div>  
-    )
+  return (
+    <div className={styles.app}>
+      <div className={styles.navbar}>
+        <div><h2>LOGO</h2></div>
+        <div style={{display: 'flex'}}>
+            UserName
+            <button onClick={toggleSidebar} className={styles.toggle_button}>
+                {isOpen ? <FaWindowClose size={20} /> : <FaBars size={20}/>}
+            </button>
+        </div>
 
-}
+      </div>
+      <div className={styles.mainContent}>
+        <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
+          <ul>
+            <li><Link onClick={toggleSidebar} to="/admin">DashBoard</Link></li>
+            <li><Link onClick={toggleSidebar} to="/admin/all-units">All Unit</Link></li>
+            <li><Link onClick={toggleSidebar} to="/admin/pending-units">Pending Units</Link></li>
+            <li><Link onClick={toggleSidebar} to="/admin/rejected-units">Rejected Units</Link></li>
+            <li><Link onClick={toggleSidebar} to="/admin/reported-units">Reported Units</Link></li>
+          </ul>
+        </div>
 
-export default AdminSidebar
+        <div className={styles.outlet}>
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AdminSidebar;

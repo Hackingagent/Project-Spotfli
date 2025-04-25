@@ -3,7 +3,7 @@ import styles from './header-stats.module.css';
 
 const HeaderStats = ({heading, subheading}) => {
     return (
-        <>
+        
             <div className={styles.container} >
                 <div>
                     <h1>
@@ -15,7 +15,7 @@ const HeaderStats = ({heading, subheading}) => {
                     </h3>
                 </div>
             </div>
-        </>
+        
     )
 }
 

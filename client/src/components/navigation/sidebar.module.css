@@ -1,17 +1,8 @@
-.app{
+.app {
     display: flex;
     flex-direction: column;
 }
-
-/* .navbar {
-    background-color: rgb(239, 237, 237);
-    color: #222;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px 0 10px;
-} */
-
+  
 .navbar {
     position: fixed;
     top: 0;
@@ -27,22 +18,26 @@
     border: 1px solid rgb(236, 234, 234);
 }
 
-.mainContent{
+.toggle_button{
+    display: none;
+}
+  
+.mainContent {
     display: flex;
     flex: 1;
+    margin-top: 10px;
 }
-
-
+  
 .sidebar {
     width: 200px;
     background-color: white;
     color: #222;
     height: calc(100vh - 60px);
     padding: 15px;
-    margin-top: 70px;
-    position: fixed;
     border: 1px solid rgb(236, 234, 234);
-
+    position: fixed;
+    top: 60px;
+    transition: transform 0.3s;
 }
   
 .sidebar ul {
@@ -50,22 +45,66 @@
     padding: 0;
     font-size: 20px;
 }
-
+  
 .sidebar li {
-    padding: 10px ;
+    padding: 10px;
     font-weight: bold;
     margin-top: 15px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-
+  
+.sidebar li a {
+    text-decoration: none;
+    color: #222;
+    padding: 20px 0 20px 0;
+}
+  
 .sidebar li:hover {
-    background-color: #ecd5d5;
+    background-color: #dfdede;
     border-radius: 5px;
+    padding: 20px;
 }
 
-.outlet{
-    margin: 50px 10px 0 238px;
+.outlet {
+    flex-grow: 1;
+    margin: 10px 10px 10px 220px;
     background-color: #eaeaea;
-
-    width: 100%;
+    padding: 20px;
 }
+  
+  @media (max-width: 768px) {
+    .sidebar {
+        width: 0;
+      transform: translateX(-200px);
+      height: calc(100vh - 60px);
+      z-index: 100;
+    }
+
+    .toggle_button{
+        display: block;
+        background-color: white;
+        border: none;
+        margin-right: 10px;
+        margin-left: 10px;
+        color: cornflowerblue;
+
+    }
+  
+
+    .toggle_button:hover{
+        padding: 10px;
+        background-color: #b1b0b0;
+    }
+
+
+    .sidebar.open {
+        width: 180px;
+        transform: translateX(0);
+    }
+    
+
+    .outlet {
+        width: 100%;
+        margin-left: 0px;
+    }
+  }
