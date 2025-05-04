@@ -4,7 +4,7 @@ import propertyList from './propertyList';
 import '../home.css'
 import PropertyFilter from '../filters/PropertyFilter';
 const DefaultListings = () => {
-  const [showFilterP, setShowFilterP] = useState(true);
+  const [showFilterP, setShowFilterP] = useState(false);
   // function to toggle filter display
   function toggleFilter (){
     setShowFilterP(!showFilterP);
@@ -20,7 +20,7 @@ const DefaultListings = () => {
       {/* filter div */}
       <div onClick={toggleFilter} className='filter-page-content'>
             <i class="fas fa-sliders-h"></i>
-            <span>Filter Listings</span>
+            <span>Filters</span>
       </div>
     </div>
     <div className="all-listings">

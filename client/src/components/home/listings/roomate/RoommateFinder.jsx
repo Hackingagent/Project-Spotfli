@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { FaSearch, FaUserFriends, FaMapMarkerAlt, FaMoneyBillWave, FaBed, FaFilter, FaPlus } from 'react-icons/fa';
-import mate from '../../../../assets/service images/service1.jpg'
+import mate from '../../../../assets/service images/service3.jpg'
+import mate2 from '../../../../assets/service images/service4.jpg'
+import mate3 from '../../../../assets/service images/service5.jpg'
+
 import './roommate-finder.css';
 
 const RoommateFinder = () => {
@@ -56,7 +59,7 @@ const RoommateFinder = () => {
       location: "Downtown",
       moveInDate: "June 1, 2023",
       interests: ["Hiking", "Reading", "Cooking"],
-      image: mate
+      image: mate3
     },
     {
       id: 2,
@@ -80,7 +83,7 @@ const RoommateFinder = () => {
       location: "Westside",
       moveInDate: "Flexible",
       interests: ["Animals", "Gardening", "Photography"],
-      image: mate
+      image: mate2
     }
   ];
 

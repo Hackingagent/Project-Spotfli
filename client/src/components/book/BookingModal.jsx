@@ -5,6 +5,8 @@ import './booking-modal.css';
 const BookingModal = ({ service, showBookModal }) => {
   const [activeTab, setActiveTab] = useState('date');
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [timeSlot, setTimeSlot] = useState('');
   const [bookingDetails, setBookingDetails] = useState({
     location: '',
@@ -47,18 +49,10 @@ const BookingModal = ({ service, showBookModal }) => {
   // Generate calendar days
   const renderCalendarDays = () => {
     const days = [];
-    const daysInMonth = new Date(
-      selectedDate.getFullYear(),
-      selectedDate.getMonth() + 1,
-      0
-    ).getDate();
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
     // Add previous month's days if needed
-    const firstDayOfMonth = new Date(
-      selectedDate.getFullYear(),
-      selectedDate.getMonth(),
-      1
-    ).getDay();
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
 
     for (let i = 0; i < firstDayOfMonth; i++) {
       days.push(<div key={`prev-${i}`} className="calendar-day empty"></div>);
@@ -66,11 +60,7 @@ const BookingModal = ({ service, showBookModal }) => {
 
     // Add current month's days
     for (let day = 1; day <= daysInMonth; day++) {
-      const currentDate = new Date(
-        selectedDate.getFullYear(),
-        selectedDate.getMonth(),
-        day
-      );
+      const currentDate = new Date(currentYear, currentMonth, day);
       const isSelected = currentDate.toDateString() === selectedDate.toDateString();
       const isToday = currentDate.toDateString() === new Date().toDateString();
 
@@ -123,11 +113,35 @@ const BookingModal = ({ service, showBookModal }) => {
             {activeTab === 'date' ? (
               <div className="calendar-section">
                 <div className="calendar-header">
-                  <button className="nav-btn">&lt;</button>
+                  <button 
+                    className="nav-btn"
+                    onClick={() => {
+                      if (currentMonth === 0) {
+                        setCurrentMonth(11);
+                        setCurrentYear(currentYear - 1);
+                      } else {
+                        setCurrentMonth(currentMonth - 1);
+                      }
+                    }}
+                  >
+                    &lt;
+                  </button>
                   <h3>
-                    {selectedDate.toLocaleString('default', { month: 'long' })} {selectedDate.getFullYear()}
+                    {new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} {currentYear}
                   </h3>
-                  <button className="nav-btn">&gt;</button>
+                  <button 
+                    className="nav-btn"
+                    onClick={() => {
+                      if (currentMonth === 11) {
+                        setCurrentMonth(0);
+                        setCurrentYear(currentYear + 1);
+                      } else {
+                        setCurrentMonth(currentMonth + 1);
+                      }
+                    }}
+                  >
+                    &gt;
+                  </button>
                 </div>
 
                 <div className="calendar-weekdays">

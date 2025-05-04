@@ -2,6 +2,7 @@ import React from 'react'
 import './register.css';
 import register from '../../../assets/register.jpg';
 import Navbar from '../../navbar/VisitorNav';
+import { Link } from 'react-router-dom';
 const Register = () => {
   return (
     <>
@@ -42,7 +43,7 @@ const Register = () => {
                         <input type="checkbox" /> 
                         <span>Agreed to SPOTFLI <a href="">Terms and Conditions</a></span>
                     </div>
-                    <button className="register-btn">Register</button>
+                    <Link className='links' to='/login'><button className="register-btn">Register</button></Link>
                 </form>
             </div>
         </div>

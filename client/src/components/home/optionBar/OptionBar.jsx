@@ -17,6 +17,9 @@ const OptionBar = ({ toggleSidebar, toggleFilter }) => { // Receive toggleSideba
       <div className="menu" onClick={toggleSidebar}> {/* Add onClick event */}
         <img src={menu} alt="menu button" />
       </div>
+      <div className="all-optionsB">
+      <i className="scroll fa fa-chevron-left"></i>
+
       <div className="options">
        <Link className='links' to='/rent'>
         <div className="option option1">
@@ -72,7 +75,9 @@ const OptionBar = ({ toggleSidebar, toggleFilter }) => { // Receive toggleSideba
             <span>Service Provider</span>
         </div>
         </Link>
-
+        
+      </div>
+      <i className="scroll fa fa-chevron-right"></i>
       </div>
     </div>
   )

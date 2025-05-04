@@ -20,7 +20,7 @@ const Services = () => {
       {/* filter div */}
       <div onClick={toggleFilter} className='filter-page-content'>
             <i class="fas fa-sliders-h"></i>
-            <span>Filter Services</span>
+            <span>Filters</span>
       </div>
     </div>
       <div className="all-listings">

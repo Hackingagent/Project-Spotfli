@@ -35,9 +35,20 @@ button{
   border-radius: 5px;
   text-decoration: none;
 }
+button{
+  cursor: pointer;
+}
 .links{
   text-decoration: none;
   color: var(--text-color);
+}
+.verified{
+  background-color: var(--bg-4);
+  color: var(--bg-white);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.2rem;
 }
 
 li{

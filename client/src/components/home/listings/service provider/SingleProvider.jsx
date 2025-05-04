@@ -8,13 +8,15 @@ import '../listings.css'
 
 const SingleProvider = () => {
     const [booking, isBooking] = useState(false);
-    function showBookModal (){
+    const [selectedService, setSelectedService] = useState(null);
+    function showBookModal (service){
+        setSelectedService(service);
         isBooking(!booking);
     }
     
   return (
     <>
-    {booking && <BookingModal />}
+    {booking && <BookingModal showBookModal={showBookModal} />}
     <div className='container'>
         <div className="service-provider-details fade-up">
             <div className="service-provider-sec1">
