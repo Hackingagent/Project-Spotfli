@@ -1,0 +1,26 @@
+
+
+.form{
+    display: grid;
+}
+
+.input{
+    display: block;
+    margin-left: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.input input{
+    display: block;
+    border: 1px #989696 solid;
+    border-radius: 8px;
+    margin-top: 10px;
+    height: 40px;
+    width: 90%;
+    margin-bottom: 30px;
+    background-color: #f2eeee;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

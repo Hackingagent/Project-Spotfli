@@ -21,6 +21,20 @@ import AccountBilling from './components/account-billing/AccountBilling';
 import HelpSupport from './components/help-support/HelpSupport';
 import VacationPlan from './components/VacationPlan/VacationPlan';
 import RoommateFinder from './components/home/listings/roomate/RoommateFinder';
+import ChatApp from './components/chat-system/ChatApp';
+import AdminSidebar from './components/navigation/admin/admin-sidebar';
+import AdminDashboard from './components/views/admin/dasboard/admin-dashboard';
+import ServiceProviderSidebar from './components/navigation/serviceProvider/service-provider-sidebar';
+import PropertyOwnerSidebar from './components/navigation/propertyOwner/property-owner-sidebar';
+import ViewProperty from './components/views/property-owner/view-property/view-property';
+import MyPropertyDetails from './components/views/property-owner/view-property/property-details';
+import AddProperty from './components/views/property-owner/add-property/add-property';
+import MoreInfo from './components/views/property-owner/add-property/more-info/more-info';
+import TableComponent from './components/sections/table/table-component';
+import AllUnits from './components/views/admin/all-units/all-units';
+import PendingUnits from './components/views/admin/pending-units/pending-units';
+import RejectedUnits from './components/views/admin/rejected-units/rejected-units';
+import ReportedUnits from './components/views/admin/reported-units/reported-units';
 
 function App() {
   return (
@@ -28,6 +42,9 @@ function App() {
       <BrowserRouter>
       {/* Home Rout (Default) */}
       <Routes>
+
+        <Route path='/more' element={<MoreInfo />} />
+
         <Route path="/" element={
           <>
             <Home/>
@@ -122,6 +139,38 @@ function App() {
         {/* Login Routes */}
         <Route path='/login' element={<Login />} />
         <Route path='/home' element={<Home />} />
+        <Route path='/chat' element={<ChatApp />} />
+
+        <Route path='/admin'>
+          <Route element={<AdminSidebar />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path='all-units' element={<AllUnits />}/>
+            <Route path='pending-units' element={<PendingUnits />}/>
+            <Route path='rejected-units' element={<RejectedUnits />}/>
+            <Route path='reported-units' element={<ReportedUnits />}/>
+          </Route>
+
+        </Route>
+
+        <Route path='/property-owner'>
+          <Route element={<PropertyOwnerSidebar />}>
+            <Route index />
+            <Route path='view-properties' element={<ViewProperty />} />
+            <Route path='add-property' element={<AddProperty />} />
+            <Route path="my-property-details" element={<MyPropertyDetails />} />
+
+          </Route>
+
+        </Route>
+
+        <Route path='/service-provider'>
+          <Route element={<ServiceProviderSidebar />}>
+            <Route index />
+          </Route>
+
+        </Route>
+
+
       </Routes>
       </BrowserRouter>
     </div>

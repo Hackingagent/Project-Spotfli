@@ -1,0 +1,29 @@
+.table{
+    width: 100%;
+    background-color: white;
+}
+
+
+.table thead tr th{
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 10px 0 10px 0;
+    color: #4d4b4b;
+}
+
+.table tbody tr td{
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    padding: 5px 0 5px 0;
+}
+
+
+@media (max-width: 768px) {
+    .table thead tr th{
+        font-size: 15px;
+    }
+    .table tbody tr td{
+        font-size: 15px;
+    }
+}

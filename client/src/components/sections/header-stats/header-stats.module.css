@@ -1,0 +1,37 @@
+.container{
+    /* background-color: #184496; */
+    margin-top: 0;
+    height: fit-content;
+    padding: 20px;
+    /* color: rgb(237, 235, 235); */
+    border-radius: 10px;
+    
+}
+
+.container div h1 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bolder;
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.container div h3{
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .container{
+        
+        width: 96%;
+    }
+
+    .container div h1{
+        font-size: 40px;
+    }
+
+    .container div h3{
+        font-size: 20px;
+    }
+}
