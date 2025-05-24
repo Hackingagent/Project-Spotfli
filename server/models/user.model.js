@@ -11,11 +11,6 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 
-    username:{
-        type: String,
-        required: true,
-    },
-
     email:{
         type: String,
         unique: true,
@@ -64,8 +59,8 @@ const userSchema = new mongoose.Schema({
     service_approved: {
         status: {
             type: String,
-            enum: ['pending', 'approved', 'rejected'],
-            default: 'pending'
+            enum: ['not_set', 'pending', 'approved', 'rejected'],
+            default: 'not_set'
         },
         approved_by: {
             type: mongoose.Schema.Types.ObjectId,
@@ -79,8 +74,8 @@ const userSchema = new mongoose.Schema({
     owner_approved: {
         status: {
             type: String,
-            enum: ['pending', 'approved', 'rejected'],
-            default: 'pending'
+            enum: ['not_set', 'pending', 'approved', 'rejected'],
+            default: 'not_set'
         },
         approved_by: {
             type: mongoose.Schema.Types.ObjectId,
