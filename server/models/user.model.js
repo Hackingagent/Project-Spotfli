@@ -1,0 +1,106 @@
+import mongoose from "mongoose";
+
+const userSchema = new mongoose.Schema({
+    first_name:{
+        type: String,
+        required: true,
+    },
+
+    last_name:{
+        type: String,
+        required: true,
+    },
+
+    username:{
+        type: String,
+        required: true,
+    },
+
+    email:{
+        type: String,
+        unique: true,
+        lowercase: true,
+        required: true,
+    },
+
+    tell:{
+        type: Number,
+        required: false,
+    },
+
+    profile:{
+        type: String,
+        required: false,
+    },
+
+    dob:{
+        type: String,
+        required: false,
+    },
+
+    verification_code:{
+        type: Number,
+        default: null,
+        required: false,
+    },
+
+    is_email_verified:{
+        type: Boolean,
+        default: false,        
+    },
+
+    online:{
+        type: Boolean,
+        default: false,
+    },
+
+    password:{
+        type: String,
+        required: true,
+        select: false,
+    },
+
+
+    service_approved: {
+        status: {
+            type: String,
+            enum: ['pending', 'approved', 'rejected'],
+            default: 'pending'
+        },
+        approved_by: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Admin'
+        },
+        approved_at: Date,
+        rejection_reason: String
+    },
+
+    // Approval tracking for property owners
+    owner_approved: {
+        status: {
+            type: String,
+            enum: ['pending', 'approved', 'rejected'],
+            default: 'pending'
+        },
+        approved_by: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Admin'
+        },
+        approved_at: Date,
+        rejection_reason: String
+    },
+
+    // Track which admin last updated the user
+    last_updated_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin'
+    }
+
+
+}, {
+    timestamps: true // createdAt and updatedAt in the document
+});
+
+User = mongoose.model('User', userSchema);
+
+export default User;
