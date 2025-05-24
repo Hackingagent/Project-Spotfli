@@ -101,6 +101,6 @@ const userSchema = new mongoose.Schema({
     timestamps: true // createdAt and updatedAt in the document
 });
 
-User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 export default User;
