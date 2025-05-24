@@ -1,0 +1,46 @@
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://localhost:5000/api', // Your backend base URL
+  timeout: 10000, // 10 seconds timeout
+});
+
+// User API endpoints
+export const registerUser = async (userData) => {
+  try {
+    const response = await api.post('/user/register', userData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.message || error.message;
+  }
+};
+
+
+export const loginUser = async (email, password) => {
+  try {
+    const response = await api.post('/user/login', { email, password });
+    
+    // Store token in localStorage or cookies
+    if (response.data.token) {
+      localStorage.setItem('user_token', response.data.token);
+      // Set default Authorization header for future requests
+      api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+    }
+    
+    return {
+      success: true,
+      user: response.data.user
+    };
+  } catch (error) {
+    let errorMessage = 'Login failed';
+    if (error.response) {
+      errorMessage = error.response.data.message || errorMessage;
+    }
+    return {
+      success: false,
+      message: errorMessage
+    };
+  }
+};
+
+// Add more API calls as needed
