@@ -1,0 +1,28 @@
+.hotel-sidenav{
+    background-color: var(--bg-2);
+    height: 100vh;
+    width: 12rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+
+}
+.hotel-logo-container{
+    width: 100%;
+}
+.hotel-logo-container img{
+    height: 3rem;
+}
+.dashboard-sign{
+    margin-top: 1rem;
+    background-color: var(--bg-w2);
+    padding: 0.6rem;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+.dashboard-sign i{
+    color: var(--bg-1);
+}

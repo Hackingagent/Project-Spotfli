@@ -13,8 +13,13 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
         </div>
         <ul className="sidebar-content">
           <li>
+            <Link className="sideLinks" to="/manage-hotel">
+              Manage Properties <i className="fa fa-dashboard"></i>{' '}
+            </Link>
+          </li>
+          <li>
             <Link className="sideLinks" to="/">
-              Dashboard <i className="fa fa-dashboard"></i>{' '}
+              Manage Services <i className="fa fa-dashboard"></i>{' '}
             </Link>
           </li>
           <li>

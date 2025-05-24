@@ -23,7 +23,7 @@ const LogedinNav = ({toggleAccountBar}) => {
 
       <div className="nav-right">
             <div className="theme">
-            <img src={message} alt="" />
+             <Link to='/chatapp'><img src={message} alt="" /></Link>
               <img src={bell} alt="" />
               {/* <img src={light} alt="" /> */}
             </div>
