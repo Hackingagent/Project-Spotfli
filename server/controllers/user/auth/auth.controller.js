@@ -2,8 +2,10 @@ import User  from "../../../models/user.model.js";
 import Admin from "../../../models/admin.model.js";
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken';
+import asyncHandler from 'express-async-handler';
 
-
+//user registration,
 export const registerUser = async(req, res) => {
     console.log(req);
     
@@ -62,4 +64,51 @@ export const registerUser = async(req, res) => {
         });
     }
 };
+
+// User login
+export const loginUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+    
+    console.log(req.body); // Check the incoming request data
+    if (!email || !password) {
+        return res.status(400).json({ 
+            success: false,
+            message: 'Email and password are required' 
+        });
+    }
+    // 2. Check if user exists
+    const user = await User.findOne({ email }).select('+password');
+    
+    // console.log(user); // Check what user contains
+    if (!user) {
+        return res.status(401).json({ 
+            success: false,
+            message: 'Invalid credentials' 
+        });
+    }   
+  
+    // 3. Compare passwords
+    const isMatch = await bcrypt.compare(password, user.password);
+  
+    if (!isMatch) {
+      res.status(401);
+      throw new Error('Invalid credentials');
+    }
+  
+    // 4. Generate JWT token
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      '3ae523ee38bfece8bbbfa327ac41f6ac5ec438db998b28ffb12662d2b77d87fb',
+      { expiresIn: '2h' || '2h' }
+    );
+  
+    // 5. Send response with token
+    res.json({
+      _id: user._id,
+     first_name: user.name,
+     last_name: user.name,
+      email: user.email,
+      token,
+    });
+});
     

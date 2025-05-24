@@ -15,12 +15,31 @@ export const registerUser = async (userData) => {
   }
 };
 
-export const loginUser = async (credentials) => {
+
+export const loginUser = async (email, password) => {
   try {
-    const response = await api.post('/user/login', credentials);
-    return response.data;
+    const response = await api.post('/user/login', { email, password });
+    
+    // Store token in localStorage or cookies
+    if (response.data.token) {
+      localStorage.setItem('user_token', response.data.token);
+      // Set default Authorization header for future requests
+      api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+    }
+    
+    return {
+      success: true,
+      user: response.data.user
+    };
   } catch (error) {
-    throw error.response?.data?.message || error.message;
+    let errorMessage = 'Login failed';
+    if (error.response) {
+      errorMessage = error.response.data.message || errorMessage;
+    }
+    return {
+      success: false,
+      message: errorMessage
+    };
   }
 };
 
