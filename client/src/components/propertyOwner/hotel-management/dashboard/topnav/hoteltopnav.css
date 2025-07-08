@@ -1,0 +1,10 @@
+.hotel-top-nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 40rem;
+}
+.hotel-top-profile img{
+    height: 3.3rem;
+}

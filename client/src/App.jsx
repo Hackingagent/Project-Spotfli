@@ -36,6 +36,7 @@ import RejectedUnits from './components/views/admin/rejected-units/rejected-unit
 import ReportedUnits from './components/views/admin/reported-units/reported-units';
 import HomePage from './components/views/home-page';
 import AdminLayout from './components/layout/admin/Admin-Layout';
+import HotelDashboard from './components/propertyOwner/hotel-management/dashboard/HotelDashboard';
 
 function App() {
   return (
@@ -103,6 +104,7 @@ function App() {
         <AccountBilling />
         </>
       }/>
+
       {/* Help and Support Route */}
       <Route path='/help'  element={
         <>
@@ -119,7 +121,13 @@ function App() {
         </>
       }/>
 
-
+      {/* Manage hotel routes */}
+      <Route path='/manage-hotel' element={
+        <>
+        <HotelDashboard />
+        </>
+      }>
+      </Route>
 
       {/* Register Routes */}
         <Route path="/register" element={<AccountType/>} />
@@ -132,7 +140,7 @@ function App() {
         {/* Login Routes */}
         <Route path='/login' element={<Login />} />
         <Route path='/home' element={<Home />} />
-        <Route path='/chat' element={<ChatApp />} />
+        <Route path='/chatapp' element={<ChatApp />} />
 
         <Route path='/admin'>
           <Route element={<AdminLayout />}>
