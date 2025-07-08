@@ -35,6 +35,7 @@ import PendingUnits from './components/views/admin/pending-units/pending-units';
 import RejectedUnits from './components/views/admin/rejected-units/rejected-units';
 import ReportedUnits from './components/views/admin/reported-units/reported-units';
 import HomePage from './components/views/home-page';
+import AdminLayout from './components/layout/admin/Admin-Layout';
 
 function App() {
   return (
@@ -134,7 +135,7 @@ function App() {
         <Route path='/chat' element={<ChatApp />} />
 
         <Route path='/admin'>
-          <Route element={<AdminSidebar />}>
+          <Route element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path='all-units' element={<AllUnits />}/>
             <Route path='pending-units' element={<PendingUnits />}/>
