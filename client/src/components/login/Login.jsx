@@ -36,11 +36,22 @@ const Login = () => {
       const response = await loginUser(formData.email, formData.password);
       console.log('Login successful', response);
 
-      if(response.success){
-        navigate('/', {replace: true});
-      }else{
-        setError(response.message)
+      if(response.isUser){
+        if(response.success){
+          navigate('/', {replace: true});
+        }else{
+          setError(response.message)
+        }
       }
+
+      if(response.isAdmin){
+        if(response.success){
+          navigate('/register', {replace: true});
+        }else{
+          setError(response.message)
+        }
+      }
+      
 
 
     } catch (error) {

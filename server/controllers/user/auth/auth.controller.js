@@ -79,38 +79,58 @@ export const loginUser = asyncHandler(async (req, res) => {
     }
     // 2. Check if user exists
     const user = await User.findOne({ email }).select('+password');
+    const admin = await Admin.findOne({ email }).select('+password');
     
-    // console.log(user); // Check what user contains
-    if (!user) {
-        return res.status(401).json({ 
-            success: false,
-            message: 'Invalid credentials' 
-        });
-    }   
-  
+ 
     // 3. Compare passwords
-    const isMatch = await bcrypt.compare(password, user.password);
-  
-    if (!isMatch) {
-      res.status(401);
-      throw new Error('Invalid credentials');
+    if(user){
+        const isMatch = await bcrypt.compare(password, user.password);
+    }
+    if(admin){
+        const isAdminMatch = await bcrypt.compare(password, admin.password);
+
     }
   
-    // 4. Generate JWT token
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      '3ae523ee38bfece8bbbfa327ac41f6ac5ec438db998b28ffb12662d2b77d87fb',
-      { expiresIn: '2h' || '2h' }
-    );
-  
-    // 5. Send response with token
-    res.json({
-      _id: user._id,
-     first_name: user.name,
-     last_name: user.name,
-      email: user.email,
-      token,
-    });
+    
+    if(user){
+            // 4. Generate JWT token
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            '3ae523ee38bfece8bbbfa327ac41f6ac5ec438db998b28ffb12662d2b77d87fb',
+            { expiresIn: '2h' || '2h' }
+        );
+    
+        // 5. Send response with token
+        res.json({
+            _id: user._id,
+            first_name: user.name,
+            last_name: user.name,
+            email: user.email,
+            token,
+        });
+    }else if(admin){
+        // 4. Generate JWT token
+        const admin_token = jwt.sign(
+            { id: admin._id, email: admin.email },
+            '3ae523ee38bfece8bbbfa327ac41f6ac5ec438db998b28ffb12662d2b77d87fb',
+            { expiresIn: '2h' || '2h' }
+        );
+
+        // 5. Send response with token
+        res.json({
+            _id: admin._id,
+            first_name: admin.name,
+            last_name: admin.name,
+            email: admin.email,
+            admin_token,
+        });
+    }else{
+        return res.status(401).json({ 
+            success: false,
+            message: 'Invalid credentials (1)' 
+        });
+    }
+
 });
 
 //User Logout 

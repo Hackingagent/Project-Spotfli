@@ -25,12 +25,28 @@ export const loginUser = async (email, password) => {
       localStorage.setItem('user_token', response.data.token);
       // Set default Authorization header for future requests
       api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+
+      return {
+        success: true,
+        user: response.data.user,
+        isUser: true,
+      };
+    }
+
+    // Store token in localStorage or cookies
+    if (response.data.admin_token) {
+      localStorage.setItem('admin_token', response.data.admin_token);
+      // Set default Authorization header for future requests
+      api.defaults.headers.common['Authorization'] = `Bearer ${response.data.admin_token}`;
+
+      return {
+        success: true,
+        admin: response.data.admin,
+        isAdmin: true,
+      };
     }
     
-    return {
-      success: true,
-      user: response.data.user
-    };
+    
   } catch (error) {
     let errorMessage = 'Login failed';
     if (error.response) {
