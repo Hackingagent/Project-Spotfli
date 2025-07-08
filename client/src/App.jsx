@@ -9,7 +9,6 @@ import ExperienceLevel from './components/register/serviceProvider/ExperienceLev
 import Login from './components/login/Login';
 import Home from './components/home/Home';
 import PropertyDetails from './components/propertyDetails/PropertyDetails';
-import DefaultListings from './components/home/listings/DefaultListings';
 import Buy from './components/home/listings/buy/Buy';
 
 import Services from './components/home/listings/service provider/Services';
@@ -35,6 +34,7 @@ import AllUnits from './components/views/admin/all-units/all-units';
 import PendingUnits from './components/views/admin/pending-units/pending-units';
 import RejectedUnits from './components/views/admin/rejected-units/rejected-units';
 import ReportedUnits from './components/views/admin/reported-units/reported-units';
+import HomePage from './components/views/home-page';
 
 function App() {
   return (
@@ -45,15 +45,7 @@ function App() {
 
         <Route path='/more' element={<MoreInfo />} />
 
-        <Route path="/" element={
-          <>
-            <Home/>
-            <DefaultListings/>
-            <Buy/>
-            <Services />
-            <Hotel />
-          </>
-      } />
+        <Route path="/" element={<HomePage />} />
 
       {/* Buy Property Rout */}
       <Route path="/buy" element={

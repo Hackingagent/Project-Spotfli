@@ -66,14 +66,14 @@ const Login = () => {
                     <div className="register-form">
                         <h2> Sign In <i className="fa fa-user"></i></h2>
                         <form onSubmit={handleSubmit}>
-                            {error && <div className="error">{error}</div>}
+                            {error && <div className="error"> <i className='fa fa-times-circle' id='error-icon'></i>{error}</div>}
 
                             <label htmlFor="emial">Email:</label>
                             <input type="email" placeholder='user123@gmail.com' name='email' value={formData.email} onChange={handleChange} />
 
                             <label htmlFor="Password">Password:</label>
                             <input type="password" name='password' value={formData.password} onChange={handleChange} />
-                            <button className="register-btn" disabled={isLoading} type="submit" >Sign In <i className="fa fa-user"></i></button>
+                            <button className="register-btn" disabled={isLoading} type="submit" >{isLoading ? ('Sigining In......'): ('Sign In')} <i className="fa fa-user"></i></button>
                         </form>
                     </div>
                 </div>
