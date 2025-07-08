@@ -1,11 +1,30 @@
 import React from 'react';
 import profile from '../../../assets/profile.jpg';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import './accountbar.css';
+import {  logoutUser } from '../../../api/user/auth';
+import { useNavigate } from 'react-router-dom';
 
 const AccountBar = ({isOpen, toggleAccountBar}) => {
 
     const token = localStorage.getItem('user_token');
+    const navigate = useNavigate();
+
+    const handleLogout = async(e) => {
+        e.preventDefault();
+
+        try {
+            const response = await logoutUser();
+            if(response){
+                navigate('/login', {replace: true});
+                console.log('Logout Successful');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+
+    }
 
   return (
     <div>
@@ -29,14 +48,13 @@ const AccountBar = ({isOpen, toggleAccountBar}) => {
                                 <span><i className="fa fa-globe"></i> Language</span>
                                 <span>English <div className="i fa fa-chevron-down"></div></span>
                             </div></Link></li>
-                        <li><Link className='links' to='/'><i className="fa fa-sign-out"></i > Log Out</Link></li>
+                        <li><Link className='links' onClick={handleLogout} ><i className="fa fa-sign-out"></i > Log Out</Link></li>
                     </>
-                ): 
+                ):
                 (
                     <>
                         <li><Link className='links' to='/login'><i className="fa fa-sign-in"></i> Sign in</Link></li>
-                        <li><Link className='links' to='/register'><i className="fa fa-users"></i> Register</Link></li>
-
+                        <li><Link className='links' to='/register' ><i className="fa fa-users"></i> Register</Link></li>
                     </>
                 )
             }

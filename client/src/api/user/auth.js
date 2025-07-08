@@ -43,4 +43,30 @@ export const loginUser = async (email, password) => {
   }
 };
 
+
+//Logout User
+export const logoutUser = async() => {
+  try {
+    const response = await api.post('/user/logout');
+    if(response){
+      localStorage.removeItem('user_token');
+
+      return {
+        success: true,
+        // user: response.data.user
+      };
+    }else{
+      console.log('Error Processing Logout');
+    }
+    
+  } catch (error) {
+    console.error(error);
+    let errorMessage = 'Logout Failed';
+    return {
+      success: false,
+      message: errorMessage
+    }
+  }
+}
+
 // Add more API calls as needed

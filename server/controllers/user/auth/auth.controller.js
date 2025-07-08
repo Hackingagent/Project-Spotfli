@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 
+
 //user registration,
 export const registerUser = async(req, res) => {
     console.log(req);
@@ -111,4 +112,20 @@ export const loginUser = asyncHandler(async (req, res) => {
       token,
     });
 });
+
+//User Logout 
+
+export const logoutUser = (req, res) => {
+    try {
+        res.status(200).json({
+            message: 'User Logged Out Successfully',
+        })
+    } catch (error) {
+        console.error('Unknown Error', error);
+        res.status(500).json({
+            message: 'Error Logging Out',
+            error: error.message
+        });
+    }
+}
     
