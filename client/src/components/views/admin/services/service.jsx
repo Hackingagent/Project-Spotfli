@@ -15,6 +15,7 @@ const AdminService = () => {
         isEditService(!editService);
         isServiceModal(false)
     }
+
     const toggleAddService = () =>{
         isServiceModal(!serviceModal);
         isEditService(false);
@@ -57,7 +58,7 @@ const AdminService = () => {
 
     return (
         <>
-            {serviceModal && <AddServiceModal />}
+            {serviceModal && <AddServiceModal close={() => isServiceModal(false)} />}
             {editService && <EditService data={editData} />}
             <TopNavigation heading={'Services'} />
             <div className="addServiceBtn" onClick={toggleAddService}>

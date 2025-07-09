@@ -14,7 +14,8 @@ const serviceSchema = new mongoose.Schema({
 
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Admin,
+        ref: 'Admin',
+        required: true,
     },
 
 }, {

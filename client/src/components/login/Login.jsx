@@ -46,7 +46,7 @@ const Login = () => {
 
       if(response.isAdmin){
         if(response.success){
-          navigate('/register', {replace: true});
+          navigate('/admin', {replace: true});
         }else{
           setError(response.message)
         }
