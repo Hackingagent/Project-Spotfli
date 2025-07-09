@@ -13,11 +13,11 @@ const LogedinNav = ({toggleAccountBar}) => {
           <Link to='/'>
           <img className="logo" src={logo} alt="logo" />
           </Link>
-          <div className="search-bar">
+          <div className="search-bar-nav">
             <input type="text" placeholder='Ask me anything' />
             <i className="fa fa-microphone"></i>
             <i className="fa fa-camera"></i>
-            <button>Search <i className="fa fa-search"></i></button>
+            <i className="fa fa-search"></i>
           </div>
       </div>
 

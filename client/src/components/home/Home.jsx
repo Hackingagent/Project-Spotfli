@@ -13,10 +13,8 @@ import AccountBar from './account bar/AccountBar';
 const Home = () => {
   // function to open side bar
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to control sidebar visibility
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+
+   
   // function to open account bar
   const [isAccountbarOpen, setIsAccountbarOpen] = useState(false); // state to control account bar visibility
   const toggleAccountBar = () => {
