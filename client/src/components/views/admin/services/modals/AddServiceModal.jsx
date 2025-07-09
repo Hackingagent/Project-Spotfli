@@ -5,7 +5,7 @@ const AddServiceModal = ({close, refresh, message}) => {
 
   const [formData, setFormData] = useState({
     name: '',
-    'fee': '',
+    fee: '',
   })
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
