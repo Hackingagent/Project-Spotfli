@@ -6,11 +6,16 @@ const serviceSchema = new mongoose.Schema({
         required: false,
     },
 
+    fee: {
+        type: String,
+        required: false,
+        default: 0,
+    },
+
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Admin,
     },
-
 
 }, {
     timestamps: true // createdAt and updatedAt in the document

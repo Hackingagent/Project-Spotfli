@@ -38,6 +38,7 @@ import HomePage from './components/views/home-page';
 import AdminLayout from './components/layout/admin/Admin-Layout';
 import HotelDashboard from './components/propertyOwner/hotel-management/dashboard/HotelDashboard';
 import UpdateAccount from './components/account-billing/account/UpdateAccount';
+import AdminService from './components/views/admin/services/service';
 
 function App() {
   return (
@@ -157,6 +158,7 @@ function App() {
             <Route path='pending-units' element={<PendingUnits />}/>
             <Route path='rejected-units' element={<RejectedUnits />}/>
             <Route path='reported-units' element={<ReportedUnits />}/>
+            <Route path='services' element={<AdminService />} />
           </Route>
 
         </Route>

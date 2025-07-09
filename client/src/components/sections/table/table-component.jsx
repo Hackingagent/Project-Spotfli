@@ -24,7 +24,7 @@ const TableComponent = ({ headers, data, actions }) => {
                                     {item[header.toLowerCase().replace(/\s+/g, '_')] || 'N/A'}
                                 </td>
                             ))}
-                            <td >
+                            <td className={styles.table_actions}>
                                 {actions.map((action, actionIndex) => (
                                     <a
                                         key={actionIndex}

@@ -9,16 +9,20 @@ import {
   FiSettings,
   FiMenu
 } from 'react-icons/fi';
+import { FaTools } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
 const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) => {
+  const navigate = useNavigate();
+
   return (
     <div className={`sidebar ${open ? 'open' : 'closed'} ${mobileOpen ? 'mobile-open' : ''}`}>
       <div className="sidebar-header">
         {open ? (
-          <h2>RealEstatePro</h2>
+          <h2>SPOTFLI</h2>
         ) : (
-          <div className="sidebar-logo">RE</div>
+          <div className="sidebar-logo">SF</div>
         )}
       </div>
 
@@ -27,10 +31,38 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
           icon={<FiHome />} 
           text="Dashboard" 
           active={activeTab === 'dashboard'} 
-          onClick={() => onTabChange('dashboard')} 
+          onClick={() => {
+            onTabChange('dashboard')
+            navigate('/admin', {replace: true})
+          } 
+          }
           open={open}
         />
+
         <SidebarItem 
+          icon={<FiHome />} 
+          text="Property Owners" 
+          active={activeTab === 'property-owner'} 
+          onClick={() => {
+            onTabChange('property-owner')
+            navigate('/admin', {replace: true})
+          } 
+          }
+          open={open}
+        />
+
+        <SidebarItem 
+          icon={<FiHome />} 
+          text="Service Provider" 
+          active={activeTab === 'service-provider'} 
+          onClick={() => {
+            onTabChange('service-provider')
+            navigate('/admin', {replace: true})
+          } 
+          }
+          open={open}
+        />
+        {/* <SidebarItem 
           icon={<FiUsers />} 
           text="User Management" 
           active={activeTab === 'users'} 
@@ -57,12 +89,17 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
           active={activeTab === 'disputes'} 
           onClick={() => onTabChange('disputes')} 
           open={open}
-        />
+        /> */}
         <SidebarItem 
-          icon={<FiPieChart />} 
-          text="Statistics" 
-          active={activeTab === 'stats'} 
-          onClick={() => onTabChange('stats')} 
+          icon={<FaTools />} 
+          text="Services" 
+          active={activeTab === 'services'} 
+          onClick={() => {
+              onTabChange('services')
+              navigate('/admin/services', {replace: true})
+            
+            }
+          } 
           open={open}
         />
         <SidebarItem 

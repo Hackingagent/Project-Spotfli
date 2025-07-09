@@ -17,6 +17,12 @@
     font-size: 20px;
     padding: 5px 0 5px 0;
 }
+.table_actions{
+    display: flex;
+    gap: 0.4rem;
+    justify-content: center;
+    font-size: 1.8rem;
+}
 
 
 @media (max-width: 768px) {

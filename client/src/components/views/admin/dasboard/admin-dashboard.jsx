@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FiSearch, FiBell, FiUser } from 'react-icons/fi';
 import { useOutletContext } from 'react-router-dom';
 import StatCard from '../../../statcard/StatCard';
 import './AdminDashboard.css';
+import TopNavigation from '../../../navigation/admin/top-navigation';
 
 const AdminDashboard = () => {
   const { activeTab } = useOutletContext();
-  const [searchQuery, setSearchQuery] = useState('');
 
   // Sample data
   const stats = {
@@ -44,35 +44,8 @@ const AdminDashboard = () => {
 
   return (
     <div className="admin-dashboard">
-      {/* Top Navigation */}
-      <div className="top-nav">
-        <h1>Dashboard</h1>
 
-        <div className="search-and-profile">
-          <div className="search-bar">
-            <FiSearch className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Search..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-
-          <button className="notification-button">
-            <FiBell />
-            <span className="notification-badge">3</span>
-          </button>
-
-          <div className="profile">
-            <div className="profile-icon">
-              <FiUser />
-            </div>
-            <span>Admin User</span>
-          </div>
-        </div>
-      </div>
-
+      <TopNavigation heading={'Dashboard'} />
       {/* Dashboard Content */}
       <div className="dashboard-content">
         {/* Stats Cards */}
