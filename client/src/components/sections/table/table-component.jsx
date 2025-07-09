@@ -6,6 +6,7 @@ const TableComponent = ({ headers, data, actions }) => {
         <table className={styles.table}>
             <thead>
                 <tr>
+                    <th>Id</th>
                     {headers.map((header, index) => (
                         <th
                             key={index}
@@ -13,12 +14,15 @@ const TableComponent = ({ headers, data, actions }) => {
                             {header}
                         </th>
                     ))}
+                    
                 </tr>
             </thead>
             <tbody>
                 {data.length > 0 ? (
                     data.map((item, index) => (
                         <tr key={index} >
+                        
+                            <td>{index+1}</td>
                             {headers.slice(0, -1).map((header) => (
                                 <td key={header} >
                                     {item[header.toLowerCase().replace(/\s+/g, '_')] || 'N/A'}

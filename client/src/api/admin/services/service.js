@@ -5,6 +5,27 @@ const api = axios.create({
     timeout: 10000,
 });
 
+export const getServices = async ()=>{
+
+    const token = localStorage.getItem('admin_token');
+    try {
+        const response = await api.get('/admin/getService', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        console.log(response);
+        return {
+            success: true,
+            service: response.data.services,
+        };
+
+    }catch(error){
+        return {
+            success: false,
+            error
+        }
+    }}
 
 export const addService = async(serviceData) => {
     try {

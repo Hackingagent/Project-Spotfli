@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../service.css'
 import { addService } from '../../../../../api/admin/services/service';
-const AddServiceModal = ({close}) => {
+const AddServiceModal = ({close, refresh}) => {
 
   const [formData, setFormData] = useState({
     name: '',
@@ -35,6 +35,7 @@ const AddServiceModal = ({close}) => {
       console.log('Service Added', response);
       setIsLoading(false);
       close();
+      refresh();
 
       // if(response.service){
       //   console.log('Service Added Successfully');

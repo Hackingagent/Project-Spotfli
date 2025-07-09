@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TopNavigation from "../../../navigation/admin/top-navigation";
 import TableComponent from "../../../sections/table/table-component";
 import { HiPencil } from "react-icons/hi";
@@ -7,6 +7,9 @@ import './service.css'
 import { FaTrash, FaEdit } from "react-icons/fa";
 import AddServiceModal from "./modals/AddServiceModal";
 import EditService from "./modals/EditService";
+import { getServices } from "../../../../api/admin/services/service";
+
+
 const AdminService = () => {
     const [serviceModal, isServiceModal] = useState(false);
     const [editService, isEditService] = useState(false);
@@ -15,22 +18,33 @@ const AdminService = () => {
         isEditService(!editService);
         isServiceModal(false)
     }
+    const [data, setData] = useState([]);
 
     const toggleAddService = () =>{
         isServiceModal(!serviceModal);
         isEditService(false);
     }
     const serviceHeaders = [
-        'id',
         'name',
         'fee',
         'addedBy',
         'actions'
     ]
 
-    const serviceData = [
-        {id: 1, name: 'plumbing', fee:500, addedby: 'Afa'}
-    ]
+    const fetchServices = async() => {
+        console.log("Getting Services")
+        const response = await getServices();
+        console.log('Response from Function: ', response)
+        setData(response.service);
+    }
+
+    useEffect(() => {
+        fetchServices()
+    }, []);
+
+    // const serviceData = [
+    //     {id: 1, name: 'plumbing', fee:500, addedby: 'Afa'}
+    // ]
 
     	//Table rows actions (edit and delete)
 	const actions = [
@@ -58,7 +72,7 @@ const AdminService = () => {
 
     return (
         <>
-            {serviceModal && <AddServiceModal close={() => isServiceModal(false)} />}
+            {serviceModal && <AddServiceModal close={() => isServiceModal(false)} refresh = {() => fetchServices()} />}
             {editService && <EditService data={editData} />}
             <TopNavigation heading={'Services'} />
             <div className="addServiceBtn" onClick={toggleAddService}>
@@ -66,7 +80,7 @@ const AdminService = () => {
             </div>
             <TableComponent 
                 headers={serviceHeaders}
-                data={serviceData}
+                data={data}
                 actions={actions}
             />
         </>
