@@ -7,12 +7,14 @@ import './service.css'
 import { FaTrash, FaEdit } from "react-icons/fa";
 import AddServiceModal from "./modals/AddServiceModal";
 import EditService from "./modals/EditService";
-import { getServices } from "../../../../api/admin/services/service";
+import { deleteService, getServices } from "../../../../api/admin/services/service";
+import Notification from "../../../notification/notification";
 
 
 const AdminService = () => {
     const [serviceModal, isServiceModal] = useState(false);
     const [editService, isEditService] = useState(false);
+    const [message, setMessage] = useState('');
     const [editData, setEditData] = useState([]);
     const toggleEditService = () =>{
         isEditService(!editService);
@@ -61,8 +63,12 @@ const AdminService = () => {
         },
         {
             label: "Delete",
-            handler: (row) => {
+            handler: async(row) => {
 				console.log('Row to delete', row);
+				console.log('Row ID', row._id);
+                const response = await deleteService(row._id) //Delete FUnction called
+                setMessage(response.message)
+                fetchServices();
 			},
 			icon: <FaTrash />,
             type: "text-red text-[20px]" // Customize button type (for styling)
@@ -72,7 +78,17 @@ const AdminService = () => {
 
     return (
         <>
-            {serviceModal && <AddServiceModal close={() => isServiceModal(false)} refresh = {() => fetchServices()} />}
+
+            {message && 
+                <Notification 
+                    message={message}
+                    noMessage={()=>setMessage('')}
+                    type='success'
+                />
+            }
+            
+            {serviceModal && <AddServiceModal close={() => isServiceModal(false)} refresh = {() => fetchServices()} message = {(msg) => setMessage(msg)} /> }
+
             {editService && <EditService data={editData} />}
             <TopNavigation heading={'Services'} />
             <div className="addServiceBtn" onClick={toggleAddService}>

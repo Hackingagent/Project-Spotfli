@@ -34,11 +34,13 @@ export const addService = async(serviceData) => {
         const token = localStorage.getItem('admin_token');
         console.log('Token: ', token);
 
-        await api.post('/admin/addService', serviceData, {
+        const response = await api.post('/admin/addService', serviceData, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then((response) => {
+        })
+        
+        if(response){
             console.log(response);
             if(response.data.success){
                 console.log('Service Added ');
@@ -53,11 +55,36 @@ export const addService = async(serviceData) => {
                     message: response.data.message
                 }
             }
-        });
+        }
     } catch (error) {
         return {
             success: false,
             message: error.message
         }
     }
+}
+
+export const deleteService = async(id) => {
+    try {
+        const token = localStorage.getItem('admin_token');
+    
+        const response = await api.delete(`/admin/deleteService/${id}`, {
+            headers : {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+        console.log(response)
+        return {
+            success: true,
+            message: response.data.message,
+        }
+
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message,
+        }
+    }
+
 }

@@ -60,3 +60,27 @@ export const getService = async (req, res) => {
         });
     }
 }
+
+export const deleteService = async(req, res) => {
+    try {
+        const {id} = req.params;
+
+        const deletedService  = await Service.findByIdAndDelete(id);
+
+        if(!deletedService) {
+            return res.status(404).json({
+                message: 'Service not Found',
+            })
+        }
+
+        res.status(200).json({
+            message: 'Service deleted Successfully',
+        })
+        
+    } catch (error) {
+        console.log('Delete Error', error);
+        res.status().json({
+            message: 'Server Error',
+        })
+    }
+}
