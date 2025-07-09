@@ -1,0 +1,20 @@
+.update-account-options{
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+.update-account-options .account-option{
+    background-color: var(--bg-white);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.372);
+    padding: 1rem;
+    border-radius: 15px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.account-option h2{
+    color: var(--bg-3);
+    
+}
+.account-option:hover{
+    transform: translateY(-6px);
+}

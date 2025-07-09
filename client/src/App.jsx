@@ -37,6 +37,7 @@ import ReportedUnits from './components/views/admin/reported-units/reported-unit
 import HomePage from './components/views/home-page';
 import AdminLayout from './components/layout/admin/Admin-Layout';
 import HotelDashboard from './components/propertyOwner/hotel-management/dashboard/HotelDashboard';
+import UpdateAccount from './components/account-billing/account/UpdateAccount';
 
 function App() {
   return (
@@ -104,6 +105,13 @@ function App() {
         <AccountBilling />
         </>
       }/>
+
+      {/* Update Account Routes */}
+      <Route path='/update-account' element={
+      <>
+        <Home />
+        <UpdateAccount />
+      </>}></Route>
 
       {/* Help and Support Route */}
       <Route path='/help'  element={

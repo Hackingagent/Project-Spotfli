@@ -39,6 +39,15 @@ const AccountBilling = () => {
                 <h2>Global Preferences Info</h2>
                 <p>Set your default language, currency, theme, and timezone</p>
             </div>
+            {/* Update Account Type */}
+            <Link className='links' to='/update-account'>
+            <div className="ab-option">
+                <i className="fas fa-sync"></i>
+                <h2>Update Account Type</h2>
+                <p>You can update your account in order to Sell services or rent out properties</p>
+            </div>
+            </Link>
+
 
         </div>
     </div>

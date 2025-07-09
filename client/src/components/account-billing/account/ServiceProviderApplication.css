@@ -1,0 +1,202 @@
+/* Modal Overlay */
+.spa-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+  
+  /* Modal Container */
+  .spa-modal-container {
+    position: relative;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    animation: slideUp 0.3s ease-out forwards;
+  }
+  
+  /* Close Button */
+  .spa-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .spa-close-btn:hover {
+    color: #333;
+  }
+  
+  /* Modal Header */
+  .spa-modal-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .spa-modal-header h2 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+  }
+  
+  .spa-modal-header p {
+    color: #7f8c8d;
+    margin: 0;
+  }
+  
+  /* Form Styles */
+  .spa-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .spa-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .spa-form-group label {
+    font-weight: 500;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .spa-input-icon {
+    color: #7f8c8d;
+  }
+  
+  .spa-form-group input,
+  .spa-form-group select {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .spa-form-group input:focus,
+  .spa-form-group select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  }
+  
+  .spa-terms-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  
+  .spa-terms-checkbox label {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+  
+  .spa-terms-checkbox a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  .spa-terms-checkbox a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Submit Button */
+  .spa-submit-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .spa-submit-btn:hover:not(:disabled) {
+    background-color: #2980b9;
+  }
+  
+  .spa-submit-btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+  }
+  
+  /* Success Message */
+  .spa-success-message {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .spa-success-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #2ecc71;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 1.5rem;
+    color: white;
+  }
+  
+  .spa-success-message h3 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+  
+  .spa-success-message p {
+    color: #7f8c8d;
+    margin: 0;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideUp {
+    from { 
+      transform: translateY(20px);
+      opacity: 0.9;
+    }
+    to { 
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 600px) {
+    .spa-modal-container {
+      width: 95%;
+      padding: 1.5rem;
+    }
+    
+    .spa-modal-header h2 {
+      font-size: 1.5rem;
+    }
+  }
