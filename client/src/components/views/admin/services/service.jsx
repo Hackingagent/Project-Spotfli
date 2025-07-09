@@ -5,8 +5,8 @@ import { HiPencil } from "react-icons/hi";
 import { RxCrossCircled } from "react-icons/rx";
 import './service.css'
 import { FaTrash, FaEdit } from "react-icons/fa";
-import AddServiceModal from "./AddServiceModal";
-import EditService from "./EditService";
+import AddServiceModal from "./modals/AddServiceModal";
+import EditService from "./modals/EditService";
 const AdminService = () => {
     const [serviceModal, isServiceModal] = useState(false);
     const [editService, isEditService] = useState(false);
