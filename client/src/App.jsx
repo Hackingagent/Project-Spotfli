@@ -9,7 +9,6 @@ import ExperienceLevel from './components/register/serviceProvider/ExperienceLev
 import Login from './components/login/Login';
 import Home from './components/home/Home';
 import PropertyDetails from './components/propertyDetails/PropertyDetails';
-import DefaultListings from './components/home/listings/DefaultListings';
 import Buy from './components/home/listings/buy/Buy';
 
 import Services from './components/home/listings/service provider/Services';
@@ -35,7 +34,12 @@ import AllUnits from './components/views/admin/all-units/all-units';
 import PendingUnits from './components/views/admin/pending-units/pending-units';
 import RejectedUnits from './components/views/admin/rejected-units/rejected-units';
 import ReportedUnits from './components/views/admin/reported-units/reported-units';
+import HomePage from './components/views/home-page';
+import AdminLayout from './components/layout/admin/Admin-Layout';
 import HotelDashboard from './components/propertyOwner/hotel-management/dashboard/HotelDashboard';
+import UpdateAccount from './components/account-billing/account/UpdateAccount';
+import AdminService from './components/views/admin/services/service';
+import AdminLogin from './components/login/AdminLogin';
 
 function App() {
   return (
@@ -46,15 +50,7 @@ function App() {
 
         <Route path='/more' element={<MoreInfo />} />
 
-        <Route path="/" element={
-          <>
-            <Home/>
-            <DefaultListings/>
-            <Buy/>
-            <Services />
-            <Hotel />
-          </>
-      } />
+        <Route path="/" element={<HomePage />} />
 
       {/* Buy Property Rout */}
       <Route path="/buy" element={
@@ -112,6 +108,13 @@ function App() {
         </>
       }/>
 
+      {/* Update Account Routes */}
+      <Route path='/update-account' element={
+      <>
+        <Home />
+        <UpdateAccount />
+      </>}></Route>
+
       {/* Help and Support Route */}
       <Route path='/help'  element={
         <>
@@ -150,12 +153,14 @@ function App() {
         <Route path='/chatapp' element={<ChatApp />} />
 
         <Route path='/admin'>
-          <Route element={<AdminSidebar />}>
+          <Route path='login' element = {<AdminLogin />} />
+          <Route element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path='all-units' element={<AllUnits />}/>
             <Route path='pending-units' element={<PendingUnits />}/>
             <Route path='rejected-units' element={<RejectedUnits />}/>
             <Route path='reported-units' element={<ReportedUnits />}/>
+            <Route path='services' element={<AdminService />} />
           </Route>
 
         </Route>

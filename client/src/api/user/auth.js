@@ -18,6 +18,7 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (email, password) => {
   try {
+
     const response = await api.post('/user/login', { email, password });
     
     // Store token in localStorage or cookies
@@ -25,22 +26,59 @@ export const loginUser = async (email, password) => {
       localStorage.setItem('user_token', response.data.token);
       // Set default Authorization header for future requests
       api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+
+      return {
+        success: true,
+        user: response.data.user,
+      };
+    }
+
+    if(!response.data.success){
+      console.log(response.data.message);
+      return {
+        success: false,
+        message: response.data.message,
+      }
     }
     
-    return {
-      success: true,
-      user: response.data.user
-    };
   } catch (error) {
+    
     let errorMessage = 'Login failed';
     if (error.response) {
       errorMessage = error.response.data.message || errorMessage;
     }
+
     return {
       success: false,
       message: errorMessage
     };
   }
 };
+
+
+//Logout User
+export const logoutUser = async() => {
+  try {
+    const response = await api.post('/user/logout');
+    if(response){
+      localStorage.removeItem('user_token');
+
+      return {
+        success: true,
+        // user: response.data.user
+      };
+    }else{
+      console.log('Error Processing Logout');
+    }
+    
+  } catch (error) {
+    console.error(error);
+    let errorMessage = 'Logout Failed';
+    return {
+      success: false,
+      message: errorMessage
+    }
+  }
+}
 
 // Add more API calls as needed

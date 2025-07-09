@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 
+
 //user registration,
 export const registerUser = async(req, res) => {
     console.log(req);
@@ -78,37 +79,59 @@ export const loginUser = asyncHandler(async (req, res) => {
     }
     // 2. Check if user exists
     const user = await User.findOne({ email }).select('+password');
-    
-    // console.log(user); // Check what user contains
-    if (!user) {
-        return res.status(401).json({ 
+
+    if(!user){
+        return res.status(401).json({
             success: false,
-            message: 'Invalid credentials' 
-        });
-    }   
-  
+            message: 'Invalid Credentials',
+        })
+    }
+   
     // 3. Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
-  
-    if (!isMatch) {
-      res.status(401);
-      throw new Error('Invalid credentials');
+
+    if(!isMatch) {
+        return res.status(401).json({
+            success: false,
+            message: 'Invalid Credentials',
+        })
     }
+    
   
-    // 4. Generate JWT token
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      '3ae523ee38bfece8bbbfa327ac41f6ac5ec438db998b28ffb12662d2b77d87fb',
-      { expiresIn: '2h' || '2h' }
-    );
-  
-    // 5. Send response with token
-    res.json({
-      _id: user._id,
-     first_name: user.name,
-     last_name: user.name,
-      email: user.email,
-      token,
-    });
+    
+    if(user){
+            // 4. Generate JWT token
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            '3ae523ee38bfece8bbbfa327ac41f6ac5ec438db998b28ffb12662d2b77d87fb',
+            { expiresIn: '2h' || '2h' }
+        );
+    
+        // 5. Send response with token
+        res.json({
+            _id: user._id,
+            first_name: user.name,
+            last_name: user.name,
+            email: user.email,
+            token,
+        });
+    }
+
 });
+
+//User Logout 
+
+export const logoutUser = (req, res) => {
+    try {
+        res.status(200).json({
+            message: 'User Logged Out Successfully',
+        })
+    } catch (error) {
+        console.error('Unknown Error', error);
+        res.status(500).json({
+            message: 'Error Logging Out',
+            error: error.message
+        });
+    }
+}
     

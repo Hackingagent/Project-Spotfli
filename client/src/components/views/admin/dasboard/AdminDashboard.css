@@ -1,0 +1,354 @@
+.admin-dashboard {
+    --bg-white: #ffffff;
+    --background-color: #F9F8F7;
+    --text-color: #232A2F;
+    --bg-1: #153147;
+    --bg-2: #0a4978;
+    --bg-3: #0b5f9f;
+    --bg-4: #0f7bcd;
+    --bg-w1: #ADB8BB;
+    --bg-w2: #EDEAE4;
+    
+    background-color: var(--background-color);
+    min-height: 100vh;
+  }
+  
+  .mobile-header {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--bg-white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+  
+  .mobile-header h2 {
+    color: var(--bg-1);
+    margin: 0;
+  }
+  
+  .mobile-menu-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--bg-1);
+    cursor: pointer;
+  }
+  
+  .spacer {
+    width: 1.5rem;
+  }
+  
+  .main-content {
+    margin-left: 250px;
+    padding: 2rem;
+    transition: margin-left 0.3s ease;
+    padding-top: 5rem;
+  }
+  
+  .main-content.sidebar-closed {
+    margin-left: 80px;
+  }
+  
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: var(--bg-white);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .top-nav h1 {
+    color: var(--bg-1);
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  
+  .search-and-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-bar input {
+    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    border: 1px solid var(--bg-w1);
+    border-radius: 20px;
+    outline: none;
+    width: 200px;
+    transition: width 0.3s ease;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    color: var(--bg-w1);
+  }
+  
+  .notification-button {
+    background: none;
+    border: none;
+    color: var(--bg-1);
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--bg-4);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+  }
+  
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--bg-4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  
+  .dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .dashboard-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  
+  .pending-approvals, 
+  .recent-activity, 
+  .active-disputes {
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+  
+  .approvals-header,
+  .disputes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .badge {
+    background-color: var(--bg-4);
+    color: white;
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .badge.error {
+    background-color: #FF3B30;
+  }
+  
+  .approval-list,
+  .activity-list,
+  .disputes-list {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .approval-item,
+  .activity-item,
+  .dispute-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--bg-w2);
+  }
+  
+  .approval-name,
+  .activity-name,
+  .dispute-property {
+    font-weight: bold;
+    color: var(--bg-1);
+    margin-bottom: 0.25rem;
+  }
+  
+  .approval-meta,
+  .activity-meta,
+  .dispute-parties {
+    font-size: 0.8rem;
+    color: var(--bg-w1);
+    margin-bottom: 0.25rem;
+  }
+  
+  .dispute-issue {
+    display: inline-block;
+    background-color: rgba(255, 59, 48, 0.1);
+    color: #FF3B30;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .dispute-time {
+    font-size: 0.8rem;
+    color: var(--bg-w1);
+  }
+  
+  .approval-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .approve-button,
+  .reject-button {
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+  
+  .approve-button {
+    background-color: var(--bg-4);
+    color: white;
+  }
+  
+  .reject-button {
+    background-color: var(--bg-w2);
+    color: var(--bg-1);
+  }
+  
+  .activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+  }
+  
+  .activity-icon.approved,
+  .activity-icon.verified,
+  .activity-icon.resolved {
+    background-color: rgba(15, 123, 205, 0.1);
+    color: var(--bg-4);
+  }
+  
+  .activity-icon.rejected {
+    background-color: rgba(255, 59, 48, 0.1);
+    color: #FF3B30;
+  }
+  
+  .view-all {
+    margin-top: 1rem;
+    text-align: right;
+  }
+  
+  .view-all button {
+    background-color: transparent;
+    border: none;
+    color: var(--bg-4);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  .tab-content {
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-w1);
+  }
+  
+  .tab-content h2 {
+    color: var(--bg-w1);
+  }
+  
+  @media (max-width: 992px) {
+    .main-content {
+      margin-left: 0 !important;
+    }
+    
+    .mobile-header {
+      display: flex !important;
+    }
+    
+    .stats-cards {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
+    }
+    
+    .dashboard-row {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .stats-cards {
+      grid-template-columns: 1fr 1fr !important;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .stats-cards {
+      grid-template-columns: 1fr !important;
+    }
+    
+    .top-nav {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    
+    .search-and-profile {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }

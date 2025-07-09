@@ -90,3 +90,18 @@ select
 Link{
     cursor: pointer;
 }
+
+.error{
+    background-color: #c45e5e;
+    color: white;
+    font-weight: bold;
+    padding: 0.2rem;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#error-icon{
+    margin-right: 5px;
+}
+

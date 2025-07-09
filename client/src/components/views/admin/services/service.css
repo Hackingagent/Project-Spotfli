@@ -1,0 +1,35 @@
+.addServiceBtn{
+    background-color: var(--bg-2);
+    color: var(--bg-white);
+    width: 7rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.addServiceBtn:hover{
+    background-color: transparent;
+    color: var(--bg-1);
+    border: 2px solid var(--bg-2);
+}
+.s-dark-cover{
+    position: absolute;
+    top: 30%;
+}
+.addService{
+    margin-top: 10%;
+    background-color: var(--bg-white);
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.61);
+    border-radius: 15px;
+
+}
+.addService form{
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2rem;
+}
+.addService form input{
+    padding: 0.4rem;
+    margin-bottom: 0.6rem;
+}
