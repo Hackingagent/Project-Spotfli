@@ -39,6 +39,7 @@ import AdminLayout from './components/layout/admin/Admin-Layout';
 import HotelDashboard from './components/propertyOwner/hotel-management/dashboard/HotelDashboard';
 import UpdateAccount from './components/account-billing/account/UpdateAccount';
 import AdminService from './components/views/admin/services/service';
+import AdminLogin from './components/login/AdminLogin';
 
 function App() {
   return (
@@ -152,6 +153,7 @@ function App() {
         <Route path='/chatapp' element={<ChatApp />} />
 
         <Route path='/admin'>
+          <Route path='login' element = {<AdminLogin />} />
           <Route element={<AdminLayout />}>
             <Route index element={<AdminDashboard />} />
             <Route path='all-units' element={<AllUnits />}/>

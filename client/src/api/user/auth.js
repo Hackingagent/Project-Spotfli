@@ -18,6 +18,7 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (email, password) => {
   try {
+
     const response = await api.post('/user/login', { email, password });
     
     // Store token in localStorage or cookies
@@ -29,29 +30,24 @@ export const loginUser = async (email, password) => {
       return {
         success: true,
         user: response.data.user,
-        isUser: true,
       };
     }
 
-    // Store token in localStorage or cookies
-    if (response.data.admin_token) {
-      localStorage.setItem('admin_token', response.data.admin_token);
-      // Set default Authorization header for future requests
-      api.defaults.headers.common['Authorization'] = `Bearer ${response.data.admin_token}`;
-
+    if(!response.data.success){
+      console.log(response.data.message);
       return {
-        success: true,
-        admin: response.data.admin,
-        isAdmin: true,
-      };
+        success: false,
+        message: response.data.message,
+      }
     }
-    
     
   } catch (error) {
+    
     let errorMessage = 'Login failed';
     if (error.response) {
       errorMessage = error.response.data.message || errorMessage;
     }
+
     return {
       success: false,
       message: errorMessage
