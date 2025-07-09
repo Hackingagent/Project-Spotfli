@@ -12,14 +12,15 @@ export const loginAdmin = async (email, password) => {
         
         // Store token in localStorage or cookies
         if (response.data.admin_token) {
-        localStorage.setItem('admin_token', response.data.admin_token);
-        // Set default Authorization header for future requests
-        api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+            localStorage.setItem('admin_token', response.data.admin_token);
+            localStorage.setItem('admin', JSON.stringify(response.data.admin));
+            // Set default Authorization header for future requests
+            api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
-        return {
-            success: true,
-            admin: response.data.admin,
-        };
+            return {
+                success: true,
+                admin: response.data.admin,
+            };
         }
 
         if(!response.data.success){

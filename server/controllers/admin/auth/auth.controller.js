@@ -54,6 +54,7 @@ export const loginAdmin = asyncHandler(async (req, res) => {
             last_name: admin.name,
             email: admin.email,
             admin_token,
+            admin: await Admin.findOne({ email }),
         });
     }
 

@@ -114,6 +114,7 @@ export const loginUser = asyncHandler(async (req, res) => {
             last_name: user.name,
             email: user.email,
             token,
+            user:  await User.findOne({ email }),
         });
     }
 
