@@ -86,10 +86,12 @@ const AdminService = () => {
                     type='success'
                 />
             }
-            
+
             {serviceModal && <AddServiceModal close={() => isServiceModal(false)} refresh = {() => fetchServices()} message = {(msg) => setMessage(msg)} /> }
 
-            {editService && <EditService data={editData} />}
+            {editService && <EditService close={() => isEditService(false)} refresh = {() => fetchServices()} message = {(msg) => setMessage(msg)} data={editData} 
+                
+            />}
             <TopNavigation heading={'Services'} />
             <div className="addServiceBtn" onClick={toggleAddService}>
                 Add Service <i className="fa fa-plus"></i>

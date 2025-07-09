@@ -88,3 +88,25 @@ export const deleteService = async(id) => {
     }
 
 }
+
+export const updateService = async  (id, updated) => {
+    try {
+        const token = localStorage.getItem('admin_token');
+        console.log('Token: ', token);
+        const response = await api.put(`/admin/updateService/${id}`, updated, {
+            headers : {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        console.log('Response after edit, ', response)
+        return {
+            success: true,
+            message: response.data.message,
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message,
+        }
+    }
+}

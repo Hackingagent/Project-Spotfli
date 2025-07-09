@@ -76,7 +76,7 @@ export const deleteService = async(req, res) => {
         res.status(200).json({
             message: 'Service deleted Successfully',
         })
-        
+
     } catch (error) {
         console.log('Delete Error', error);
         res.status().json({
@@ -84,3 +84,43 @@ export const deleteService = async(req, res) => {
         })
     }
 }
+
+
+export const updateService = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {name, fee} = req.body;
+
+        //Validate ID
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid service ID'
+            });
+        }
+
+        //Find and update service
+        const updatedService = await Service.findByIdAndUpdate(id,
+            {name, fee},
+            {new: true, runValidators: true}
+        );
+
+        if(!updatedService) {
+            return res.status(404).json({
+                success: false,
+                message: 'Service not found'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Service updated successfully',
+        })
+
+    }catch (error){
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
