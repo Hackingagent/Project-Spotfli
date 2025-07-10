@@ -28,15 +28,15 @@ import AdminLayout from './components/layout/admin/Admin-Layout';
 import HotelDashboard from './components/propertyOwner/hotel-management/dashboard/HotelDashboard';
 import AdminService from './components/views/admin/services/service';
 import AdminLogin from './components/login/AdminLogin';
-import BuyProperty from './components/views/buy-prop';
-import AccountBillingView from './components/views/account-billing';
-import ColivingView from './components/views/coliving-view';
-import HotelsView from './components/views/hotels-view';
-import SingleServiceView from './components/views/single-provider';
-import UpdateAccountView from './components/views/update-account';
-import HelpView from './components/views/help-view';
-import VacationView from './components/views/vacation-plan';
-import ServiceProviderView from './components/views/service-provider';
+import BuyProperty from './components/views/user/buy-prop';
+import AccountBillingView from './components/views/user/account-billing';
+import ColivingView from './components/views/user/coliving-view';
+import HotelsView from './components/views/user/hotels-view';
+import SingleServiceView from './components/views/user/single-provider';
+import UpdateAccountView from './components/views/user/update-account';
+import HelpView from './components/views/user/help-view';
+import VacationView from './components/views/user/vacation-plan';
+import ServiceProviderView from './components/views/user/service-provider';
 
 function App() {
   return (

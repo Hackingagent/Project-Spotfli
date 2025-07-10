@@ -1,6 +1,6 @@
 import React from 'react'
-import Home from '../home/Home'
-import HelpSupport from '../help-support/HelpSupport'
+import Home from '../../home/Home'
+import HelpSupport from '../../help-support/HelpSupport'
 
 const HelpView = () => {
   return (

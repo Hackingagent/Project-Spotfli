@@ -1,6 +1,7 @@
 import React from 'react'
-import Home from '../home/Home'
-import RoommateFinder from '../home/listings/roomate/RoommateFinder'
+import Home from '../../home/Home'
+import RoommateFinder from '../../home/listings/roomate/RoommateFinder'
+
 const ColivingView = () => {
   return (
         <>
