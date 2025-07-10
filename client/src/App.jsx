@@ -9,19 +9,9 @@ import ExperienceLevel from './components/register/serviceProvider/ExperienceLev
 import Login from './components/login/Login';
 import Home from './components/home/Home';
 import PropertyDetails from './components/propertyDetails/PropertyDetails';
-import Buy from './components/home/listings/buy/Buy';
 
-import Services from './components/home/listings/service provider/Services';
-import Hotel from './components/home/listings/hotel/Hotel';
-import Rent from './components/home/listings/rent/Rent';
-import CoLiving from './components/home/listings/co-living/CoLiving';
-import SingleProvider from './components/home/listings/service provider/SingleProvider';
-import AccountBilling from './components/account-billing/AccountBilling';
-import HelpSupport from './components/help-support/HelpSupport';
-import VacationPlan from './components/VacationPlan/VacationPlan';
-import RoommateFinder from './components/home/listings/roomate/RoommateFinder';
+
 import ChatApp from './components/chat-system/ChatApp';
-import AdminSidebar from './components/navigation/admin/admin-sidebar';
 import AdminDashboard from './components/views/admin/dasboard/admin-dashboard';
 import ServiceProviderSidebar from './components/navigation/serviceProvider/service-provider-sidebar';
 import PropertyOwnerSidebar from './components/navigation/propertyOwner/property-owner-sidebar';
@@ -29,7 +19,6 @@ import ViewProperty from './components/views/property-owner/view-property/view-p
 import MyPropertyDetails from './components/views/property-owner/view-property/property-details';
 import AddProperty from './components/views/property-owner/add-property/add-property';
 import MoreInfo from './components/views/property-owner/add-property/more-info/more-info';
-import TableComponent from './components/sections/table/table-component';
 import AllUnits from './components/views/admin/all-units/all-units';
 import PendingUnits from './components/views/admin/pending-units/pending-units';
 import RejectedUnits from './components/views/admin/rejected-units/rejected-units';
@@ -37,9 +26,17 @@ import ReportedUnits from './components/views/admin/reported-units/reported-unit
 import HomePage from './components/views/home-page';
 import AdminLayout from './components/layout/admin/Admin-Layout';
 import HotelDashboard from './components/propertyOwner/hotel-management/dashboard/HotelDashboard';
-import UpdateAccount from './components/account-billing/account/UpdateAccount';
 import AdminService from './components/views/admin/services/service';
 import AdminLogin from './components/login/AdminLogin';
+import BuyProperty from './components/views/buy-prop';
+import AccountBillingView from './components/views/account-billing';
+import ColivingView from './components/views/coliving-view';
+import HotelsView from './components/views/hotels-view';
+import SingleServiceView from './components/views/single-provider';
+import UpdateAccountView from './components/views/update-account';
+import HelpView from './components/views/help-view';
+import VacationView from './components/views/vacation-plan';
+import ServiceProviderView from './components/views/service-provider';
 
 function App() {
   return (
@@ -47,98 +44,30 @@ function App() {
       <BrowserRouter>
       {/* Home Rout (Default) */}
       <Routes>
-
         <Route path='/more' element={<MoreInfo />} />
-
         <Route path="/" element={<HomePage />} />
-
       {/* Buy Property Rout */}
-      <Route path="/buy" element={
-        <>
-        <Home />
-        <Buy />
-        </>
-      } />
-
+      <Route path="/buy" element={<BuyProperty/>} />
       {/* Service Provider Rout */}
-      <Route path="/serviceProvider" element={
-        <>
-        <Home />
-        <Services />
-        </>
-      } />
-
+      <Route path="/serviceProvider" element={<ServiceProviderView />} />
       {/* Single service provider Route */}
-      <Route path='/singleprovider' element={
-        <>
-        <Home />
-        <SingleProvider />
-        </>
-      } />
-
+      <Route path='/singleprovider' element={<SingleServiceView />} />
       {/* hotels display route */}
-      <Route path='/hotels' element={
-        <>
-        <Home />
-        <Hotel />
-        </>
-      }/>
+      <Route path='/hotels' element={<HotelsView/>}/>
       {/* Rent Property Route */}
-      <Route path='/rent' element={
-        <>
-        <Home />
-        <Rent />
-        </>
-      }/>
-
+      <Route path='/rent' element={<BuyProperty />}/>
       {/* coliving page route */}
-      <Route path='/coliving' element={
-        <>
-        <Home />
-        <RoommateFinder />
-        </>
-      } />
-
+      <Route path='/coliving' element={<ColivingView />} />
       {/* Account And Billing Route */}
-
-      <Route path='/accountbilling' element={
-        <>
-        <Home />
-        <AccountBilling />
-        </>
-      }/>
-
+      <Route path='/accountbilling' element={<AccountBillingView />}/>
       {/* Update Account Routes */}
-      <Route path='/update-account' element={
-      <>
-        <Home />
-        <UpdateAccount />
-      </>}></Route>
-
+      <Route path='/update-account' element={<UpdateAccountView />}></Route>
       {/* Help and Support Route */}
-      <Route path='/help'  element={
-        <>
-        <Home />
-        <HelpSupport />
-        </>
-      }/>
-
+      <Route path='/help'  element={<HelpView />}/>
       {/* Vacation Plan Route */}
-      <Route path='/vacationPlan' element={
-        <>
-        <Home />
-        <VacationPlan />
-        </>
-      }/>
-
+      <Route path='/vacationPlan' element={<VacationView/>}/>
       {/* Manage hotel routes */}
-      <Route path='/manage-hotel' element={
-        <>
-        <HotelDashboard />
-        </>
-      }>
-      </Route>
-
+      <Route path='/manage-hotel' element={<HotelDashboard />}> </Route>
       {/* Register Routes */}
         <Route path="/register" element={<AccountType/>} />
         <Route path="/registerPS" element={<Register />} />
@@ -152,6 +81,7 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/chatapp' element={<ChatApp />} />
 
+
         <Route path='/admin'>
           <Route path='login' element = {<AdminLogin />} />
           <Route element={<AdminLayout />}>
@@ -162,8 +92,8 @@ function App() {
             <Route path='reported-units' element={<ReportedUnits />}/>
             <Route path='services' element={<AdminService />} />
           </Route>
-
         </Route>
+
 
         <Route path='/property-owner'>
           <Route element={<PropertyOwnerSidebar />}>
@@ -171,16 +101,14 @@ function App() {
             <Route path='view-properties' element={<ViewProperty />} />
             <Route path='add-property' element={<AddProperty />} />
             <Route path="my-property-details" element={<MyPropertyDetails />} />
-
           </Route>
-
         </Route>
+
 
         <Route path='/service-provider'>
           <Route element={<ServiceProviderSidebar />}>
             <Route index />
           </Route>
-
         </Route>
 
 
