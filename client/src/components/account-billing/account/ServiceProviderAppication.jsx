@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiX, FiUser, FiBriefcase, FiMail, FiPhone, FiCheck } from 'react-icons/fi';
 import './ServiceProviderApplication.css';
+import { becomeServiceProvider, userGetServices } from '../../../api/user/serviceProvider/service-provider';
 
 const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
-    phone: '',
-    serviceType: '',
+    tell: '',
     experience: '',
-    portfolio: '',
+    service: '',
+    website: '',
     termsAccepted: false
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [services, setServices] = useState([]);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -24,32 +27,35 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const fetchServices = async() => {
+    const response = await userGetServices();
+
+    console.log(response);
+    setServices(response.service);
+  }
+
+  useEffect(() => {
+    fetchServices();
+  }, [])
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setIsSubmitting(true);
+  
+
+    try {
+      const response = await becomeServiceProvider(formData)
+
+      if(response.success){
+        setSubmitSuccess(true);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
-      setTimeout(() => {
-        setSubmitSuccess(false);
-        // onClose();
-      }, 2000);
-    }, 1500);
   };
 
-  const serviceTypes = [
-    'Electrician',
-    'Plumber',
-    'Carpenter',
-    'Barber',
-    'Hair Dresser',
-    'Food Services',
-    'Home Cooking',
-    'Painter',
-    'Other'
-  ];
   
   return (
     <div className="spa-modal-overlay">
@@ -76,33 +82,33 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
             <form onSubmit={handleSubmit} className="spa-form">
 
               <div className="spa-form-group">
-                <label htmlFor="serviceType">
+                <label htmlFor="service">
                   <FiBriefcase className="spa-input-icon" />
                   Service Type
                 </label>
                 <select
-                  id="serviceType"
-                  name="serviceType"
-                  value={formData.serviceType}
+                  id="service"
+                  name="service"
+                  value={formData.service}
                   onChange={handleChange}
                   required
                 >
                   <option value="">Select a service</option>
-                  {serviceTypes.map((service, index) => (
-                    <option key={index} value={service}>{service}</option>
+                  {services.map((service, index) => (
+                    <option key={index} value={service._id}>{service.name}</option>
                   ))}
                 </select>
               </div>
               <div className="spa-form-group">
-                <label htmlFor="fullName">
+                <label htmlFor="name">
                   <FiUser className="spa-input-icon" />
                   Business Name (if you have)
                 </label>
                 <input
                   type="text"
-                  id="fullName"
-                  name="fullName"
-                  value={formData.fullName}
+                  id="name"
+                  name="name"
+                  value={formData.name}
                   placeholder='Paul Electronics'
                   onChange={handleChange}
                 />
@@ -124,15 +130,15 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
               </div>
 
               <div className="spa-form-group">
-                <label htmlFor="phone">
+                <label htmlFor="tell">
                   <FiPhone className="spa-input-icon" />
                   Phone Number
                 </label>
                 <input
                   type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
+                  id="tell"
+                  name="tell"
+                  value={formData.tell}
                   placeholder='+237 677835443'
                   onChange={handleChange}
                   required
@@ -156,12 +162,12 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
               </div>
 
               <div className="spa-form-group">
-                <label htmlFor="portfolio">Portfolio/Website URL (if you have)</label>
+                <label htmlFor="website">Portfolio/Website URL (if you have)</label>
                 <input
                   type="url"
-                  id="portfolio"
-                  name="portfolio"
-                  value={formData.portfolio}
+                  id="website"
+                  name="website"
+                  value={formData.website}
                   onChange={handleChange}
                   placeholder="https://"
                 />

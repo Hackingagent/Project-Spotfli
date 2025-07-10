@@ -37,6 +37,7 @@ import UpdateAccountView from './components/views/user/update-account';
 import HelpView from './components/views/user/help-view';
 import VacationView from './components/views/user/vacation-plan';
 import ServiceProviderView from './components/views/user/service-provider';
+import UserProtectedRoute from './components/protected-routes/user-protected-route';
 
 function App() {
   return (
@@ -47,7 +48,7 @@ function App() {
         <Route path='/more' element={<MoreInfo />} />
         <Route path="/" element={<HomePage />} />
       {/* Buy Property Rout */}
-      <Route path="/buy" element={<BuyProperty/>} />
+      <Route path="/buy" element={<UserProtectedRoute><BuyProperty/></UserProtectedRoute>} />
       {/* Service Provider Rout */}
       <Route path="/serviceProvider" element={<ServiceProviderView />} />
       {/* Single service provider Route */}
