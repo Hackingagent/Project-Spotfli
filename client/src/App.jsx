@@ -38,6 +38,9 @@ import HelpView from './components/views/user/help-view';
 import VacationView from './components/views/user/vacation-plan';
 import ServiceProviderView from './components/views/user/service-provider';
 import UserProtectedRoute from './components/protected-routes/user-protected-route';
+import AdminPendingProvider from './components/views/admin/service-provider/AdminPendingProvider';
+import AdminApprovedProvider from './components/views/admin/service-provider/AdminApprovedProvider';
+import AdminRejectedProvider from './components/views/admin/service-provider/AdminRejectedProvider';
 
 function App() {
   return (
@@ -92,6 +95,9 @@ function App() {
             <Route path='rejected-units' element={<RejectedUnits />}/>
             <Route path='reported-units' element={<ReportedUnits />}/>
             <Route path='services' element={<AdminService />} />
+            <Route path='service-provider/pending' element={<AdminPendingProvider />} />
+            <Route path='service-provider/approved' element={<AdminApprovedProvider />} />
+            <Route path='service-provider/rejected' element={<AdminRejectedProvider />} />
           </Route>
         </Route>
 

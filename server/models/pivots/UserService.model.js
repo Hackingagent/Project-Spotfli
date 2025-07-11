@@ -11,6 +11,11 @@ const userServiceSchema = new mongoose.Schema({
         ref: 'Service',
     },
 
+    approvedBY: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin',
+    },
+
     name: {
         type: String,
         required: false,
