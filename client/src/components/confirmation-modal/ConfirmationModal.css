@@ -1,0 +1,124 @@
+.confirmation-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .confirmation-modal {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    width: 90%;
+    max-width: 400px;
+    overflow: hidden;
+  }
+  
+  .confirmation-modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .confirmation-modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .confirmation-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    line-height: 1;
+  }
+  
+  .confirmation-modal-close:hover {
+    color: #333;
+  }
+  
+  .confirmation-modal-body {
+    padding: 20px;
+  }
+  
+  .confirmation-modal-body p {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+  }
+  
+  .confirmation-modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .confirmation-modal-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    min-width: 80px;
+  }
+  
+  .confirmation-modal-cancel {
+    background: #f0f0f0;
+    color: #333;
+  }
+  
+  .confirmation-modal-cancel:hover {
+    background: #e0e0e0;
+  }
+  
+  .confirmation-modal-confirm {
+    background: #4CAF50;
+    color: white;
+  }
+  
+  .confirmation-modal-confirm:hover {
+    background: #3d8b40;
+  }
+  
+  .confirmation-modal-destructive {
+    background: #f44336;
+    color: white;
+  }
+  
+  .confirmation-modal-destructive:hover {
+    background: #d32f2f;
+  }
+  
+  .confirmation-modal-button.disabled,
+  .confirmation-modal-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .confirmation-modal-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }

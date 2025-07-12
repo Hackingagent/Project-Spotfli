@@ -70,3 +70,26 @@ export const getRejectedProvider = async() => {
         }
     }
 }
+
+
+export const approveProvider = async(id) => {
+    const token = localStorage.getItem('admin_token');
+    try {
+        const response = await api.get(`/admin/approveProvider/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        console.log(response);
+        return {
+            success: true,
+            message: response.data.message,
+        };
+
+    }catch(error){
+        return {
+            success: false,
+            error
+        }
+    }
+}
