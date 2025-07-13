@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 import Service from "../../../models/service.model.js";
 import jwt from 'jsonwebtoken';
 import User from "../../../models/user.model.js";
+import Admin from "../../../models/admin.model.js";
 
 
 export const getProviders = async (req, res) => {
     try {
-
         const {status} = req.params;
                 
         const providers = await UserService.find({status: status}).populate({
@@ -18,6 +18,10 @@ export const getProviders = async (req, res) => {
             path: 'service',
             select: 'name',
             model: Service,
+        }).populate({
+            path: 'toggledBY',
+            select: 'first_name',
+            model: Admin,
         }).sort({ createdAt: -1 });
 
         const formattedProvider = providers.map(provider => ({
@@ -36,6 +40,7 @@ export const getProviders = async (req, res) => {
                 email: provider.user?.email,
                 phone: provider.user?.tell,
             },
+            admin: provider.toggledBY?.first_name
             
         }))
 
@@ -85,15 +90,16 @@ export const toggleProvider = async(req, res) => {
             });
         }
 
-        if(status == 'approved'){
-            const message = 'Service Provider Approved successfully'
-        }else if(status == 'declined'){
-            const message = 'Service Provider Rejected successfully'
+        let message
+        if(status === 'approved'){
+            message = 'Service Provider Approved successfully'
+        }else if(status === 'declined'){
+            message = 'Service Provider Declined successfully'
         }
 
         res.status(200).json({
             success: true,
-            message
+            message :message,
         })
 
     }catch (error){

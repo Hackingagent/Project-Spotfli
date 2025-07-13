@@ -36,7 +36,7 @@ const Notification = ({ message, noMessage, type  }) => {
 
     if (!show) return null;
 
-    const backgroundColor = type === 'success' ? 'rgb(100, 149, 237)' : ' rgb(133, 54, 54)'; // Example for error
+    const backgroundColor = type === 'success' ? 'rgb(21, 49, 71)' : ' rgb(133, 54, 54)'; // Example for error
 
     return (
         <div

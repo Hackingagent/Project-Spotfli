@@ -104,7 +104,7 @@ const AdminPendingProvider = () => {
                 />
             }
 
-            <TopNavigation heading={'Service Providers: Pending'} />
+            <TopNavigation heading={'Service Providers: Declined'} />
             {/* <div className="addServiceBtn" onClick={toggleAddService}>
                 Add Service <i className="fa fa-plus"></i>
             </div> */}
@@ -120,7 +120,7 @@ const AdminPendingProvider = () => {
                 application={selectedData}
                 currentStatusPage="pending"
                 onApprove={handleApprove}
-                onReject={handleDecline}
+                onDecline={handleDecline}
             />
 
             <ConfirmationModal 

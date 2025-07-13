@@ -6,10 +6,9 @@ const ViewProviderModal = ({
   show,
   onClose,
   application,
-  currentStatusPage, // 'pending', 'approved', or 'rejected'
+  currentStatusPage, // 'pending', 'approved', or 'declined'
   onApprove,
-  onReject,
-  onSuspend,
+  onDecline,
   isLoading
 }) => {
   if (!show) return null;
@@ -25,7 +24,7 @@ const ViewProviderModal = ({
 
   const renderActionButtons = () => {
     switch (currentStatusPage) {
-      case 'pending':
+      case 'Pending':
         return (
           <div className="modal-actions">
             <button 
@@ -37,24 +36,24 @@ const ViewProviderModal = ({
             </button>
             <button 
               className="reject-btn"
-              onClick={onReject}
+              onClick={onDecline}
               disabled={isLoading}
             >
               <FaTimes /> Decline
             </button>
           </div>
         );
-      case 'approved':
+      case 'Approved':
         return (
           <button 
-            className="suspend-btn"
-            onClick={onSuspend}
+              className="reject-btn"
+             onClick={onDecline}
             disabled={isLoading}
           >
-            <FaPause /> Suspend
+            <FaTimes /> Decline
           </button>
         );
-      case 'rejected':
+      case 'Declined':
         return (
           <button 
             className="approve-btn"
