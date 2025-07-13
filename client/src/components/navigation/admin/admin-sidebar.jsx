@@ -1,20 +1,16 @@
-import React from 'react';
-import { 
-  FiHome, 
-  FiUsers, 
-  FiCheckCircle, 
-  FiDollarSign, 
-  FiPieChart, 
-  FiAlertTriangle, 
-  FiSettings,
-  FiMenu
-} from 'react-icons/fi';
+import React, { useState } from 'react';
+import {FiHome,FiUsers,FiCheckCircle,FiDollarSign,FiPieChart,FiAlertTriangle,FiSettings,FiMenu, FiChevronDown, FiChevronRight} from 'react-icons/fi';
 import { FaTools } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
 const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) => {
   const navigate = useNavigate();
+  const [isServiceProviderOpen, setIsServiceProviderOpen] = useState(false);
+
+  const toggleServiceProvider = () => {
+    setIsServiceProviderOpen(!isServiceProviderOpen);
+  };
 
   return (
     <div className={`sidebar ${open ? 'open' : 'closed'} ${mobileOpen ? 'mobile-open' : ''}`}>
@@ -25,94 +21,99 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
           <div className="sidebar-logo">SF</div>
         )}
       </div>
-
       <div className="sidebar-menu">
-        <SidebarItem 
-          icon={<FiHome />} 
-          text="Dashboard" 
-          active={activeTab === 'dashboard'} 
+        <SidebarItem
+          icon={<FiHome />}
+          text="Dashboard"
+          active={activeTab === 'dashboard'}
           onClick={() => {
             onTabChange('dashboard')
             navigate('/admin', {replace: true})
-          } 
-          }
+          }}
           open={open}
         />
-
-        <SidebarItem 
-          icon={<FiHome />} 
-          text="Property Owners" 
-          active={activeTab === 'property-owner'} 
+        <SidebarItem
+          icon={<FiHome />}
+          text="Property Owners"
+          active={activeTab === 'property-owner'}
           onClick={() => {
             onTabChange('property-owner')
             navigate('/admin', {replace: true})
-          } 
-          }
+          }}
           open={open}
         />
+        
+        {/* Service Provider with dropdown */}
+        <div className={`sidebar-dropdown ${isServiceProviderOpen ? 'open' : ''}`}>
+          <div 
+            className={`sidebar-item ${activeTab.startsWith('service-provider') ? 'active' : ''}`}
+            onClick={toggleServiceProvider}
+          >
+            <div className="sidebar-icon"><FiHome /></div>
+            {open && (
+              <>
+                <span>Service Provider</span>
+                {isServiceProviderOpen ? <FiChevronDown /> : <FiChevronRight />}
+              </>
+            )}
+          </div>
+          
+          {open && isServiceProviderOpen && (
+            <div className="sidebar-submenu">
+              <SidebarItem
+                text="Approved"
+                active={activeTab === 'service-provider-approved'}
+                onClick={() => {
+                  onTabChange('service-provider-approved')
+                  navigate('/admin/service-provider/approved', {replace: true})
+                }}
+                open={open}
+                isSubItem
+              />
+              <SidebarItem
+                text="Pending"
+                active={activeTab === 'service-provider-pending'}
+                onClick={() => {
+                  onTabChange('service-provider-pending')
+                  navigate('/admin/service-provider/pending', {replace: true})
+                }}
+                open={open}
+                isSubItem
+              />
+              <SidebarItem
+                text="Declined"
+                active={activeTab === 'service-provider-declined'}
+                onClick={() => {
+                  onTabChange('service-provider-declined')
+                  navigate('/admin/service-provider/declined', {replace: true})
+                }}
+                open={open}
+                isSubItem
+              />
+            </div>
+          )}
+        </div>
 
-        <SidebarItem 
-          icon={<FiHome />} 
-          text="Service Provider" 
-          active={activeTab === 'service-provider'} 
+        <SidebarItem
+          icon={<FaTools />}
+          text="Services"
+          active={activeTab === 'services'}
           onClick={() => {
-            onTabChange('service-provider')
-            navigate('/admin', {replace: true})
-          } 
-          }
+            onTabChange('services')
+            navigate('/admin/services', {replace: true})
+          }}
           open={open}
         />
-        {/* <SidebarItem 
-          icon={<FiUsers />} 
-          text="User Management" 
-          active={activeTab === 'users'} 
-          onClick={() => onTabChange('users')} 
-          open={open}
-        />
-        <SidebarItem 
-          icon={<FiCheckCircle />} 
-          text="Approvals" 
-          active={activeTab === 'approvals'} 
-          onClick={() => onTabChange('approvals')} 
-          open={open}
-        />
-        <SidebarItem 
-          icon={<FiDollarSign />} 
-          text="Escrow Payments" 
-          active={activeTab === 'payments'} 
-          onClick={() => onTabChange('payments')} 
-          open={open}
-        />
-        <SidebarItem 
-          icon={<FiAlertTriangle />} 
-          text="Disputes" 
-          active={activeTab === 'disputes'} 
-          onClick={() => onTabChange('disputes')} 
-          open={open}
-        /> */}
-        <SidebarItem 
-          icon={<FaTools />} 
-          text="Services" 
-          active={activeTab === 'services'} 
-          onClick={() => {
-              onTabChange('services')
-              navigate('/admin/services', {replace: true})
-            
-            }
-          } 
-          open={open}
-        />
-        <SidebarItem 
-          icon={<FiSettings />} 
-          text="Settings" 
-          active={activeTab === 'settings'} 
-          onClick={() => onTabChange('settings')} 
+        <SidebarItem
+          icon={<FiSettings />}
+          text="Settings"
+          active={activeTab === 'settings'}
+          onClick={() => onTabChange('settings')}
           open={open}
         />
       </div>
-
       <div className="sidebar-footer">
-        <button 
+        <button
           onClick={onToggle}
           className="collapse-button"
         >
@@ -124,13 +125,13 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
   );
 };
 
-const SidebarItem = ({ icon, text, active, onClick, open }) => {
+const SidebarItem = ({ icon, text, active, onClick, open, isSubItem }) => {
   return (
-    <div 
+    <div
       onClick={onClick}
-      className={`sidebar-item ${active ? 'active' : ''}`}
+      className={`sidebar-item ${active ? 'active' : ''} ${isSubItem ? 'sub-item' : ''}`}
     >
-      <div className="sidebar-icon">{icon}</div>
+      {icon && <div className="sidebar-icon">{icon}</div>}
       {open && <span>{text}</span>}
     </div>
   );

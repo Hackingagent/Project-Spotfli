@@ -34,7 +34,8 @@ export const registerUser = async(req, res) => {
             email,
             gender,
             dob,
-            password: hashedPassword
+            password: hashedPassword,
+            is_service_provider: 'no',
         });
 
         // 5. Save user to database

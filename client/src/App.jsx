@@ -38,6 +38,10 @@ import HelpView from './components/views/user/help-view';
 import VacationView from './components/views/user/vacation-plan';
 import ServiceProviderView from './components/views/user/service-provider';
 import UserProtectedRoute from './components/protected-routes/user-protected-route';
+import AdminPendingProvider from './components/views/admin/service-provider/AdminPendingProvider';
+import AdminApprovedProvider from './components/views/admin/service-provider/AdminApprovedProvider';
+import AdminDeclinedProvider from './components/views/admin/service-provider/AdminDeclinedProvider';
+import UserProtectedRoute from './components/protected-routes/user-protected-route';
 
 function App() {
   return (
@@ -48,7 +52,7 @@ function App() {
         <Route path='/more' element={<MoreInfo />} />
         <Route path="/" element={<HomePage />} />
       {/* Buy Property Rout */}
-      <Route path="/buy" element={<BuyProperty/>} />
+      <Route path="/buy" element={<UserProtectedRoute><BuyProperty/></UserProtectedRoute>} />
       {/* Service Provider Rout */}
       <Route path="/serviceProvider" element={<ServiceProviderView />} />
       {/* Single service provider Route */}
@@ -92,6 +96,9 @@ function App() {
             <Route path='rejected-units' element={<RejectedUnits />}/>
             <Route path='reported-units' element={<ReportedUnits />}/>
             <Route path='services' element={<AdminService />} />
+            <Route path='service-provider/pending' element={<AdminPendingProvider />} />
+            <Route path='service-provider/approved' element={<AdminApprovedProvider />} />
+            <Route path='service-provider/declined' element={<AdminDeclinedProvider />} />
           </Route>
         </Route>
 

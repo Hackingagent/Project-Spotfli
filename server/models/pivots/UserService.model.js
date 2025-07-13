@@ -1,15 +1,19 @@
-const mongoose = require('mongoose');
-
+import mongoose from "mongoose";
 
 const userServiceSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: User,
+        ref: 'User',
     },
     
     service: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Service,
+        ref: 'Service',
+    },
+
+    toggledBY: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin',
     },
 
     name: {

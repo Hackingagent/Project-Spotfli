@@ -25,7 +25,9 @@ export const getServices = async ()=>{
             success: false,
             error
         }
-    }}
+    }
+}
+
 
 export const addService = async(serviceData) => {
     try {
