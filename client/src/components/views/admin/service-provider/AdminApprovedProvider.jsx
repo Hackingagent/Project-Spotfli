@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TableComponent from '../../../sections/table/table-component';
 import TopNavigation from '../../../navigation/admin/top-navigation';
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { getApprovedProvider } from "../../../../api/admin/serviceProvider/admin-service-provider";
+import {  getProvider } from "../../../../api/admin/serviceProvider/admin-service-provider";
 
 
 const AdminApprovedProvider = () => {
@@ -10,8 +10,9 @@ const AdminApprovedProvider = () => {
     const [data, setData] = useState([]);
 
     const fetchProviders = async() => {
+
         console.log("Getting Pending Providers");
-        const response = await getApprovedProvider();
+        const response = await getProvider('approved');
         console.log('Response from Function: ', response)
         setData(response.provider);
     }

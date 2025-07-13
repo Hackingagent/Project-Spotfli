@@ -10,7 +10,8 @@ const ConfirmationModal = ({
   confirmText = "Confirm",
   cancelText = "Cancel",
   isDestructive = false,
-  isLoading = false
+  isLoading = false,
+  type,
 }) => {
   if (!isOpen) return null;
 
@@ -18,7 +19,7 @@ const ConfirmationModal = ({
     <div className="confirmation-modal-overlay">
       <div className="confirmation-modal">
         <div className="confirmation-modal-header">
-          <h3>{title}</h3>
+          <h3>{title} ({type})</h3>
           <button 
             className="confirmation-modal-close" 
             onClick={onClose}

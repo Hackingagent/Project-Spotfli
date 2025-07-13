@@ -81,11 +81,11 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
                 isSubItem
               />
               <SidebarItem
-                text="Rejected"
-                active={activeTab === 'service-provider-rejected'}
+                text="Declined"
+                active={activeTab === 'service-provider-declined'}
                 onClick={() => {
-                  onTabChange('service-provider-rejected')
-                  navigate('/admin/service-provider/rejected', {replace: true})
+                  onTabChange('service-provider-declined')
+                  navigate('/admin/service-provider/declined', {replace: true})
                 }}
                 open={open}
                 isSubItem

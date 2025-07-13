@@ -48,14 +48,13 @@ export const becomeServiceProvider = async(req, res) => {
         const token = req.header('Authorization')?.replace('Bearer ', '');
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const  user = await User.findById(decoded.id)
-        
-
-        
+    
         const {name, email, tell, experience, service, website, termsAccepted} = req.body;
 
         const newUserService = new UserService({
             name: name,
             email: email,
+            status: 'pending',
             tell: tell,
             experience: experience,
             service: service,
@@ -64,14 +63,19 @@ export const becomeServiceProvider = async(req, res) => {
             user: user._id,
         })
 
-        await newUserService.save();
+        const userService = await newUserService.save();
 
-        user.service_approved.status = 'pending';
-        await user.save();
+        if(!userService) {
+            return res.status(404).json({
+                success: false,
+                message: 'User Service not found'
+            });
+        }
+
         
         res.status(200).json({
             message: 'Service Application Submitted Successfully',
-            newUserService,
+            userService,
         })
         
     } catch (error) {

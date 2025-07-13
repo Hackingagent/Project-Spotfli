@@ -2,7 +2,7 @@ import express from "express";
 import { addService, deleteService, getService, updateService } from "../controllers/admin/services/service.controller.js";
 import adminAuthenticate from '../middlewares/adminAuthenticate.middleware.js';
 import { loginAdmin, logoutAdmin } from "../controllers/admin/auth/auth.controller.js";
-import { approveProvider, getApprovedProviders, getPendingProviders, getRejectedProviders } from "../controllers/admin/serviceProvider/admin-service-provider.controller.js";
+import {  getProviders, toggleProvider, } from "../controllers/admin/serviceProvider/admin-service-provider.controller.js";
 
 const adminRoutes = express.Router();
 
@@ -16,13 +16,9 @@ adminRoutes.get('/getService', adminAuthenticate, getService)
 adminRoutes.delete('/deleteService/:id', adminAuthenticate, deleteService);
 adminRoutes.put('/updateService/:id', adminAuthenticate, updateService)
 
-
 //Service Providers Routes
-adminRoutes.get('/getPendingProvider', adminAuthenticate, getPendingProviders);
-adminRoutes.get('/getApprovedProvider', adminAuthenticate, getApprovedProviders);
-adminRoutes.get('/getRejectedProvider', adminAuthenticate, getRejectedProviders);
-
-adminRoutes.get('/approveProvider/:id', adminAuthenticate, approveProvider);
+adminRoutes.get('/getProviders/:status', adminAuthenticate, getProviders);
+adminRoutes.get('/toggleProvider/:id/:status', adminAuthenticate, toggleProvider);
 
 
 export default adminRoutes;

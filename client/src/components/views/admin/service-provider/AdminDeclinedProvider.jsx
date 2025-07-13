@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import TableComponent from '../../../sections/table/table-component';
 import TopNavigation from '../../../navigation/admin/top-navigation';
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { getRejectedProvider } from "../../../../api/admin/serviceProvider/admin-service-provider";
+import { getProvider } from "../../../../api/admin/serviceProvider/admin-service-provider";
 
 
-const AdminRejectedProvider = () => {
+const AdminDeclinedProvider = () => {
 
     const [data, setData] = useState([]);
 
     const fetchProviders = async() => {
         console.log("Getting Pending Providers");
-        const response = await getRejectedProvider();
+        const response = await getProvider('declined');
         console.log('Response from Function: ', response)
         setData(response.provider);
     }
@@ -58,7 +58,7 @@ const AdminRejectedProvider = () => {
 
     return (
         <>
-            <TopNavigation heading={'Service Providers: Rejected'} />
+            <TopNavigation heading={'Service Providers: Declined'} />
             {/* <div className="addServiceBtn" onClick={toggleAddService}>
                 Add Service <i className="fa fa-plus"></i>
             </div> */}
@@ -71,4 +71,4 @@ const AdminRejectedProvider = () => {
     )
 }
 
-export default AdminRejectedProvider
+export default AdminDeclinedProvider

@@ -40,7 +40,7 @@ const ViewProviderModal = ({
               onClick={onReject}
               disabled={isLoading}
             >
-              <FaTimes /> Reject
+              <FaTimes /> Decline
             </button>
           </div>
         );

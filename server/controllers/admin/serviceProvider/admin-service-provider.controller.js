@@ -5,9 +5,12 @@ import jwt from 'jsonwebtoken';
 import User from "../../../models/user.model.js";
 
 
-export const getPendingProviders = async(req, res) => {
+export const getProviders = async (req, res) => {
     try {
-        const providers = await UserService.find({status: 'pending'}).populate({
+
+        const {status} = req.params;
+                
+        const providers = await UserService.find({status: status}).populate({
            path: 'user',
            select: 'first_name email',
            model: User,
@@ -52,82 +55,57 @@ export const getPendingProviders = async(req, res) => {
     }
 }
 
-export const getApprovedProviders = async(req, res) => {
+
+export const toggleProvider = async(req, res) => {
     try {
-        const providers = await UserService.find({status: 'approved'}).populate({
-           path: 'user',
-           select: 'first_name email',
-           model: User,
-        }).populate({
-            path: 'service',
-            select: 'name',
-            model: Service,
-        }).sort({ createdAt: -1 });
+        const {id, status} = req.params;
+        // const {name, fee} = req.body;
+        console.log('id: ', id, 'Status: ', status);
 
-        const formattedProvider = providers.map(provider => ({
-            id : provider._id,
-            service: provider.service?.name,
-            status: provider.status,
-            user: provider.user?.first_name,
-        }))
+        //Validate ID
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid service ID'
+            });
+        }
+        //Find and update service
+        const provider = await UserService.findByIdAndUpdate(id,
+            {
+                status: status,
+                toggledBY: req.admin
+            },
+            {new: true, runValidators: true}
+        );
 
-        console.log('Approved Providers: ', formattedProvider);
+        if(!provider) {
+            return res.status(404).json({
+                success: false,
+                message: 'Service Provider application not found'
+            });
+        }
+
+        if(status == 'approved'){
+            const message = 'Service Provider Approved successfully'
+        }else if(status == 'declined'){
+            const message = 'Service Provider Rejected successfully'
+        }
 
         res.status(200).json({
             success: true,
-            provider:formattedProvider
+            message
         })
 
-
-    } catch (error) {
-        res.status(400).json({
-            message: error.message,
-            success: false
-        });
-    }
-}
-
-export const getRejectedProviders = async(req, res) => {
-    try {
-        const providers = await UserService.find({status: 'rejected'}).populate({
-           path: 'user',
-           select: 'first_name email',
-           model: User,
-        }).populate({
-            path: 'service',
-            select: 'name',
-            model: Service,
-        }).sort({ createdAt: -1 });
-
-        const formattedProvider = providers.map(provider => ({
-            id : provider._id,
-            service: provider.service?.name,
-            status: provider.status,
-            user: provider.user?.first_name,
-            userDetails: {
-                first_name: provider.user?.first_name,
-                last_name: provider.user?.last_name,
-            }
-        }))
-
-        console.log('Rejected Providers: ', formattedProvider);
-
-        res.status(200).json({
-            success: true,
-            provider:formattedProvider
-        })
-
-
-    } catch (error) {
-        res.status(400).json({
-            message: error.message,
-            success: false
+    }catch (error){
+        res.status(500).json({
+            success: false,
+            message: error.message
         });
     }
 }
 
 
-export const approveProvider = async(req, res) => {
+export const rejectProvider = async(req, res) => {
     try {
         const {id} = req.params;
         // const {name, fee} = req.body;
@@ -139,10 +117,12 @@ export const approveProvider = async(req, res) => {
                 message: 'Invalid service ID'
             });
         }
-
         //Find and update service
         const approveProvider = await UserService.findByIdAndUpdate(id,
-            {status: 'approved'},
+            {
+                status: 'rejected',
+                toggledBY: req.admin
+            },
             {new: true, runValidators: true}
         );
 
@@ -165,3 +145,4 @@ export const approveProvider = async(req, res) => {
         });
     }
 }
+

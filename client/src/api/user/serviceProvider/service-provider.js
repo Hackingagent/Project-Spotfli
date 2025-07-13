@@ -47,7 +47,7 @@ export const becomeServiceProvider = async(data) => {
         return {
             success: true,
             message: response.data.message,
-            userService: response.data.newUserService,
+            userService: response.data.userService,
         }
     } catch (error) {
         return {

@@ -5,59 +5,17 @@ const api = axios.create({
     timeout: 10000,
 });
 
-export const getPendingProvider = async() => {
+export const getProvider = async(status) => {
     const token = localStorage.getItem('admin_token');
+
     try {
-        const response = await api.get('/admin/getPendingProvider', {
+        const response = await api.get(`/admin/getProviders/${status}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
         console.log(response);
-        return {
-            success: true,
-            provider: response.data.provider,
-        };
 
-    }catch(error){
-        return {
-            success: false,
-            error
-        }
-    }
-}
-
-export const getApprovedProvider = async() => {
-    const token = localStorage.getItem('admin_token');
-    try {
-        const response = await api.get('/admin/getApprovedProvider', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        console.log(response);
-        return {
-            success: true,
-            provider: response.data.provider,
-        };
-
-    }catch(error){
-        return {
-            success: false,
-            error
-        }
-    }
-}
-
-export const getRejectedProvider = async() => {
-    const token = localStorage.getItem('admin_token');
-    try {
-        const response = await api.get('/admin/getRejectedProvider', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        console.log(response);
         return {
             success: true,
             provider: response.data.provider,
@@ -72,10 +30,10 @@ export const getRejectedProvider = async() => {
 }
 
 
-export const approveProvider = async(id) => {
+export const toggleProvider = async(id, status) => {
     const token = localStorage.getItem('admin_token');
     try {
-        const response = await api.get(`/admin/approveProvider/${id}`, {
+        const response = await api.get(`/admin/toggleProvider/${id}/${status}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

@@ -11,7 +11,7 @@ const userServiceSchema = new mongoose.Schema({
         ref: 'Service',
     },
 
-    approvedBY: {
+    toggledBY: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
     },
