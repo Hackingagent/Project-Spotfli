@@ -37,6 +37,7 @@ import UpdateAccountView from './components/views/user/update-account';
 import HelpView from './components/views/user/help-view';
 import VacationView from './components/views/user/vacation-plan';
 import ServiceProviderView from './components/views/user/service-provider';
+import UserProtectedRoute from './components/protected-routes/user-protected-route';
 
 function App() {
   return (
@@ -59,13 +60,13 @@ function App() {
       {/* coliving page route */}
       <Route path='/coliving' element={<ColivingView />} />
       {/* Account And Billing Route */}
-      <Route path='/accountbilling' element={<AccountBillingView />}/>
+      <Route path='/accountbilling' element={<UserProtectedRoute><AccountBillingView /></UserProtectedRoute>}/>
       {/* Update Account Routes */}
-      <Route path='/update-account' element={<UpdateAccountView />}></Route>
+      <Route path='/update-account' element={<UserProtectedRoute><UpdateAccountView /></UserProtectedRoute>}></Route>
       {/* Help and Support Route */}
-      <Route path='/help'  element={<HelpView />}/>
+      <Route path='/help'  element={<UserProtectedRoute><HelpView /></UserProtectedRoute>}/>
       {/* Vacation Plan Route */}
-      <Route path='/vacationPlan' element={<VacationView/>}/>
+      <Route path='/vacationPlan' element={<UserProtectedRoute><VacationView/></UserProtectedRoute>}/>
       {/* Manage hotel routes */}
       <Route path='/manage-hotel' element={<HotelDashboard />}> </Route>
       {/* Register Routes */}
