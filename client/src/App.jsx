@@ -41,6 +41,8 @@ import UserProtectedRoute from './components/protected-routes/user-protected-rou
 import AdminPendingProvider from './components/views/admin/service-provider/AdminPendingProvider';
 import AdminApprovedProvider from './components/views/admin/service-provider/AdminApprovedProvider';
 import AdminDeclinedProvider from './components/views/admin/service-provider/AdminDeclinedProvider';
+import AdminAddHotel from './components/views/admin/hotels/AdminAddHotel';
+import ManageHotels from './components/views/admin/hotels/ManageHotels';
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 
 function App() {
@@ -99,6 +101,9 @@ function App() {
             <Route path='service-provider/pending' element={<AdminPendingProvider />} />
             <Route path='service-provider/approved' element={<AdminApprovedProvider />} />
             <Route path='service-provider/declined' element={<AdminDeclinedProvider />} />
+            {/* admin hotel management routes */}
+            <Route path='hotel' element={<AdminAddHotel/>}></Route>
+            <Route path='manage-hotels' element={<ManageHotels />}></Route>
           </Route>
         </Route>
 
