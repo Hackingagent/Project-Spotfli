@@ -104,6 +104,15 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
           }}
           open={open}
         />
+
+        <SidebarItem
+          icon={<FiSettings />}
+          text="Categories"
+          active={activeTab === 'categories'}
+          onClick={() => onTabChange('categories')}
+          open={open}
+        />
+
         <SidebarItem
           icon={<FiSettings />}
           text="Settings"

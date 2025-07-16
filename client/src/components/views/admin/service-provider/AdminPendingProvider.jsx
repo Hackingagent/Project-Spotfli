@@ -118,7 +118,7 @@ const AdminPendingProvider = () => {
                 show={showModal}
                 onClose={() =>  setShowModal(false)}
                 application={selectedData}
-                currentStatusPage="pending"
+                currentStatusPage="Pending"
                 onApprove={handleApprove}
                 onDecline={handleDecline}
             />
