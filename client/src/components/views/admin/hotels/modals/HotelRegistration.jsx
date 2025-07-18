@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './HotelRegistration.css';
-import { registerHotel } from '../../../../../api/hotel/hotelApi'; // We'll create this
+import { registerHotel } from '../../../../../api/admin/hotel/adminHotelApi'; // We'll create this
 
 const HotelRegistration = ({ onClose, refresh }) => {
   const [formData, setFormData] = useState({

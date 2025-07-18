@@ -19,7 +19,7 @@ adminRoutes.put('/updateService/:id', adminAuthenticate, updateService)
 //Service Providers Routes
 adminRoutes.get('/getProviders/:status', adminAuthenticate, getProviders);
 adminRoutes.get('/toggleProvider/:id/:status', adminAuthenticate, toggleProvider);
-adminRoutes.post('/register', adminAuthenticate, registerHotel);
+adminRoutes.post('/registerhotel', adminAuthenticate, registerHotel);
 // Hotel Routes
 adminRoutes.get('/',  adminAuthenticate, getHotels);
 

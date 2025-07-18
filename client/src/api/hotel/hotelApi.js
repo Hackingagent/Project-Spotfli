@@ -18,14 +18,14 @@ const api = axios.create({
 //   return Promise.reject(error);
 // });
 
-export const registerHotel = async (hotelData) => {
-  try {
-    const response = await api.post('/register', hotelData);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Failed to register hotel');
-  }
-};
+// export const registerHotel = async (hotelData) => {
+//   try {
+//     const response = await api.post('/register', hotelData);
+//     return response.data;
+//   } catch (error) {
+//     throw new Error(error.response?.data?.message || 'Failed to register hotel');
+//   }
+// };
 
 // export const getHotels = async () => {
 //   try {
