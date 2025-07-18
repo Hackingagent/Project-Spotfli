@@ -1,0 +1,15 @@
+// hotel view tasks
+1) perfect styling for hotel dasboard
+  a)manage hotels (include image, adjust alignments and style)
+  b)sidebar should not push content when screen with is 600px but rather be absolute over it
+2) Fetch hotel data from database
+2) display fetched data
+3) add rooms
+4) manage rooms (create, style component)
+
+
+// admin view tasks
+1) call fetch function for real time reloads
+2) fix issues not displaying hotel name and addedby
+3) edit hotel
+4) delete hotel

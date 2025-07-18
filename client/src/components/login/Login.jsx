@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import login from '../../assets/register.jpg'
+import login from '../../assets/register.png'
 import '../register/propertySeeker/register.css';
 import Navbar from '../navbar/VisitorNav';
 import { Link, } from 'react-router-dom';

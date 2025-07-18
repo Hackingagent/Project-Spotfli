@@ -1,0 +1,21 @@
+.hoteldash-main-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.hoteldash-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: #333;
+  animation: hoteldashPulse 1.5s infinite;
+}
+
+@keyframes hoteldashPulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}

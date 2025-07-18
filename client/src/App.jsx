@@ -10,7 +10,6 @@ import Login from './components/login/Login';
 import Home from './components/home/Home';
 import PropertyDetails from './components/propertyDetails/PropertyDetails';
 
-
 import ChatApp from './components/chat-system/ChatApp';
 import AdminDashboard from './components/views/admin/dasboard/admin-dashboard';
 import ServiceProviderSidebar from './components/navigation/serviceProvider/service-provider-sidebar';
@@ -25,7 +24,7 @@ import RejectedUnits from './components/views/admin/rejected-units/rejected-unit
 import ReportedUnits from './components/views/admin/reported-units/reported-units';
 import HomePage from './components/views/home-page';
 import AdminLayout from './components/layout/admin/Admin-Layout';
-import HotelDashboard from './components/propertyOwner/hotel-management/dashboard/HotelDashboard';
+
 import AdminService from './components/views/admin/services/service';
 import AdminLogin from './components/login/AdminLogin';
 import BuyProperty from './components/views/user/buy-prop';
@@ -43,6 +42,15 @@ import AdminApprovedProvider from './components/views/admin/service-provider/Adm
 import AdminDeclinedProvider from './components/views/admin/service-provider/AdminDeclinedProvider';
 import AdminAddHotel from './components/views/admin/hotels/AdminAddHotel';
 import ManageHotels from './components/views/admin/hotels/ManageHotels';
+import HotelLogin from './components/login/HotelLogin';
+
+import HotelLayout from './components/hotel/HotelLayout';
+import HotelDashboard from './components/pages/hotel/HotelDashboard';
+import ManageRooms from './components/hotel/HotelRooms/ManageRooms';
+import ManageBookings from './components/hotel/HotelBookings/ManageBookings';
+import PerformanceCharts from './components/hotel/HotelAnalytics/PerformanceCharts';
+import ProfileSettings from './components/hotel/HotelSettings/ProfileSettings';
+
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 
 function App() {
@@ -106,6 +114,19 @@ function App() {
             <Route path='manage-hotels' element={<ManageHotels />}></Route>
           </Route>
         </Route>
+
+    <Route>
+      <Route path='/hotel'>
+        <Route path='login' element={<HotelLogin />} />
+        <Route element={<HotelLayout />}>
+          <Route index element={<HotelDashboard />} />
+          <Route path='rooms' element={<ManageRooms />} />
+          <Route path='bookings' element={<ManageBookings />} />
+          <Route path='analytics' element={<PerformanceCharts />} />
+          <Route path='settings' element={<ProfileSettings />} />
+        </Route>
+      </Route>
+    </Route>
 
 
         <Route path='/property-owner'>
