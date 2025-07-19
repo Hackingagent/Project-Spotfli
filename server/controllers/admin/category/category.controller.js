@@ -58,3 +58,79 @@ export const getCategory = async(req, res) => {
         })
     }
 }
+
+
+export const addSubCategory = async(req, res) => {
+    try {
+        const {id} = req.params;
+        const  {name, description} = req.body;
+
+        const category = await Category.findById(id);
+
+        if(!category){
+            res.status(404).json({
+                success: false,
+                error: 'Category Not Found',
+            })
+        }
+
+        category.subCategories.push({
+            name,
+            description,
+            addedBy: req.admin,
+        });
+        await category.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Sub category Added Successfully'
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
+        })
+    }
+}
+
+
+export const getSubCategories = async(req, res) => {
+    try {
+        const {id} = req.params;
+        const category = await Category.findById(id).select('subCategories').populate({
+            path: 'subCategories.addedBy',
+            select: 'first_name',
+            model: Admin
+        });
+
+        if(!category){
+            return res.status(404).json({
+                success: false,
+                error: 'Category Not Found',
+            })
+        }
+
+        const subCategory = category.subCategories;
+
+        const subCategories = subCategory.map(sub => ({
+            id : sub._id,
+            name : sub.name,
+            description: sub.description,
+            admin: sub.addedBy.first_name ,
+        }));
+
+        console.log(subCategories);
+
+        res.status(200).json({
+            success: true,
+            subCategories: subCategories,
+        })
+
+
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        })
+    }
+}

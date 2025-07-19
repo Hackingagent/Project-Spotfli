@@ -51,7 +51,7 @@ export const addCategory = async(data) => {
                 return {
                     success: true,
                     message: response.data.message,
-                    service: response.data.newService,
+                    category: response.data.categories,
                 }
             }
         }
@@ -59,6 +59,65 @@ export const addCategory = async(data) => {
         return {
             success: false,
             message: error.response.data.error
+        }
+    }
+}
+
+
+export const addSubCategory = async(data, id) => {
+    try {
+
+        console.log('getting token');
+        const token = localStorage.getItem('admin_token');
+        console.log('Token: ', token);
+
+        const response = await api.put(`/admin/addSubCategory/${id}`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        console.log('Response from Controller: ', response);
+        
+        if(response){
+            console.log(response);
+            if(response.data.success){
+                console.log('Category Added ');
+                return {
+                    success: true,
+                    message: response.data.message,
+                    category: response.data.categories,
+                }
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response.data.error
+        }
+    }
+}
+
+
+export const getSubCategories = async (id)=>{
+
+    const token = localStorage.getItem('admin_token');
+    try {
+        const response = await api.get(`/admin/getSubCategories/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        console.log(response);
+        return {
+            success: true,
+            subCategory: response.data.subCategories,
+        };
+
+    }catch(error){
+        return {
+            success: false,
+            error
         }
     }
 }

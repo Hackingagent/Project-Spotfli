@@ -74,7 +74,7 @@ const categorySchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    subcategories: [subcategorySchema],
+    subCategories: [subcategorySchema],
     isActive: {
         type: Boolean,
         default: true

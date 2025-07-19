@@ -42,6 +42,7 @@ import AdminPendingProvider from './components/views/admin/service-provider/Admi
 import AdminApprovedProvider from './components/views/admin/service-provider/AdminApprovedProvider';
 import AdminDeclinedProvider from './components/views/admin/service-provider/AdminDeclinedProvider';
 import AdminCategory from './components/views/admin/category/Category';
+import AdminSubCategory from './components/views/admin/category/sub-categories/SubCategory';
 
 function App() {
   return (
@@ -100,6 +101,7 @@ function App() {
             <Route path='service-provider/approved' element={<AdminApprovedProvider />} />
             <Route path='service-provider/declined' element={<AdminDeclinedProvider />} />
             <Route path='category' element={<AdminCategory />} />
+            <Route path='category/:name' element={<AdminSubCategory />} />
           </Route>
         </Route>
 

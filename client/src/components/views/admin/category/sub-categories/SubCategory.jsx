@@ -1,49 +1,46 @@
 import React, { useEffect, useState } from "react";
-import TopNavigation from "../../../navigation/admin/top-navigation";
-import TableComponent from "../../../sections/table/table-component";
-import { HiPencil } from "react-icons/hi";
-import { RxCrossCircled } from "react-icons/rx";
-import './Category.css'
-import { FaTrash, FaEdit } from "react-icons/fa";
-import Notification from "../../../notification/notification";
-import AddCategoryModal from "./modal/AddCategoryModal";
-import EditCategoryModal from "./modal/EditCategoryModal";
-import { getCategories } from "../../../../api/admin/category/category";
-import { useNavigate } from "react-router-dom";
-import slugify from 'slugify';
+import Notification from '../../../../notification/notification';
+import TopNavigation from '../../../../navigation/admin/top-navigation';
+import {  useLocation, useParams } from "react-router-dom";
+import TableComponent from '../../../../sections/table/table-component';
+import AddSubCategoryModal from "./modal/AddSubCategoryModal";
+import { getSubCategories } from "../../../../../api/admin/category/category";
 
 
-const AdminCategory = () => {
-    const [serviceModal, isServiceModal] = useState(false);
-    const navigate = useNavigate();
+
+const AdminSubCategory = () => {
+    const [addSubCategoryModal, setAddSubCategoryModal] = useState(false);
     // const [editService, isEditService] = useState(false);
     const [message, setMessage] = useState('');
-    
+    const { name } = useParams();
+    const location = useLocation();
+    const categoryData = location.state?.categoryData; 
     const [data, setData] = useState([]);
 
     const toggleAddService = () =>{
-        isServiceModal(!serviceModal);
+        setAddSubCategoryModal(!addSubCategoryModal);
         // isEditService(false);
     }
     const serviceHeaders = [
         'Name',
+        'Description',
         'Admin',
         'actions'
     ]
 
-    const fetchCategories = async() => {
+    const fetchSubCategories = async() => {
         console.log("Getting Categories")
-        const response = await getCategories();
+        const response = await getSubCategories(categoryData.id);
 
         console.log('Response from Function: ', response)
-        setData(response.category);
+        setData(response.subCategory);
         setMessage(response.message);
         
         
     }
 
     useEffect(() => {
-        fetchCategories()
+        fetchSubCategories()
     }, []);
 
     // const serviceData = [
@@ -56,11 +53,6 @@ const AdminCategory = () => {
             label: "view",
             handler: (row) => {
 				console.log('Row to edit', row);
-                navigate(`/admin/category/${slugify(row.name)}`, {
-                    state: { 
-                      categoryData: row // Use descriptive key
-                    }
-                });
                 // setSelectedData(row);
                 // setShowModal(true);
                 // toggleEditService();
@@ -85,15 +77,15 @@ const AdminCategory = () => {
             }
 
 
-            {serviceModal && <AddCategoryModal close={() => isServiceModal(false)} refresh = {() => fetchCategories()}  message = {(msg) => setMessage(msg)} /> }
+            {addSubCategoryModal && <AddSubCategoryModal  close={() => setAddSubCategoryModal(false)} refresh = {() => fetchSubCategories()}  message = {(msg) => setMessage(msg)} id={categoryData.id} /> }
 
             {/* {editService && <EditCategoryModal close={() => isEditService(false)} refresh = {() => fetchCategories()} message = {(msg) => setMessage(msg)} data={editData} 
                 
             />} */}
-            <TopNavigation heading={'Categories'} />
+            <TopNavigation heading={`${name} Sub Categories`} />
 
-            <div className="addCategoryBtn" onClick={toggleAddService}>
-                Add Category <i className="fa fa-plus"></i>
+            <div className="addCategoryBtn" onClick={toggleAddService} style={{width: '10.8rem'}}>
+                Add Sub Category <i className="fa fa-plus"></i>
             </div>
             <TableComponent 
                 headers={serviceHeaders}
@@ -104,5 +96,5 @@ const AdminCategory = () => {
     )
 }
 
-export default AdminCategory
+export default AdminSubCategory
 
