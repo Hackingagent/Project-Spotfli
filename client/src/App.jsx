@@ -41,6 +41,7 @@ import UserProtectedRoute from './components/protected-routes/user-protected-rou
 import AdminPendingProvider from './components/views/admin/service-provider/AdminPendingProvider';
 import AdminApprovedProvider from './components/views/admin/service-provider/AdminApprovedProvider';
 import AdminDeclinedProvider from './components/views/admin/service-provider/AdminDeclinedProvider';
+import AdminCategory from './components/views/admin/category/Category';
 
 function App() {
   return (
@@ -98,6 +99,7 @@ function App() {
             <Route path='service-provider/pending' element={<AdminPendingProvider />} />
             <Route path='service-provider/approved' element={<AdminApprovedProvider />} />
             <Route path='service-provider/declined' element={<AdminDeclinedProvider />} />
+            <Route path='category' element={<AdminCategory />} />
           </Route>
         </Route>
 
