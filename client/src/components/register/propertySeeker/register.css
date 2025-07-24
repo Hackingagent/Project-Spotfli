@@ -32,10 +32,12 @@
     flex-basis: 50%;
     width: 400px;
 }
+.register-img{
+    width: 100%;
+}
 .register img{
     width: 600px;
     flex-basis: 50%;
-
 }
 .register-form form input,
 select
@@ -105,3 +107,13 @@ Link{
     margin-right: 5px;
 }
 
+@media screen and (max-width: 900px){
+    .register-form-container{
+        display: flex;
+        flex-wrap: wrap-reverse;
+    }
+    .register img{
+    width: 100%;
+    flex-basis: 50%;
+}
+}

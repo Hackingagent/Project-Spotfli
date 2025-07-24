@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 const { JsonWebTokenError, sign, verify } = jwt;
-import Hotel from "../../models/Hotel.js";
+import Hotel from "../../models/Hotel.model.js";
 import Admin from "../../models/admin.model.js";
 
 export const loginHotel = async (req, res) => {

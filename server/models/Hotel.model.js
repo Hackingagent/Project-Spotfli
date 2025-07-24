@@ -1,6 +1,80 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt'
+import User from './user.model.js';
 
+const BookingSchema = new mongoose.Schema({
+    guest: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: User,
+        request: true
+    },
+    checkInDate: {
+        type: Date,
+        required: true,
+    },
+    checkOutDate: {
+        type: Date,
+        required: true
+    },
+    totalPrice: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'confirmed', 'cancelled', 'completed'],
+        default: 'confirmed'
+    },
+    paymentStatus: {
+        type: String,
+        enum: ['pending','paid','refunded', 'failed'],
+        default: 'pending'
+    },
+    createdAt: {
+        type: Date,
+    }
+}, {_id: true, timestamps: true});
+
+
+// Rooms Schema with bookings embeded into it 
+const RoomSchema = new mongoose.Schema({
+  roomNumber: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  roomType: {
+    type: String,
+    required: true,
+    enum: ['single', 'double', 'suite', 'deluxe', 'presidential']
+  },
+  pricePerNight: {
+    type: Number,
+    required: true
+  },
+  capacity: {
+    type: Number,
+    required: true,
+    min: 1
+  },
+  description: {
+    type: String
+  },
+  amenities: [{
+    type: String
+  }],
+  images: [{
+    type: String
+  }],
+  isAvailable: {
+    type: Boolean,
+    default: true
+  },
+  bookings: [BookingSchema] // Embedded bookings
+}, { _id: true, timestamps: true });
+
+
+// hotel schema joint with bookings and rooms model   
 const hotelSchema = new mongoose.Schema({
     hotelName: {
         type: String,

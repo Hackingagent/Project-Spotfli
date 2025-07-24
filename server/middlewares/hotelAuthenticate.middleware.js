@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Hotel from '../models/Hotel.js';
+import Hotel from '../models/Hotel.model.js';
 
 const hotelAuthenticate = async(req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');

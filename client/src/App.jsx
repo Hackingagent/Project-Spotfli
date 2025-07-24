@@ -52,7 +52,6 @@ import PerformanceCharts from './components/hotel/HotelAnalytics/PerformanceChar
 import ProfileSettings from './components/hotel/HotelSettings/ProfileSettings';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
-
 function App() {
   return (
     <div>
