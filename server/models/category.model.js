@@ -59,6 +59,10 @@ const subcategorySchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    displayOrder: {
+        type: Number,
+        default: 0
+    },
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',

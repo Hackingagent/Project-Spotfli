@@ -43,6 +43,8 @@ import AdminApprovedProvider from './components/views/admin/service-provider/Adm
 import AdminDeclinedProvider from './components/views/admin/service-provider/AdminDeclinedProvider';
 import AdminCategory from './components/views/admin/category/Category';
 import AdminSubCategory from './components/views/admin/category/sub-categories/SubCategory';
+import ViewFields from './components/views/admin/category/sub-categories/field/FieldForm';
+import SubcategoryFieldsPage from './components/views/admin/category/sub-categories/field/SubCategoryFieldsPage';
 
 function App() {
   return (
@@ -102,6 +104,11 @@ function App() {
             <Route path='service-provider/declined' element={<AdminDeclinedProvider />} />
             <Route path='category' element={<AdminCategory />} />
             <Route path='category/:name' element={<AdminSubCategory />} />
+            <Route 
+              path="categories/:categoryId/subcategories/:subcategoryId/fields" 
+              element={<SubcategoryFieldsPage />} 
+            />
+                        
           </Route>
         </Route>
 
