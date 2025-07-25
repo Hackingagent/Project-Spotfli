@@ -3,7 +3,7 @@ import { addService, deleteService, getService, updateService } from "../control
 import adminAuthenticate from '../middlewares/adminAuthenticate.middleware.js';
 import { loginAdmin, logoutAdmin } from "../controllers/admin/auth/auth.controller.js";
 import {  getProviders, toggleProvider, } from "../controllers/admin/serviceProvider/admin-service-provider.controller.js";
-
+import { registerHotel, getHotels} from "../controllers/hotel/hotelController.js";
 const adminRoutes = express.Router();
 
 //Authentication Routes
@@ -19,6 +19,9 @@ adminRoutes.put('/updateService/:id', adminAuthenticate, updateService)
 //Service Providers Routes
 adminRoutes.get('/getProviders/:status', adminAuthenticate, getProviders);
 adminRoutes.get('/toggleProvider/:id/:status', adminAuthenticate, toggleProvider);
+adminRoutes.post('/registerhotel', adminAuthenticate, registerHotel);
+// Hotel Routes
+adminRoutes.get('/',  adminAuthenticate, getHotels);
 
 
 export default adminRoutes;

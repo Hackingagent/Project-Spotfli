@@ -1,11 +1,12 @@
 import React from 'react';
 import logo from '../../assets/logo1.png';
 import './loggedInNav.css';
-import bell from '../../assets/bell.png';
-import message from '../../assets/comment.png';
 import profile from '../../assets/profile.jpg';
+import { LuMessageCircleCode } from "react-icons/lu";
+import { IoNotificationsSharp } from "react-icons/io5";
 // import light from '../../assets/light.png';
 import { Link } from 'react-router-dom';
+import SearchBarComponent from '../SearchBarComponent';
 const LogedinNav = ({toggleAccountBar}) => {
   return (
    <div className='loggedin-nav'>
@@ -13,18 +14,13 @@ const LogedinNav = ({toggleAccountBar}) => {
           <Link to='/'>
           <img className="logo" src={logo} alt="logo" />
           </Link>
-          <div className="search-bar-nav">
-            <input type="text" placeholder='Ask me anything' />
-            <i className="fa fa-microphone"></i>
-            <i className="fa fa-camera"></i>
-            <i className="fa fa-search"></i>
-          </div>
+          <SearchBarComponent />
       </div>
 
       <div className="nav-right">
             <div className="theme">
-             <Link to='/chatapp'><img src={message} alt="" /></Link>
-              <img src={bell} alt="" />
+             <Link to='/chatapp'><LuMessageCircleCode className='loggedinNavIcons' /></Link>
+              <IoNotificationsSharp className='loggedinNavIcons' />
               {/* <img src={light} alt="" /> */}
             </div>
             
