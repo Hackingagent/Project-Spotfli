@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import {FiHome,FiUsers,FiCheckCircle,FiDollarSign,FiPieChart,FiAlertTriangle,FiSettings,FiMenu, FiChevronDown, FiChevronRight} from 'react-icons/fi';
-import { FaTools } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { FaBuilding, FaTools } from "react-icons/fa";
+import { replace, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
 const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) => {
   const navigate = useNavigate();
   const [isServiceProviderOpen, setIsServiceProviderOpen] = useState(false);
+  const [hotelDrop, isHotelDrop] = useState(false)
 
+  // toggle service provider menu dropdown
   const toggleServiceProvider = () => {
     setIsServiceProviderOpen(!isServiceProviderOpen);
   };
+
+  // toggle hotel menu deropdown
+  const toggleHotelDrop = () => {
+    isHotelDrop(!hotelDrop);
+  }
 
   return (
     <div className={`sidebar ${open ? 'open' : 'closed'} ${mobileOpen ? 'mobile-open' : ''}`}>
@@ -123,6 +130,48 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
           onClick={() => onTabChange('settings')}
           open={open}
         />
+
+        {/* hotel with dropdown */}
+        <div className={`sidebar-dropdown ${hotelDrop ? 'open' : ''}`}>
+          <div 
+            className={`sidebar-item ${activeTab.startsWith('service-provider') ? 'active' : ''}`}
+            onClick={toggleHotelDrop}
+          >
+            <div className="sidebar-icon"><FaBuilding /></div>
+            {open && (
+              <>
+                <span>Manage Hotels</span>
+                {isHotelDrop ? <FiChevronDown /> : <FiChevronRight />}
+              </>
+            )}
+          </div>
+          
+          {open && hotelDrop && (
+            <div className="sidebar-submenu">
+              <SidebarItem
+                text="Add Hotel"
+                active={activeTab === 'service-provider-approved'}
+                onClick={() => {
+                  onTabChange('add-hotel')
+                  navigate('/admin/hotel', {replace: true})
+                }}
+                open={open}
+                isSubItem
+              />
+              <SidebarItem
+                text="Manage"
+                active={activeTab === 'view-manage-hotels'}
+                onClick={() => {
+                  onTabChange('view-manage-hotels')
+                  navigate('/admin/manage-hotels', {replace: true})
+                }}
+                open={open}
+                isSubItem
+              />
+            </div>
+          )}
+        </div>
+
       </div>
       <div className="sidebar-footer">
         <button

@@ -5,6 +5,7 @@ import { loginAdmin, logoutAdmin } from "../controllers/admin/auth/auth.controll
 import {  getProviders, toggleProvider, } from "../controllers/admin/serviceProvider/admin-service-provider.controller.js";
 import { addCategory, addMultipleFields, addSubCategory, deleteField, getCategory, getFields, getSubCategories, reorderFields, updateField } from "../controllers/admin/category/category.controller.js";
 
+import { registerHotel, getHotels} from "../controllers/hotel/hotelController.js";
 const adminRoutes = express.Router();
 
 //Authentication Routes
@@ -26,6 +27,9 @@ adminRoutes.get('/getSubCategories/:id', adminAuthenticate, getSubCategories);
 //Service Providers Routes
 adminRoutes.get('/getProviders/:status', adminAuthenticate, getProviders);
 adminRoutes.get('/toggleProvider/:id/:status', adminAuthenticate, toggleProvider);
+adminRoutes.post('/registerhotel', adminAuthenticate, registerHotel);
+// Hotel Routes
+adminRoutes.get('/',  adminAuthenticate, getHotels);
 
 //Field Routes
 adminRoutes.post('/:categoryId/subcategories/:subcategoryId/addField', adminAuthenticate, addMultipleFields);

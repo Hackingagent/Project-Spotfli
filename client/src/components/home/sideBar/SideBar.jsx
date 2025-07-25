@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logoLight from '../../../assets/logo2.png';
 import './sideBar.css';
 
 const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSidebar as props
+  const [isServiceProvider, setServiceProvider] = useState(true);
   return (
     <div className={`sidebar-container ${isOpen ? 'open' : ''}`}>
       <div className="side-bar">
@@ -12,49 +13,46 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
           <i className="fa fa-times" onClick={toggleSidebar}></i> {/* Use the toggle function */}
         </div>
         <ul className="sidebar-content">
-          <li>
-            <Link className="sideLinks" to="/manage-hotel">
-              Manage Properties <i className="fa fa-dashboard"></i>{' '}
-            </Link>
-          </li>
+          {isServiceProvider && <>
           <li>
             <Link className="sideLinks" to="/">
-              Manage Services <i className="fa fa-dashboard"></i>{' '}
+              <i className="fa fa-dashboard"></i> My Service {' '}
             </Link>
           </li>
+          </>}
           <li>
             <Link className="sideLinks" to="/accountbilling">
-              Manage Account <i className="fa fa-user"></i>{' '}
+             <i className="fa fa-user"></i> Manage Account {' '}
             </Link>
           </li>
           <li>
             <Link className="sideLinks" to="/coliving">
-              Find Room-Mate <i className="fa fa-bed"></i>{' '}
+             <i className="fa fa-bed"></i> Find Room-Mate {' '}
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link className="sideLinks" to="/vacationPlan">
               Vacation Plan <i className="fa fa-hotel"></i>{' '}
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link className="sideLinks" to="/">
-              Assistant <i className="fa fa-robot"></i>{' '}
+            <i className="fa fa-robot"></i>  Assistant {' '}
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link className="sideLinks" to="/">
               My Friends <i className="fa fa-users"></i>{' '}
             </Link>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <Link className="sideLinks" to="/">
               Land Purchase <i className="fa fa-dollar"></i>{' '}
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link className="sideLinks" to="/">
-              Settings <i className="fa fa-gear"></i>{' '}
+             <i className="fa fa-gear"></i> Settings {' '}
             </Link>
           </li>
           <li>

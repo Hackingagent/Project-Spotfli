@@ -1,0 +1,58 @@
+.hoteldash-security {
+  padding: 20px;
+}
+
+.hoteldash-security h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.hoteldash-security-form {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+}
+
+.hoteldash-alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.hoteldash-form-group {
+  margin-bottom: 20px;
+}
+
+.hoteldash-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.hoteldash-form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.hoteldash-form-group input.error {
+  border-color: #dc3545;
+}
+
+.hoteldash-error {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  display: block;
+}
+
+.hoteldash-form-actions {
+  margin-top: 30px;
+}
