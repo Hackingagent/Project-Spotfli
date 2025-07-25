@@ -4,6 +4,8 @@ import { connectDB } from './config/db.js';
 import cors from 'cors';  // Add this line
 import userRoutes from './routes/user.route.js';
 import adminRoutes from './routes/admin.route.js';
+import serviceProviderRoutes from './routes/serviceProvider.route.js';
+import bookingRoutes from './routes/booking.route.js';
 
 dotenv.config();
 
@@ -16,6 +18,9 @@ app.use(cors());  // Add this line before your routes
 
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
+app.use('/api/service-provider', serviceProviderRoutes);
+app.use('/api/bookings', bookingRoutes); 
+
 
 // Error handling middleware
 app.use((req, res) => {

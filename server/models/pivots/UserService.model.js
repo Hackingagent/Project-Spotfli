@@ -1,5 +1,49 @@
 import mongoose from "mongoose";
 
+
+
+const AvailabilityScheme = new mongoose.Schema({
+days: {type: Date, required: true},
+time: {type: Date, required: true},
+}); 
+
+const BookingSchema = new mongoose.Schema({
+// gigId: {type: Schema.Types.ObjectId, ref: 'Gig', required: true},
+clientId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+time: {type: Date, required: true},
+date: {type: Date, required: true},
+});
+
+const GigSchema = new mongoose.Schema({
+    bookings: {BookingSchema},
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  Image: {
+    type: String,
+    required: true
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  
+  available: {AvailabilityScheme},
+},
+{
+    timestamps: true // createdAt and updatedAt in the document
+}
+);
+
 const userServiceSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -57,7 +101,7 @@ const userServiceSchema = new mongoose.Schema({
     },
 }, {
     timestamps: true,
-})
+});
 
 const UserService = mongoose.model('UserService', userServiceSchema);
 

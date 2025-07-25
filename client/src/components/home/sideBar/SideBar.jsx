@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logoLight from '../../../assets/logo2.png';
 import './sideBar.css';
 
 const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSidebar as props
+  const [isApprovedProvider, setApprovedProivider] = useState(true);
+  
   return (
     <div className={`sidebar-container ${isOpen ? 'open' : ''}`}>
       <div className="side-bar">
@@ -12,16 +14,15 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
           <i className="fa fa-times" onClick={toggleSidebar}></i> {/* Use the toggle function */}
         </div>
         <ul className="sidebar-content">
-          <li>
-            <Link className="sideLinks" to="/manage-hotel">
-              Manage Properties <i className="fa fa-dashboard"></i>{' '}
-            </Link>
-          </li>
-          <li>
-            <Link className="sideLinks" to="/">
+          { isApprovedProvider &&
+            <>
+            <li>
+            <Link className="sideLinks" to="/service-provider/my-service">
               Manage Services <i className="fa fa-dashboard"></i>{' '}
             </Link>
           </li>
+</>
+}
           <li>
             <Link className="sideLinks" to="/accountbilling">
               Manage Account <i className="fa fa-user"></i>{' '}

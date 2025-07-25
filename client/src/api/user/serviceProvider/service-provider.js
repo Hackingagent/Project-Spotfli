@@ -17,7 +17,7 @@ export const userGetServices = async ()=>{
         console.log(response);
         return {
             success: true,
-            service: response.data.services,
+            service: response.data.service,
         };
 
     }catch(error){

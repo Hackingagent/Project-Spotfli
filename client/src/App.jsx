@@ -43,6 +43,9 @@ import AdminApprovedProvider from './components/views/admin/service-provider/Adm
 import AdminDeclinedProvider from './components/views/admin/service-provider/AdminDeclinedProvider';
 import AdminAddHotel from './components/views/admin/hotels/AdminAddHotel';
 import ManageHotels from './components/views/admin/hotels/ManageHotels';
+import ProviderDashboard from './components/views/service-provider/providerDashboard';
+import ServiceProviderLayout from './components/layout/service-provider/Service-Provider-Layout';
+import MyServices from './components/views/service-provider/myServices';
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 
 function App() {
@@ -75,6 +78,9 @@ function App() {
       <Route path='/vacationPlan' element={<UserProtectedRoute><VacationView/></UserProtectedRoute>}/>
       {/* Manage hotel routes */}
       <Route path='/manage-hotel' element={<HotelDashboard />}> </Route>
+        {/* admin sevice provider management routes */}
+          <Route path='/manage-service' element={<ProviderDashboard />}></Route>
+         
       {/* Register Routes */}
         <Route path="/register" element={<AccountType/>} />
         <Route path="/registerPS" element={<Register />} />
@@ -119,8 +125,9 @@ function App() {
 
 
         <Route path='/service-provider'>
-          <Route element={<ServiceProviderSidebar />}>
-            <Route index />
+          <Route element={<ServiceProviderLayout />}>
+            <Route index element={<ProviderDashboard />}/>
+             <Route path='my-service' element={<MyServices />}></Route>
           </Route>
         </Route>
 
