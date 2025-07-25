@@ -32,10 +32,11 @@ adminRoutes.post('/:categoryId/subcategories/:subcategoryId/addField', adminAuth
 
 adminRoutes.get('/:categoryId/subcategories/:subcategoryId/getFields', adminAuthenticate, getFields);
 
-adminRoutes.put('/:categoryId/subcategories/:subcategoryId/fields/reorder', adminAuthenticate, reorderFields);
+adminRoutes.put('/:categoryId/subcategories/:subcategoryId/reorderFields', adminAuthenticate, reorderFields);
 
-adminRoutes.put('/:categoryId/subcategories/:subcategoryId/fields/:fieldId', adminAuthenticate, updateField);
-adminRoutes.delete('/:categoryId/subcategories/:subcategoryId/fields/:fieldId', adminAuthenticate, deleteField);
+adminRoutes.put('/:categoryId/subcategories/:subcategoryId/updateField/:fieldId', adminAuthenticate, updateField);
+
+adminRoutes.delete('/:categoryId/subcategories/:subcategoryId/deleteField/:fieldId', adminAuthenticate, deleteField);
 
 
 

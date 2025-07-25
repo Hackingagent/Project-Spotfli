@@ -40,7 +40,7 @@ export const getCategory = async(req, res) => {
             model: Admin
         });
 
-        console.log(categories)
+        // console.log(categories)
 
         const formattedCategories = categories.map(category => ({
             id: category._id,
@@ -162,47 +162,7 @@ export const getFields = async(req, res) => {
 }
 
 
-export const addField = async(req, res) => {
-    const {type, label, key, isRequired, placeholder, options, validation} = req.body;
-
-    const category = await Category.findById(req.params.categoryId);
-
-    if (!category) {
-        res.status(404);
-        throw new Error('Category not found');
-    }
-
-    const subcategory = category.subCategories.id(req.params.subcategoryId);
-
-    if (!subcategory) {
-        res.status(404);
-        throw new Error('Subcategory not found');
-    }
-
-    const displayOrder = subcategory.fields.length;
-
-
-    subcategory.fields.push({
-        type,
-        label,
-        key,
-        isRequired,
-        placeholder,
-        options,
-        validation,
-        displayOrder,
-        admin: req.admin,
-    });
-
-    await category.save();
-
-    res.status(201).json({
-        success: true,
-        field: subcategory.fields[subcategory.fields.length - 1]
-    });
-}
-
-
+//Add Fields
 export const addMultipleFields = async (req, res) => {
     try {
         console.log('Request Body:', req.body);
@@ -256,7 +216,7 @@ export const addMultipleFields = async (req, res) => {
             const newField = {
                 ...field,
                 displayOrder: subcategory.fields.length + index,
-                addedBy: req.admin._id,
+                addedBy: req.admin,
                 createdAt: new Date()
             };
             subcategory.fields.push(newField);
@@ -286,11 +246,12 @@ export const addMultipleFields = async (req, res) => {
     }
 };
 
-
+//Update Field
 export const updateField = async(req, res) => {
 
-    console.log('Update Request: ', req.body);
-    const {type, label, key, isRequired, placeholder, options, validation} = req.body;
+    // console.log('Update Request: ', req.body);
+    const {type, label, key, isRequired, placeholder, options, validation} = req.body.field;
+    // console.log('Type: ', type);
 
     const category = await Category.findById(req.params.categoryId);
 
@@ -322,16 +283,18 @@ export const updateField = async(req, res) => {
     field.options = options || field.options;
     field.validation = validation || field.validation;
 
+    subcategory.markModified('fields');
     await category.save();
 
     res.json({
         success: true,
-        field
+        message: 'field updated successfully',
+        field: field,
     });
 
 }
 
-
+//Delete Field
 export const deleteField = async(req, res) => {
     const category = await Category.findById(req.params.categoryId);
   
@@ -399,5 +362,6 @@ export const reorderFields = async(req, res) => {
     res.status(200).json({
         success: true,
         subcategory,
+        message: 'ReOrdered Successfully',
     })
 }

@@ -183,6 +183,105 @@ export const addFields = async(categoryId, subcategoryId, fields) => {
         }
     }
 }
+
+
+export const updatesField = async(categoryId, subcategoryId, fieldId, field) => {
+    try {
+
+        console.log('getting token');
+        const token = localStorage.getItem('admin_token');
+        console.log('Token: ', token);
+
+        const response = await api.put(`/admin/${categoryId}/subcategories/${subcategoryId}/updateField/${fieldId}`, {field}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        console.log('Response from Controller: ', response);
+        
+        if(response){
+            console.log(response);
+            if(response.data.success){
+                console.log('Field Updated ');
+                return {
+                    success: true,
+                    message: response.data.message,
+                    field: response.data.field,
+                }
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response.data.error
+        }
+    }
+}
+
+
+export const deleteField = async(categoryId, subcategoryId, fieldId) => {
+    try {
+        const token = localStorage.getItem('admin_token');
+    
+        const response = await api.delete(`/admin/${categoryId}/subcategories/${subcategoryId}/deleteField/${fieldId}`, {
+            headers : {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+        console.log(response)
+        return {
+            success: true,
+            message: response.data.message,
+        }
+
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message,
+        }
+    }
+
+}
+
+export const reorderField = async(categoryId, subcategoryId, fieldOrder) => {
+    try {
+
+        console.log('getting token');
+        const token = localStorage.getItem('admin_token');
+        console.log('Token: ', token);
+
+        const response = await api.put(`/admin/${categoryId}/subcategories/${subcategoryId}/reorderFields/`, {fieldOrder}, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        console.log('Response from Controller: ', response);
+        
+        if(response){
+            console.log(response);
+            if(response.data.success){
+                console.log('Field Updated ');
+                return {
+                    success: true,
+                    message: response.data.message,
+                    // field: response.data.field,
+                }
+            }
+        }
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response.data.error
+        }
+    }
+}
+
+
+
+
 // export const deleteService = async(id) => {
 //     try {
 //         const token = localStorage.getItem('admin_token');

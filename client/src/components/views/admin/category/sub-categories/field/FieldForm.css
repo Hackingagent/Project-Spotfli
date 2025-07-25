@@ -334,3 +334,54 @@
     color: var(--bg-w1);
     padding: 20px 0;
   }
+
+  /* Reorder Controls */
+.field-reorder-controls {
+  display: flex;
+  flex-direction: column;
+  margin-right: 12px;
+}
+
+.move-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #666;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.move-button:hover {
+  color: #1890ff;
+}
+
+.move-button:disabled {
+  color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Save Order Button */
+.save-order-container {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.save-order-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.save-order-button:hover {
+  background-color: #45a049;
+}
+
+.save-order-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

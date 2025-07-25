@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import './FieldForm.css';
-import { addFields, getFields } from '../../../../../../api/admin/category/category';
+import { addFields, deleteField, getFields, reorderField, updatesField } from '../../../../../../api/admin/category/category';
 import Notification from '../../../../../notification/notification';
 
 const FieldForm = ({ categoryId, subcategoryId }) => {
@@ -24,20 +23,55 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
   const [message, setMessage] = useState('');
 
   // Fetch existing fields when component mounts
+
+  const [isSavingOrder, setIsSavingOrder] = useState(false);
+
+  const moveField = (fromIndex, toIndex) => {
+    if (toIndex < 0 || toIndex >= existingFields.length) return;
+    
+    const reordered = [...existingFields];
+    const [moved] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, moved);
+    setExistingFields(reordered);
+  };
+
+  const saveFieldOrder = async () => {
+    setIsSavingOrder(true);
+    try {
+
+
+      // await axios.put(
+      //   `/api/categories/${categoryId}/subcategories/${subcategoryId}/fields/reorder`,
+      //   { fieldOrder: existingFields.map(f => f._id) }
+      // );
+
+      const fieldOrder = existingFields.map(f => f._id)
+
+      const response = await reorderField(categoryId, subcategoryId, fieldOrder);
+
+      setMessage(response.message);
+      
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to save field order');
+    } finally {
+      setIsSavingOrder(false);
+    }
+  };
+
+  const fetchFields = async () => {
+    try {
+      const response = await getFields(categoryId, subcategoryId);
+      setExistingFields(response.fields || []);
+    } catch (err) {
+      setError(err.response?.message || 'Failed to fetch fields');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchFields = async () => {
-      try {
-        const response = await getFields(categoryId, subcategoryId);
-        setExistingFields(response.fields || []);
-      } catch (err) {
-        setError(err.response?.data?.message || 'Failed to fetch fields');
-      } finally {
-        setIsLoading(false);
-      }
-    };
     
     fetchFields();
-  }, [categoryId, subcategoryId]);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -124,34 +158,38 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
     }
 
     try {
-      const response = await axios.put(
-        `/api/categories/${categoryId}/subcategories/${subcategoryId}/fields/${editingFieldId}`,
-        currentField
-      );
       
+      const response = await updatesField(categoryId, subcategoryId, editingFieldId, currentField);
       // Update the existing fields list
+      setMessage(response.message);
       setExistingFields(prev => 
         prev.map(f => 
-          f._id === editingFieldId ? response.data.field : f
+          f._id === editingFieldId ? response.field : f
         )
       );
       
       resetForm();
       setError(null);
+      fetchFields();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update field');
+      setError(err.response?.message || 'Failed to update field');
     }
   };
 
   const deleteExistingField = async (fieldId) => {
     if (window.confirm('Are you sure you want to delete this field?')) {
       try {
-        await axios.delete(
-          `/api/categories/${categoryId}/subcategories/${subcategoryId}/fields/${fieldId}`
-        );
+        // await axios.delete(
+        //   `/api/categories/${categoryId}/subcategories/${subcategoryId}/fields/${fieldId}`
+        // );
+
+        const response = await deleteField(categoryId, subcategoryId, fieldId);
+
+        setMessage(response.message);
         
         // Remove from existing fields list
         setExistingFields(prev => prev.filter(f => f._id !== fieldId));
+        fetchFields();
       } catch (err) {
         setError(err.response?.data?.message || 'Failed to delete field');
       }
@@ -167,6 +205,7 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
       setMessage(response.message);
       setFields([]);
       setError(null);
+      fetchFields()
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to add fields');
     }
@@ -386,54 +425,90 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
         </div>
 
         {/* Existing Fields Section */}
-        <div className="field-form-card">
-          <h3 className="field-form-subtitle">Existing Fields</h3>
-          {existingFields.length === 0 ? (
-            <p className="field-form-no-fields">No fields exist for this subcategory yet.</p>
-          ) : (
-            <div className="field-form-existing-container">
-              {existingFields.map((field) => (
-                <div key={field._id} className="field-form-existing-item">
-                  <div className="field-form-existing-content">
-                    <h4 className="field-form-existing-title">
-                      {field.label} ({field.type})
-                      {field.isRequired && (
-                        <span className="field-form-required-badge">Required</span>
-                      )}
-                    </h4>
-                    <p className="field-form-existing-text">Key: {field.key}</p>
-                    {field.options.length > 0 && (
-                      <div className="field-form-existing-options">
-                        <p>Options:</p>
-                        <ul>
-                          {field.options.map((opt, i) => (
-                            <li key={i}>{opt}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                  <div className="field-form-existing-actions">
-                    <button
-                      type="button"
-                      onClick={() => editField(field)}
-                      className="field-form-edit-button"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => deleteExistingField(field._id)}
-                      className="field-form-delete-button"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+<div className="field-form-card">
+  <h3 className="field-form-subtitle">Existing Fields</h3>
+  {existingFields.length === 0 ? (
+    <p className="field-form-no-fields">No fields exist for this subcategory yet.</p>
+  ) : (
+    <div className="field-form-existing-container">
+      {existingFields.map((field, index) => (
+        <div key={field._id} className="field-form-existing-item">
+          {/* Move Controls */}
+          <div className="field-reorder-controls">
+            <button
+              onClick={() => moveField(index, index - 1)}
+              disabled={index === 0}
+              aria-label="Move up"
+              className="move-button"
+            >
+              ↑
+            </button>
+            <button
+              onClick={() => moveField(index, index + 1)}
+              disabled={index === existingFields.length - 1}
+              aria-label="Move down"
+              className="move-button"
+            >
+              ↓
+            </button>
+          </div>
+
+          {/* Field Content */}
+          <div className="field-form-existing-content">
+            <h4 className="field-form-existing-title">
+              {field.label} ({field.type})
+              {field.isRequired && (
+                <span className="field-form-required-badge">Required</span>
+              )}
+            </h4>
+            <p className="field-form-existing-text">Key: {field.key}</p>
+            {field.options.length > 0 && (
+              <div className="field-form-existing-options">
+                <p>Options:</p>
+                <ul>
+                  {field.options.map((opt, i) => (
+                    <li key={i}>{opt}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="field-form-existing-actions">
+            <button
+              type="button"
+              onClick={() => editField(field)}
+              className="field-form-edit-button"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              onClick={() => deleteExistingField(field._id)}
+              className="field-form-delete-button"
+            >
+              Delete
+            </button>
+          </div>
         </div>
+      ))}
+    </div>
+  )}
+
+  {/* Save Order Button (only shown when fields exist) */}
+  {existingFields.length > 0 && (
+    <div className="save-order-container">
+      <button
+        onClick={saveFieldOrder}
+        disabled={isSavingOrder}
+        className="save-order-button"
+      >
+        {isSavingOrder ? 'Saving...' : 'Save Order'}
+      </button>
+    </div>
+  )}
+</div>
 
         {/* New Fields to be Added Section */}
         {fields.length > 0 && (
