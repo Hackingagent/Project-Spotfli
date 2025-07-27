@@ -4,10 +4,13 @@ import TableComponent from '../../../sections/table/table-component'
 import { useState, useEffect } from "react";
 import HotelRegistration from "./modals/HotelRegistration";
 import { getHotels } from "../../../../api/admin/hotel/adminHotelApi"; // Import your API function
+import EditHotel from "./modals/EditHotel";
 
 const AdminAddHotel = () => {
     const [registerHotel, showRegisterHotel] = useState(false);
     const [hotels, setHotels] = useState([]);
+    const [editHotel, showEditHotel] = useState(false)
+    const [editHotelData, setEditHotelData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -32,6 +35,10 @@ const AdminAddHotel = () => {
         showRegisterHotel(!registerHotel);
     };
 
+    const toggleEditHotel = () => {
+        showEditHotel(!editHotel);
+    }
+
     // Format the data for your table
     const formatHotelData = () => {
         return hotels.map(hotel => ({
@@ -48,9 +55,9 @@ const AdminAddHotel = () => {
         {
             label: "Edit",
             handler: (row) => {
-                console.log('Row to edit', row.originalData);
-                // toggleEditService();
-                // setEditData(row.originalData);
+                console.log('Row to edi', row);
+                toggleEditHotel();
+                setEditHotelData(row)
             },
             icon: <FaEdit />,
             type: "text-green text-[20px]"
@@ -80,6 +87,7 @@ const AdminAddHotel = () => {
 
     return (
         <>
+            {editHotel && <EditHotel onClose={toggleEditHotel} />}
             {registerHotel && <HotelRegistration onClose={toggleHotelRegistration} onSuccess={handleHotelRegistered} refresh={fetchHotels} />}
             <TopNavigation heading={'Add Hotel'} />
             <button className="btn btn-primary" onClick={toggleHotelRegistration}>

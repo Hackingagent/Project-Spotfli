@@ -1,83 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import './HotelRegistration.css';
-import { registerHotel } from '../../../../../api/admin/hotel/adminHotelApi'; // We'll create this
+const EditHotel = ({ onClose }) => {
 
-const HotelRegistration = ({ onClose, refresh }) => {
-  const [formData, setFormData] = useState({
-    hotelName: '',
-    email: '',
-    password: '',
-    phone: '',
-    address: '',
-    city: '',
-    description: '',
-    amenities: ''
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [id]: value
-    }));
-  };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setError('');
-
-        try {
-            const dataToSend = {
-                ...formData,
-                amenities: formData.amenities.split(',').map(item => item.trim())
-            };
-
-            const response = await registerHotel(dataToSend);
-           const onSuccess = (response.data); // Call the success callback
-            onClose();
-            refresh();
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-  return (
-    <>
-      <div className="hotel-application-overlay" onClick={onClose}></div>
-      <div className="hotel-application-modal">
-        <div className="hotel-application-form-container">
-          <button className="hotel-application-close-btn" onClick={onClose}>
-            &times;
-          </button>
-          
-          <form className="hotel-application-form" onSubmit={handleSubmit}>
-            <h2 className="hotel-application-title">
-              <i className="fa fa-building"></i> Register A Hotel
-            </h2>
-            
-            {error && <div className="error">{error}</div>}
-            
+    return(
+        <div className="hotel-application-overlay">
+            <div className="hotel-application-modal">
+              <div className="hotel-application-form-container">
+                <h2><i className="fa fa-edit"></i> Edit Hotel</h2>
+                    <button className="hotel-application-close-btn" onClick={onClose}>
+                        &times;
+                    </button>
+                <form action="">
             <div className="hotel-application-form-group">
               <label htmlFor="hotelName" className="hotel-application-label">
                 Hotel Name
               </label>
               <input
                 type="text"
-                id="hotelName"
+                id="hotelName" 
                 className="hotel-application-input"
                 placeholder="Enter hotel name"
                 required
-                value={formData.hotelName}
-                onChange={handleChange}
               />
             </div>
-            
-            <div className="hotel-application-form-row">
+
+             <div className="hotel-application-form-row">
               <div className="hotel-application-form-group">
                 <label htmlFor="email" className="hotel-application-label">
                   Email Address
@@ -88,8 +35,7 @@ const HotelRegistration = ({ onClose, refresh }) => {
                   className="hotel-application-input"
                   placeholder="Enter email address"
                   required
-                  value={formData.email}
-                  onChange={handleChange}
+
                 />
               </div>
               
@@ -103,8 +49,7 @@ const HotelRegistration = ({ onClose, refresh }) => {
                   className="hotel-application-input"
                   placeholder="Enter phone number"
                   required
-                  value={formData.phone}
-                  onChange={handleChange}
+
                 />
               </div>
               <div className="hotel-application-form-group">
@@ -118,8 +63,6 @@ const HotelRegistration = ({ onClose, refresh }) => {
                   placeholder="Enter password"
                   required
                   minLength={6}
-                  value={formData.password}
-                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -135,8 +78,6 @@ const HotelRegistration = ({ onClose, refresh }) => {
                   className="hotel-application-input"
                   placeholder="Enter street address"
                   required
-                  value={formData.address}
-                  onChange={handleChange}
                 />
               </div>
               
@@ -150,8 +91,6 @@ const HotelRegistration = ({ onClose, refresh }) => {
                   className="hotel-application-input"
                   placeholder="Enter city"
                   required
-                  value={formData.city}
-                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -161,12 +100,10 @@ const HotelRegistration = ({ onClose, refresh }) => {
                 Hotel Description
               </label>
               <textarea
-                id="description" 
+                id="description"
                 className="hotel-application-textarea"
                 placeholder="Brief description of your hotel"
                 rows="4"
-                value={formData.description}
-                onChange={handleChange}
               ></textarea>
             </div>
             
@@ -179,33 +116,27 @@ const HotelRegistration = ({ onClose, refresh }) => {
                 id="amenities"
                 className="hotel-application-input"
                 placeholder="e.g., Pool, Gym, Spa, WiFi"
-                value={formData.amenities}
-                onChange={handleChange}
               />
             </div>
-            
             <div className="hotel-application-form-actions">
-              <button
+                <button
                 type="button"
                 className="hotel-application-cancel-btn"
                 onClick={onClose}
-                disabled={isLoading} 
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="hotel-application-submit-btn"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Registering...' : 'Register Hotel'}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </>
-  );
-};
+                  >Cancel
+                </button>
 
-export default HotelRegistration;
+                <button
+                type="submit"
+                className="hotel-application-submit-btn">
+                    Edit
+                </button>
+            </div>
+            
+                </form>
+              </div>
+            </div>
+        </div>
+    )
+}
+export default EditHotel

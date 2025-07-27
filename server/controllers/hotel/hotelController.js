@@ -78,6 +78,112 @@ export const registerHotel = async (req, res) => {
     }
 };
 
+
+//add hotel rooms 
+
+export const addRoom = async (req, res) => {
+    try {
+        console.log('Request received - addRoom');
+        console.log('Headers:', req.headers);
+        console.log('Body:', req.body);
+        console.log('Files:', req.files);
+        
+        if (!req.files) {
+            console.warn('No files were uploaded');
+        } else {
+            console.log(`Received ${req.files.length} files`);
+        }
+
+        const { 
+            roomNumber, 
+            roomType, 
+            pricePerNight, 
+            capacity, 
+            description, 
+            amenities 
+        } = req.body;
+        
+        const hotelId = req.hotel._id;
+        
+        if (!hotelId) {
+            console.error('No hotel ID found in request');
+            return res.status(400).json({ message: 'Hotel authentication failed' });
+        }
+
+        const newRoom = {
+            roomNumber,
+            roomType,
+            pricePerNight,
+            capacity,
+            description,
+            amenities: amenities?.split(',').map(item => item.trim()) || [],
+            images: req.files?.map(file => file.path) || []
+        };
+
+        console.log('New room to be added:', newRoom);
+
+        const updatedHotel = await Hotel.findByIdAndUpdate(
+            hotelId,
+            { $push: { rooms: newRoom } },
+            { new: true }
+        ).select('-password');
+
+        console.log('Room added successfully');
+        
+        res.status(201).json({
+            success: true,
+            data: updatedHotel
+        });
+        
+    } catch (error) {
+        console.error('Add room error:', error);
+        res.status(500).json({ 
+            message: error.message || 'Server error while adding room',
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+    }
+};
+
+// Delete Room
+
+export const deleteRoom = async (req, res) => {
+    try{
+        const {roomId} = req.params;
+        const hotelId = req.hotel._id;
+
+        if (!hotelId || !roomId) {
+            return res.status(400).json({message: "Ivalid request room id or hotel id"});
+        }
+            // find the hotel and remove the room
+    const updatedHotel = await Hotel.findByIdAndUpdate(
+        hotelId,
+        {$pull: { rooms: { _id: roomId } } },
+        {new: true}
+    ).select('-password');
+    
+    if (!updatedHotel) {
+        return res.status(404).json({message: 'Hotel not found'});
+    }
+
+    res.status(200).json({
+        success: true,
+        message: 'Room deleted successfully',
+        data: updatedHotel
+    });
+
+
+    }catch(error){
+        console.error('Delete Room error:', error);
+        res.status(500).json({
+            message: error.message || 'Server error while deleting room',
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+    }
+
+
+}
+
+
 export const getHotels = async (req, res) => {
     try{
         const hotels = await Hotel.find().select('-password').populate('addedBy', 'first_name');
@@ -101,3 +207,4 @@ export const getCurrentHotel = async (req, res) =>{
     }
 };
 
+ 

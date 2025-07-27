@@ -97,3 +97,36 @@ export const getHotelById = async (id,token) => {
     throw error.response.data.message || 'Failed to fetch hotel';
   }
 };
+
+//add hotel room
+export const addRoom = async (roomData) => {
+  const token = localStorage.getItem('hotel_token');
+  
+  try {
+    const response = await api.post('/rooms', roomData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to add room');
+  }
+};
+
+// delete hotel room 
+export const deleteRoom = async (roomId) => {
+  const token = localStorage.getItem('hotel_token');
+
+  try{
+    const response = await api.delete(`/rooms/${roomId}`,{
+      headers: {
+        'Authorization' : `Bearer ${token}`
+      }
+    });
+    return response.data
+  }catch(error){
+    throw new Error(error.message?.data?.message || 'Failed to delet room')
+  }
+}
