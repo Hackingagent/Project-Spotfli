@@ -1,5 +1,5 @@
 import express from "express";
-import { registerHotel, getHotels, loginHotel, getCurrentHotel, addRoom, deleteRoom } from "../controllers/hotel/hotelController.js";
+import { registerHotel, getHotels, loginHotel, getCurrentHotel, addRoom, deleteRoom, updateRoom } from "../controllers/hotel/hotelController.js";
 import adminAuthenticate from "../middlewares/adminAuthenticate.middleware.js";
 import hotelAuthenticate from "../middlewares/hotelAuthenticate.middleware.js";
 import upload from "../middlewares/multer.middleware.js";
@@ -18,6 +18,7 @@ hotelRoutes.post('/login', loginHotel);
 hotelRoutes.get('/me', hotelAuthenticate, getCurrentHotel);
 hotelRoutes.delete('/rooms/:roomId', hotelAuthenticate, deleteRoom);
 hotelRoutes.post('/rooms', hotelAuthenticate, upload.array('images', 5),addRoom);
+hotelRoutes.put('/rooms/:roomId', hotelAuthenticate, upload.array('images', 5), updateRoom)
 
 
 

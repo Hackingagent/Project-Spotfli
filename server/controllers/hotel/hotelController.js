@@ -3,6 +3,14 @@ const { JsonWebTokenError, sign, verify } = jwt;
 import Hotel from "../../models/Hotel.model.js";
 import Admin from "../../models/admin.model.js";
 
+
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export const loginHotel = async (req, res) => {
     try{
         const {email, password} = req.body;
@@ -143,6 +151,80 @@ export const addRoom = async (req, res) => {
         });
     }
 };
+
+// Update Room
+export const updateRoom = async (req, res) => {
+    try {
+        const { roomId } = req.params;
+        const hotelId = req.hotel._id;
+
+        if (!hotelId || !roomId) {
+            return res.status(400).json({ message: "Invalid request parameters" });
+        }
+
+        // Parse images to delete from the form data
+        const imagesToDelete = JSON.parse(req.body.imagesToDelete || '[]');
+
+        // Get the hotel
+        const hotel = await Hotel.findById(hotelId);
+        const roomIndex = hotel.rooms.findIndex(r => r._id.toString() === roomId);
+
+        if (roomIndex === -1) {
+            return res.status(404).json({ message: 'Room not found' });
+        }
+
+        // Handle image deletions - both from filesystem and database
+        let updatedImages = hotel.rooms[roomIndex].images.filter(img => {
+            const shouldKeep = !imagesToDelete.includes(img);
+            
+            // Delete file from filesystem if marked for deletion
+            if (!shouldKeep) {
+                const imagePath = path.join(__dirname, '../../..', img);
+                if (fs.existsSync(imagePath)) {
+                    fs.unlinkSync(imagePath);
+                }
+            }
+            
+            return shouldKeep;
+        });
+
+        // Add new images if any
+        if (req.files) {
+            updatedImages = [...updatedImages, ...req.files.map(file => file.path)];
+        }
+
+        // Create updated room object
+        const updatedRoom = {
+            ...hotel.rooms[roomIndex].toObject(),
+            roomNumber: req.body.roomNumber,
+            roomType: req.body.roomType,
+            pricePerNight: req.body.pricePerNight,
+            capacity: req.body.capacity,
+            description: req.body.description,
+            amenities: req.body.amenities?.split(',').map(item => item.trim()) || [],
+            images: updatedImages
+        };
+
+        // Update the room in the hotel
+        hotel.rooms[roomIndex] = updatedRoom;
+        const updatedHotel = await hotel.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Room updated successfully',
+            room: updatedRoom,
+            hotel: updatedHotel
+        });
+
+    } catch (error) {
+        console.error('Update room error:', error);
+        res.status(500).json({ 
+            message: error.message || 'Server error while updating room',
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+    }
+};
+
 
 // Delete Room
 

@@ -1,21 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import RoomCategoryForm from './RoomCategoryForm';
-import { getCurrentHotel, deleteRoom } from '../../../api/hotel/hotelApi';
+import { getCurrentHotel, deleteRoom, updateRoom } from '../../../api/hotel/hotelApi';
 import './ManageRooms.css';
+import EditRoomModal from './EditRoomModal';
 
 const ManageRooms = () => {
   const [rooms, setRooms] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+
+  const [editingRoom, setEditingRoom] = useState(null);
   // handle delete funcltion
 
   const handleDeleteRoom = async (roomId) => {
     if(!window.confirm('Are you sure you want to delete this room?')){
       return;
     }
-
     try{
       setIsLoading(true);
       const response = await deleteRoom(roomId);
@@ -30,6 +32,27 @@ setRooms(prevRooms => prevRooms.filter(room => room._id !== roomId));
       setIsLoading(false);
     }
   };
+
+  // handle update function
+const handleUpdateRoom = async (roomId, formData) => {
+  try {
+    setIsLoading(true);
+    const response = await updateRoom(roomId, formData);
+    
+    if (response.success) {
+      setRooms(prevRooms => 
+        prevRooms.map(room => 
+          room._id === roomId ? response.room : room
+        )
+      );
+      setEditingRoom(null);
+    }
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   useEffect(() => {
     const fetchHotelData = async () => {
@@ -56,6 +79,14 @@ setRooms(prevRooms => prevRooms.filter(room => room._id !== roomId));
   if (error) return <div>Error: {error}</div>;
 
   return (
+      <>
+      {editingRoom && (
+        <EditRoomModal
+          room={editingRoom}
+          onClose={() => setEditingRoom(null)}
+          onSave={(formData) => handleUpdateRoom(editingRoom._id, formData)}
+        />
+      )}
     <div className="hoteldash-rooms">
       <div className="hoteldash-rooms-header">
         <h2>Manage Rooms</h2>
@@ -97,7 +128,11 @@ setRooms(prevRooms => prevRooms.filter(room => room._id !== roomId));
                 <span>Status: {room.isAvailable ? 'Available' : 'Booked'}</span>
               </div>
               <div className="hoteldash-room-actions">
-                <button className="edit btn btn-primary">
+                <button 
+                  className="edit btn btn-primary"
+                  onClick={() => setEditingRoom(room)}
+                  disabled={isLoading}
+                >
                   <i className="fa fa-edit"></i> Edit
                 </button>
                 <button 
@@ -115,6 +150,7 @@ setRooms(prevRooms => prevRooms.filter(room => room._id !== roomId));
         )}
       </div>
     </div>
+      </>
   );
 };
 

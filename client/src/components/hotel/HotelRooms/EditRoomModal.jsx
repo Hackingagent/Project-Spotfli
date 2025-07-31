@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
-import './RoomCategoryForm.css';
-import axios from 'axios';
-const RoomCategoryForm = ({ onClose, onSave }) => {
+import React, { useState, useEffect } from 'react';
+import './EditRoomModal.css';
+
+const EditRoomModal = ({ room, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     roomNumber: '',
     roomType: 'single',
     pricePerNight: '',
-    capacity: 1, 
+    capacity: 1,
     description: '',
     amenities: '',
     images: []
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [newImages, setNewImages] = useState([]);
+  const [imagesToDelete, setImagesToDelete] = useState([]);
+
+  // Initialize form with room data
+  useEffect(() => {
+    if (room) {
+      setFormData({
+        roomNumber: room.roomNumber,
+        roomType: room.roomType,
+        pricePerNight: room.pricePerNight,
+        capacity: room.capacity,
+        description: room.description,
+        amenities: room.amenities?.join(', ') || '',
+        images: room.images || []
+      });
+    }
+  }, [room]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,11 +40,17 @@ const RoomCategoryForm = ({ onClose, onSave }) => {
   };
 
   const handleFileChange = (e) => {
+    setNewImages(Array.from(e.target.files));
+  };
+
+  const handleImageDelete = (imagePath) => {
+    setImagesToDelete([...imagesToDelete, imagePath]);
     setFormData(prev => ({
       ...prev,
-      images: Array.from(e.target.files)
+      images: prev.images.filter(img => img !== imagePath)
     }));
   };
+
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -37,54 +60,43 @@ const handleSubmit = async (e) => {
   try {
     const formDataToSend = new FormData();
     
-    // Log form data before sending
-    console.log('Form data:', {
-      ...formData,
-      images: formData.images.map(img => img.name)
-    });
-
+    // Append all text fields
     Object.keys(formData).forEach(key => {
-      if (key !== 'images') {
+      if (key !== 'images' && key !== 'amenities') {
         formDataToSend.append(key, formData[key]);
       }
     });
     
-    formData.images.forEach((image) => {
-      formDataToSend.append('images', image); // Remove the index from field name
+    // Append amenities
+    formDataToSend.append('amenities', formData.amenities);
+    
+    // Append new images
+    newImages.forEach(image => {
+      formDataToSend.append('images', image);
     });
-    console.log('Token:', localStorage.getItem('hotel_token'));
-
-    const response = await axios.post('http://localhost:5000/api/hotel/rooms', formDataToSend, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${localStorage.getItem('hotel_token')}`
-      }
-    });
-
-    console.log('Response:', response); // Log the response
-    onSave(response.data);
+    
+    // Append images to delete as JSON string
+    formDataToSend.append('imagesToDelete', JSON.stringify(imagesToDelete));
+    
+    await onSave(formDataToSend);
     onClose();
   } catch (err) {
-    console.error('Full error:', err);
-    console.error('Error response:', err.response);
-    setError(err.response?.data?.message || 
-             err.message || 
-             'Failed to add room - check console for details');
+    setError(err.message || 'Failed to update room');
   } finally {
     setIsLoading(false);
   }
 };
 
   return (
-    <div className="hoteldash-modal-overlay">
-      <div className="hoteldash-modal">
-        <button className="hoteldash-modal-close" onClick={onClose}>&times;</button>
-        <h2 className='hoteldash-modal-header '>Add New Room</h2>
+    <div className="edit-room-modal-overlay">
+      <div className="edit-room-modal">
+        <button className="edit-room-modal-close" onClick={onClose}>&times;</button>
+        <h2>Edit Room</h2>
         
         {error && <div className="error-message">{error}</div>}
         
-        <form className='hoteldash-form' onSubmit={handleSubmit}>
-          <div className="hoteldash-form-group">
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
             <label>Room Number</label>
             <input
               type="text"
@@ -95,7 +107,7 @@ const handleSubmit = async (e) => {
             />
           </div>
 
-          <div className="hoteldash-form-group">
+          <div className="form-group">
             <label>Room Type</label>
             <select
               name="roomType"
@@ -113,7 +125,7 @@ const handleSubmit = async (e) => {
 
           <div className="form-row">
             <div className="form-group">
-              <label>Price Per Night (XAF)</label>
+              <label>Price Per Night ($)</label>
               <input
                 type="number"
                 name="pricePerNight"
@@ -159,22 +171,46 @@ const handleSubmit = async (e) => {
           </div>
 
           <div className="form-group">
-            <label>Room Images</label>
+            <label>Current Images</label>
+            <div className="current-images">
+              {formData.images.map((image, index) => (
+                <div key={index} className="image-preview">
+                  <img 
+                    src={`http://localhost:5000/${image}`} 
+                    alt={`Room ${index + 1}`}
+                    onError={(e) => {
+                      e.target.src = '/default-room.jpg';
+                    }}
+                  />
+                  <button 
+                    type="button" 
+                    className="delete-image"
+                    onClick={() => handleImageDelete(image)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Add New Images</label>
             <input
               type="file"
               multiple
               accept="image/*"
               onChange={handleFileChange}
             />
-            <small>Upload up to 5 images</small>
+            <small>Upload up to 5 additional images</small>
           </div>
 
           <div className="form-actions">
-            <button className='btn' type="button" onClick={onClose} disabled={isLoading}>
+            <button type="button" onClick={onClose} disabled={isLoading}>
               Cancel
             </button>
-            <button className='btn btn-primary' type="submit" disabled={isLoading}>
-              {isLoading ? 'Saving...' : 'Save Room'}
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
         </form>
@@ -183,4 +219,4 @@ const handleSubmit = async (e) => {
   );
 };
 
-export default RoomCategoryForm;
+export default EditRoomModal;

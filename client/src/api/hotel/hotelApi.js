@@ -129,4 +129,20 @@ export const deleteRoom = async (roomId) => {
   }catch(error){
     throw new Error(error.message?.data?.message || 'Failed to delet room')
   }
-}
+};
+
+export const updateRoom = async (roomId, roomData) => {
+  const token = localStorage.getItem('hotel_token');
+  
+  try {
+    const response = await api.put(`/rooms/${roomId}`, roomData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update room');
+  }
+};
