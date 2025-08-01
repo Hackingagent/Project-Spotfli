@@ -152,7 +152,7 @@ export const addRoom = async (req, res) => {
     }
 };
 
-// Update Room
+// Update  Room
 export const updateRoom = async (req, res) => {
     try {
         const { roomId } = req.params;
