@@ -52,6 +52,7 @@ export const getCategory = async(req, res) => {
 
         res.status(200).json({
             categories: formattedCategories,
+            category: categories,
         })
     } catch (error) {
         res.status(500).json({

@@ -21,10 +21,22 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
-
-  // Fetch existing fields when component mounts
-
   const [isSavingOrder, setIsSavingOrder] = useState(false);
+
+  const fetchFields = async () => {
+    try {
+      const response = await getFields(categoryId, subcategoryId);
+      setExistingFields(response.fields || []);
+    } catch (err) {
+      setError(err.response?.message || 'Failed to fetch fields');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFields();
+  }, []);
 
   const moveField = (fromIndex, toIndex) => {
     if (toIndex < 0 || toIndex >= existingFields.length) return;
@@ -38,40 +50,15 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
   const saveFieldOrder = async () => {
     setIsSavingOrder(true);
     try {
-
-
-      // await axios.put(
-      //   `/api/categories/${categoryId}/subcategories/${subcategoryId}/fields/reorder`,
-      //   { fieldOrder: existingFields.map(f => f._id) }
-      // );
-
-      const fieldOrder = existingFields.map(f => f._id)
-
+      const fieldOrder = existingFields.map(f => f._id);
       const response = await reorderField(categoryId, subcategoryId, fieldOrder);
-
       setMessage(response.message);
-      
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to save field order');
     } finally {
       setIsSavingOrder(false);
     }
   };
-
-  const fetchFields = async () => {
-    try {
-      const response = await getFields(categoryId, subcategoryId);
-      setExistingFields(response.fields || []);
-    } catch (err) {
-      setError(err.response?.message || 'Failed to fetch fields');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  useEffect(() => {
-    
-    fetchFields();
-  }, []);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -158,16 +145,13 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
     }
 
     try {
-      
       const response = await updatesField(categoryId, subcategoryId, editingFieldId, currentField);
-      // Update the existing fields list
       setMessage(response.message);
       setExistingFields(prev => 
         prev.map(f => 
           f._id === editingFieldId ? response.field : f
         )
       );
-      
       resetForm();
       setError(null);
       fetchFields();
@@ -179,15 +163,8 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
   const deleteExistingField = async (fieldId) => {
     if (window.confirm('Are you sure you want to delete this field?')) {
       try {
-        // await axios.delete(
-        //   `/api/categories/${categoryId}/subcategories/${subcategoryId}/fields/${fieldId}`
-        // );
-
         const response = await deleteField(categoryId, subcategoryId, fieldId);
-
         setMessage(response.message);
-        
-        // Remove from existing fields list
         setExistingFields(prev => prev.filter(f => f._id !== fieldId));
         fetchFields();
       } catch (err) {
@@ -198,14 +175,11 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
 
   const submitFields = async () => {
     try {
-      
       const response = await addFields(categoryId, subcategoryId, fields);
-      // Add the new fields to the existing fields list
-      // setExistingFields(prev => [...prev, ...response.data.fields]);
       setMessage(response.message);
       setFields([]);
       setError(null);
-      fetchFields()
+      fetchFields();
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to add fields');
     }
@@ -223,8 +197,6 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
         type='success'
       />
       <div className="field-form-container">
-            {/* <h2 className="field-form-title">Manage Subcategory Fields</h2> */}
-        
         {error && (
           <div className="field-form-error">
             {error}
@@ -253,6 +225,9 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
                 <option value="dropdown">Dropdown</option>
                 <option value="checkbox">Checkbox</option>
                 <option value="radio">Radio</option>
+                <option value="file">File</option>
+                <option value="textarea">Textarea</option>
+                <option value="array">Array</option>
               </select>
             </div>
 
@@ -343,53 +318,88 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
             </div>
           )}
 
+          {currentField.type === 'array' && (
+            <div className="field-form-group">
+              <label className="field-form-label">Array Item Type</label>
+              <select
+                name="arrayItemType"
+                value={currentField.validation.arrayItemType || 'text'}
+                onChange={handleValidationChange}
+                className="field-form-select"
+              >
+                <option value="text">Text</option>
+                <option value="number">Number</option>
+                <option value="email">Email</option>
+              </select>
+              {/* <div className="field-form-checkbox-group" style={{ marginTop: '10px' }}>
+                <input
+                  type="checkbox"
+                  name="arrayItemRequired"
+                  checked={currentField.validation.arrayItemRequired || false}
+                  onChange={(e) => handleValidationChange({
+                    target: {
+                      name: 'arrayItemRequired',
+                      checked: e.target.checked
+                    }
+                  })}
+                  className="field-form-checkbox"
+                />
+                <label className="field-form-checkbox-label">Items Required</label>
+              </div> */}
+            </div>
+          )}
+
           <div className="field-form-grid">
-            {currentField.type === 'number' && (
+            {['number', 'text'].includes(currentField.type) && (
               <>
-                <div className="field-form-group">
-                  <label className="field-form-label">Min Value</label>
-                  <input
-                    type="number"
-                    name="min"
-                    value={currentField.validation.min || ''}
-                    onChange={handleValidationChange}
-                    className="field-form-input"
-                  />
-                </div>
-                <div className="field-form-group">
-                  <label className="field-form-label">Max Value</label>
-                  <input
-                    type="number"
-                    name="max"
-                    value={currentField.validation.max || ''}
-                    onChange={handleValidationChange}
-                    className="field-form-input"
-                  />
-                </div>
-              </>
-            )}
-            {currentField.type === 'text' && (
-              <>
-                <div className="field-form-group">
-                  <label className="field-form-label">Min Length</label>
-                  <input
-                    type="number"
-                    name="minLength"
-                    value={currentField.validation.minLength || ''}
-                    onChange={handleValidationChange}
-                    className="field-form-input"
-                  />
-                </div>
-                <div className="field-form-group">
-                  <label className="field-form-label">Max Length</label>
-                  <input
-                    type="number"
-                    name="maxLength"
-                    value={currentField.validation.maxLength || ''}
-                    onChange={handleValidationChange}
-                    className="field-form-input"
-                  />
-                </div>
+                {currentField.type === 'number' && (
+                  <>
+                    <div className="field-form-group">
+                      <label className="field-form-label">Min Value</label>
+                      <input
+                        type="number"
+                        name="min"
+                        value={currentField.validation.min || ''}
+                        onChange={handleValidationChange}
+                        className="field-form-input"
+                      />
+                    </div>
+                    <div className="field-form-group">
+                      <label className="field-form-label">Max Value</label>
+                      <input
+                        type="number"
+                        name="max"
+                        value={currentField.validation.max || ''}
+                        onChange={handleValidationChange}
+                        className="field-form-input"
+                      />
+                    </div>
+                  </>
+                )}
+                {currentField.type === 'text' && (
+                  <>
+                    <div className="field-form-group">
+                      <label className="field-form-label">Min Length</label>
+                      <input
+                        type="number"
+                        name="minLength"
+                        value={currentField.validation.minLength || ''}
+                        onChange={handleValidationChange}
+                        className="field-form-input"
+                      />
+                    </div>
+                    <div className="field-form-group">
+                      <label className="field-form-label">Max Length</label>
+                      <input
+                        type="number"
+                        name="maxLength"
+                        value={currentField.validation.maxLength || ''}
+                        onChange={handleValidationChange}
+                        className="field-form-input"
+                      />
+                    </div>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -425,90 +435,95 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
         </div>
 
         {/* Existing Fields Section */}
-<div className="field-form-card">
-  <h3 className="field-form-subtitle">Existing Fields</h3>
-  {existingFields.length === 0 ? (
-    <p className="field-form-no-fields">No fields exist for this subcategory yet.</p>
-  ) : (
-    <div className="field-form-existing-container">
-      {existingFields.map((field, index) => (
-        <div key={field._id} className="field-form-existing-item">
-          {/* Move Controls */}
-          <div className="field-reorder-controls">
-            <button
-              onClick={() => moveField(index, index - 1)}
-              disabled={index === 0}
-              aria-label="Move up"
-              className="move-button"
-            >
-              ↑
-            </button>
-            <button
-              onClick={() => moveField(index, index + 1)}
-              disabled={index === existingFields.length - 1}
-              aria-label="Move down"
-              className="move-button"
-            >
-              ↓
-            </button>
-          </div>
+        <div className="field-form-card">
+          <h3 className="field-form-subtitle">Existing Fields</h3>
+          {existingFields.length === 0 ? (
+            <p className="field-form-no-fields">No fields exist for this subcategory yet.</p>
+          ) : (
+            <div className="field-form-existing-container">
+              {existingFields.map((field, index) => (
+                <div key={field._id} className="field-form-existing-item">
+                  {/* Move Controls */}
+                  <div className="field-reorder-controls">
+                    <button
+                      onClick={() => moveField(index, index - 1)}
+                      disabled={index === 0}
+                      aria-label="Move up"
+                      className="move-button"
+                    >
+                      ↑
+                    </button>
+                    <button
+                      onClick={() => moveField(index, index + 1)}
+                      disabled={index === existingFields.length - 1}
+                      aria-label="Move down"
+                      className="move-button"
+                    >
+                      ↓
+                    </button>
+                  </div>
 
-          {/* Field Content */}
-          <div className="field-form-existing-content">
-            <h4 className="field-form-existing-title">
-              {field.label} ({field.type})
-              {field.isRequired && (
-                <span className="field-form-required-badge">Required</span>
-              )}
-            </h4>
-            <p className="field-form-existing-text">Key: {field.key}</p>
-            {field.options.length > 0 && (
-              <div className="field-form-existing-options">
-                <p>Options:</p>
-                <ul>
-                  {field.options.map((opt, i) => (
-                    <li key={i}>{opt}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+                  {/* Field Content */}
+                  <div className="field-form-existing-content">
+                    <h4 className="field-form-existing-title">
+                      {field.label} ({field.type})
+                      {field.isRequired && (
+                        <span className="field-form-required-badge">Required</span>
+                      )}
+                    </h4>
+                    <p className="field-form-existing-text">Key: {field.key}</p>
+                    {field.type === 'array' && (
+                      <p className="field-form-existing-text">
+                        Item Type: {field.validation?.arrayItemType || 'text'}
+                      </p>
+                    )}
+                    {field.options.length > 0 && (
+                      <div className="field-form-existing-options">
+                        <p>Options:</p>
+                        <ul>
+                          {field.options.map((opt, i) => (
+                            <li key={i}>{opt}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
 
-          {/* Action Buttons */}
-          <div className="field-form-existing-actions">
-            <button
-              type="button"
-              onClick={() => editField(field)}
-              className="field-form-edit-button"
-            >
-              Edit
-            </button>
-            <button
-              type="button"
-              onClick={() => deleteExistingField(field._id)}
-              className="field-form-delete-button"
-            >
-              Delete
-            </button>
-          </div>
+                  {/* Action Buttons */}
+                  <div className="field-form-existing-actions">
+                    <button
+                      type="button"
+                      onClick={() => editField(field)}
+                      className="field-form-edit-button"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => deleteExistingField(field._id)}
+                      className="field-form-delete-button"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Save Order Button (only shown when fields exist) */}
+          {existingFields.length > 0 && (
+            <div className="save-order-container">
+              <button
+                onClick={saveFieldOrder}
+                disabled={isSavingOrder}
+                className="save-order-button"
+              >
+                {isSavingOrder ? 'Saving...' : 'Save Order'}
+              </button>
+            </div>
+          )}
         </div>
-      ))}
-    </div>
-  )}
-
-  {/* Save Order Button (only shown when fields exist) */}
-  {existingFields.length > 0 && (
-    <div className="save-order-container">
-      <button
-        onClick={saveFieldOrder}
-        disabled={isSavingOrder}
-        className="save-order-button"
-      >
-        {isSavingOrder ? 'Saving...' : 'Save Order'}
-      </button>
-    </div>
-  )}
-</div>
 
         {/* New Fields to be Added Section */}
         {fields.length > 0 && (
@@ -521,6 +536,11 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
                     <h4 className="field-form-preview-title">{field.label} ({field.type})</h4>
                     <p className="field-form-preview-text">Key: {field.key}</p>
                     {field.isRequired && <span className="field-form-required-badge">Required</span>}
+                    {field.type === 'array' && (
+                      <p className="field-form-preview-text">
+                        Item Type: {field.validation?.arrayItemType || 'text'}
+                      </p>
+                    )}
                     {field.options.length > 0 && (
                       <div className="field-form-preview-options">
                         <p className="field-form-preview-options-title">Options:</p>
@@ -555,4 +575,5 @@ const FieldForm = ({ categoryId, subcategoryId }) => {
     </>
   );
 };
+
 export default FieldForm;

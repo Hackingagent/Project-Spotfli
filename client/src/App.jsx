@@ -13,7 +13,7 @@ import PropertyDetails from './components/propertyDetails/PropertyDetails';
 import ChatApp from './components/chat-system/ChatApp';
 import AdminDashboard from './components/views/admin/dasboard/admin-dashboard';
 import ServiceProviderSidebar from './components/navigation/serviceProvider/service-provider-sidebar';
-import PropertyOwnerSidebar from './components/navigation/propertyOwner/property-owner-sidebar';
+import PropertyOwnerSidebar from './components/navigation/propertyOwner/property-sidebar';
 import ViewProperty from './components/views/property-owner/view-property/view-property';
 import MyPropertyDetails from './components/views/property-owner/view-property/property-details';
 import AddProperty from './components/views/property-owner/add-property/add-property';
@@ -42,7 +42,6 @@ import AdminApprovedProvider from './components/views/admin/service-provider/Adm
 import AdminDeclinedProvider from './components/views/admin/service-provider/AdminDeclinedProvider';
 import AdminCategory from './components/views/admin/category/Category';
 import AdminSubCategory from './components/views/admin/category/sub-categories/SubCategory';
-import ViewFields from './components/views/admin/category/sub-categories/field/FieldForm';
 import SubcategoryFieldsPage from './components/views/admin/category/sub-categories/field/SubCategoryFieldsPage';
 import AdminAddHotel from './components/views/admin/hotels/AdminAddHotel';
 import ManageHotels from './components/views/admin/hotels/ManageHotels';
@@ -54,6 +53,10 @@ import ManageRooms from './components/hotel/HotelRooms/ManageRooms';
 import ManageBookings from './components/hotel/HotelBookings/ManageBookings';
 import PerformanceCharts from './components/hotel/HotelAnalytics/PerformanceCharts';
 import ProfileSettings from './components/hotel/HotelSettings/ProfileSettings';
+import PropertyOwnerLayout from './components/layout/property/Property-Layout';
+import OwnerDashboard from './components/views/property-owner/dasboard/property-dashboard';
+import PropertyDashboard from './components/views/property-owner/dasboard/property-dashboard';
+import PropertyLayout from './components/layout/property/Property-Layout';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -140,13 +143,15 @@ function App() {
 
 
         <Route path='/property-owner'>
-          <Route element={<PropertyOwnerSidebar />}>
-            <Route index />
+          <Route element={<PropertyLayout />}>
+            <Route index element={<PropertyDashboard />}/>
             <Route path='view-properties' element={<ViewProperty />} />
             <Route path='add-property' element={<AddProperty />} />
             <Route path="my-property-details" element={<MyPropertyDetails />} />
           </Route>
         </Route>
+
+        {/* <Route path='test' element={<OwnerDashboard />} /> */}
 
 
         <Route path='/service-provider'>

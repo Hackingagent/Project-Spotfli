@@ -4,7 +4,7 @@ const fieldSchema = new mongoose.Schema({
     type: {
         type: String,
         required: true,
-        enum: ['text', 'number', 'email', 'date', 'dropdown', 'checkbox', 'radio'],
+        enum: ['text', 'number', 'email', 'date', 'dropdown', 'checkbox', 'radio', 'file', 'array', 'textarea'],
     },
     label: {
         type: String,
@@ -14,7 +14,7 @@ const fieldSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        sparse: true ,
+        sparse: true,
     },
     isRequired: {
         type: Boolean,
@@ -33,13 +33,13 @@ const fieldSchema = new mongoose.Schema({
         max: {type: Number},
         pattern: {type: String},
         minLength: { type: Number },
-        maxLength: { type: Number }
+        maxLength: { type: Number },
+        arrayItemType: { type: String } // For array fields - specifies type of items in array
     },
     displayOrder: {
         type: Number,
         default: 0
     },
-
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
