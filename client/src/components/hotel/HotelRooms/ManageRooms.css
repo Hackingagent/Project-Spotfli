@@ -38,9 +38,39 @@
 }
 .hoteldash-room-actions .delete{
     background: rgb(153, 5, 5);
+    color: var(--bg-w2);
 }
 .hoteldash-room-actions .delete:hover{
     background-color: transparent;
     border: 2px solid rgb(153, 5, 5);
     color: rgb(153, 5, 5);
+}
+
+/* Confirmation dialog styles */
+.confirm-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirm-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
 }

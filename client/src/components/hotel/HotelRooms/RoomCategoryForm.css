@@ -16,7 +16,7 @@
   background-color: white;
   border-radius: 8px;
   width: 100%;
-  max-width: 600px;
+  max-width: fit-content;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);

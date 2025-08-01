@@ -8,6 +8,7 @@ const HotelSidebar = ({ isOpen, toggle }) => {
     { path: '/hotel/bookings', icon: 'fa-calendar', label: 'Bookings' },
     { path: '/hotel/analytics', icon: 'fa-chart-line', label: 'Analytics' },
     { path: '/hotel/settings', icon: 'fa-cog', label: 'Settings' },
+    { path: '/hotel/finace', icon: 'fa-money', label: 'Manage Finance'}
   ];
 
   return (

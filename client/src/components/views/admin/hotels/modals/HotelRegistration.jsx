@@ -161,7 +161,7 @@ const HotelRegistration = ({ onClose, refresh }) => {
                 Hotel Description
               </label>
               <textarea
-                id="description"
+                id="description" 
                 className="hotel-application-textarea"
                 placeholder="Brief description of your hotel"
                 rows="4"
@@ -189,7 +189,7 @@ const HotelRegistration = ({ onClose, refresh }) => {
                 type="button"
                 className="hotel-application-cancel-btn"
                 onClick={onClose}
-                disabled={isLoading}
+                disabled={isLoading} 
               >
                 Cancel
               </button>

@@ -121,7 +121,8 @@ const hotelSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
         required: true
-    }
+    },
+        rooms: [RoomSchema],
 }, {
     timestamps: true
 })
