@@ -28,3 +28,33 @@ export const getCategories = async ()=>{
         }
     }
 }
+
+
+export const addProperty = async(formData) => {
+
+    console.log(formData);
+    const token = localStorage.getItem('user_token');
+    console.log('Get Token: ', token);
+
+    try {
+        const response = await api.post('/user/addProperty', formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+
+        console.log(response);
+
+        return {
+            success: true,
+            message: response.data.message,
+
+        }
+    } catch (error) {
+        return {
+            success: false,
+            error,
+        }
+    }
+}

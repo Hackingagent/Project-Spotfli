@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FaCheckCircle, FaChevronRight, FaSpinner, FaTimes, FaEye, FaUpload } from 'react-icons/fa';
 import { useDropzone } from 'react-dropzone';
-import axios from 'axios';
-import { getCategories } from '../../../../api/user/property/property';
+import { addProperty, getCategories } from '../../../../api/user/property/property';
 import styles from './add-property.module.css';
+import Notification from '../../../notification/notification';
 
 const AddProperty = () => {
   const [categories, setCategories] = useState([]);
@@ -16,6 +16,7 @@ const AddProperty = () => {
   const [submissionStatus, setSubmissionStatus] = useState(null);
   const [files, setFiles] = useState([]);
   const [filePreviews, setFilePreviews] = useState([]);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -280,14 +281,15 @@ const AddProperty = () => {
         formDataToSend.append('files', file);
       });
 
-      await axios.post('/api/submissions', formDataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      const response = await addProperty(formDataToSend);
+      if(response.success){
+        setMessage(response.message);
+        setSubmissionStatus('success');
+        setCurrentStep(6);
+      }else{
+        setSubmissionStatus('error')
+      }
       
-      setSubmissionStatus('success');
-      setCurrentStep(6);
     } catch (error) {
       console.error('Submission error:', error);
       setSubmissionStatus('error');
@@ -698,41 +700,52 @@ const AddProperty = () => {
     }
 
   return (
-    <div className={styles.formBuilderContainer}>
-      <div className={styles.stepperHeader}>
-        <div className={`${styles.stepperStep} ${currentStep >= 1 ? styles.active : ''}`}>
-          <div className={styles.stepNumber}>1</div>
-          <div className={styles.stepLabel}>Category</div>
-        </div>
-        <div className={`${styles.stepperConnector} ${currentStep >= 2 ? styles.active : ''}`}></div>
-        <div className={`${styles.stepperStep} ${currentStep >= 2 ? styles.active : ''}`}>
-          <div className={styles.stepNumber}>2</div>
-          <div className={styles.stepLabel}>Subcategory</div>
-        </div>
-        <div className={`${styles.stepperConnector} ${currentStep >= 3 ? styles.active : ''}`}></div>
-        <div className={`${styles.stepperStep} ${currentStep >= 3 ? styles.active : ''}`}>
-          <div className={styles.stepNumber}>3</div>
-          <div className={styles.stepLabel}>Details</div>
-        </div>
-        <div className={`${styles.stepperConnector} ${currentStep >= 4 ? styles.active : ''}`}></div>
-        <div className={`${styles.stepperStep} ${currentStep >= 4 ? styles.active : ''}`}>
-          <div className={styles.stepNumber}>4</div>
-          <div className={styles.stepLabel}>Files</div>
-        </div>
-        <div className={`${styles.stepperConnector} ${currentStep >= 5 ? styles.active : ''}`}></div>
-        <div className={`${styles.stepperStep} ${currentStep >= 5 ? styles.active : ''}`}>
-          <div className={styles.stepNumber}>5</div>
-          <div className={styles.stepLabel}>Preview</div>
-        </div>
-        <div className={`${styles.stepperConnector} ${currentStep >= 6 ? styles.active : ''}`}></div>
-        <div className={`${styles.stepperStep} ${currentStep >= 6 ? styles.active : ''}`}>
-          <div className={styles.stepNumber}>6</div>
-          <div className={styles.stepLabel}>Complete</div>
-        </div>
-      </div>
+   <>
 
-      {renderStepContent()}
-    </div>
+      {message && (
+        <Notification
+          message={message}
+          noMessage={() => setMessage('')}
+          type= 'success'
+        />
+      )}
+
+      <div className={styles.formBuilderContainer}>
+        <div className={styles.stepperHeader}>
+          <div className={`${styles.stepperStep} ${currentStep >= 1 ? styles.active : ''}`}>
+            <div className={styles.stepNumber}>1</div>
+            <div className={styles.stepLabel}>Category</div>
+          </div>
+          <div className={`${styles.stepperConnector} ${currentStep >= 2 ? styles.active : ''}`}></div>
+          <div className={`${styles.stepperStep} ${currentStep >= 2 ? styles.active : ''}`}>
+            <div className={styles.stepNumber}>2</div>
+            <div className={styles.stepLabel}>Subcategory</div>
+          </div>
+          <div className={`${styles.stepperConnector} ${currentStep >= 3 ? styles.active : ''}`}></div>
+          <div className={`${styles.stepperStep} ${currentStep >= 3 ? styles.active : ''}`}>
+            <div className={styles.stepNumber}>3</div>
+            <div className={styles.stepLabel}>Details</div>
+          </div>
+          <div className={`${styles.stepperConnector} ${currentStep >= 4 ? styles.active : ''}`}></div>
+          <div className={`${styles.stepperStep} ${currentStep >= 4 ? styles.active : ''}`}>
+            <div className={styles.stepNumber}>4</div>
+            <div className={styles.stepLabel}>Files</div>
+          </div>
+          <div className={`${styles.stepperConnector} ${currentStep >= 5 ? styles.active : ''}`}></div>
+          <div className={`${styles.stepperStep} ${currentStep >= 5 ? styles.active : ''}`}>
+            <div className={styles.stepNumber}>5</div>
+            <div className={styles.stepLabel}>Preview</div>
+          </div>
+          <div className={`${styles.stepperConnector} ${currentStep >= 6 ? styles.active : ''}`}></div>
+          <div className={`${styles.stepperStep} ${currentStep >= 6 ? styles.active : ''}`}>
+            <div className={styles.stepNumber}>6</div>
+            <div className={styles.stepLabel}>Complete</div>
+          </div>
+        </div>
+
+        {renderStepContent()}
+      </div>
+   </>
   );
 };
 

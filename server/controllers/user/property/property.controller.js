@@ -1,25 +1,52 @@
 import  Property from '../../../models/property.model.js';
+import fs from 'fs';
 
 
 export const addProperty = async(req, res) => {
+
     try {
-        const {category, subcategory, data} = req.body;
+        const {category, subcategory, ...formData} = req.body;
 
-        const userId = req.user;
+        const uploadFiles = req.files || [];
 
-        if(!category || !subcategory || !data){
-            return res.status(400).json({
-                error: 'Missing required fields',
-            })
-        }
+        const files = uploadFiles.map(file => ({
+            url: `/uploads/properties/${file.filename}`,
+            path: file.path,
+            originalName: file.originalName,
+            mimeType: file.mimeType,
+            size: file.size
+        }));
 
-        const property = new Property({
-            
+        const newProperty = new Property({
+            category,
+            subcategory,
+            data: formData,
+            files: files,
+            status: 'submitted',
+            user: req.user
         })
+
+        await newProperty.save();
+
+        res.status(200).json({
+            json: true,
+            message: 'Property Submitted Successfully',
+        })
+
+
+
+
     } catch (error) {
-        res.status(400).json({
-            message: error.message,
-            success: false
+        // / Cleanup uploaded files if error occurs
+        if (req.files) {
+            req.files.forEach(file => {
+            fs.unlinkSync(file.path);
+            });
+        }
+        res.status(500).json({
+            success: false,
+            message: error.message
         });
     }
+
 }
