@@ -29,6 +29,30 @@ export const getCategories = async ()=>{
     }
 }
 
+export const getUserProperties = async() => {
+    const token = localStorage.getItem('user_token');
+
+    try {
+        const response = await api.get('user/getUserProperties', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+
+        console.log('Response', response);
+        return {
+            success: true,
+            properties: response.data.properties
+
+        };
+    } catch (error) {
+        return {
+            success: true,
+            error: error.message
+        }
+    }
+}
+
 
 export const addProperty = async(formData) => {
 

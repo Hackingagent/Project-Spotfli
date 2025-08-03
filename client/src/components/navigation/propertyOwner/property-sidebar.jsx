@@ -34,7 +34,7 @@ const PropertySidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle })
           active={activeTab === 'dashboard'}
           onClick={() => {
             onTabChange('dashboard')
-            navigate('/property-owner', {replace: true})
+            navigate('/property', {replace: true})
           }}
           open={open}
         />
@@ -45,7 +45,7 @@ const PropertySidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle })
           active={activeTab === 'view-property'}
           onClick={() => {
             onTabChange('view-property')
-            navigate('/property-owner/view-properties', {replace: true})
+            navigate('/property/view-properties', {replace: true})
           }}
           open={open}
         />
@@ -56,7 +56,7 @@ const PropertySidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle })
           active={activeTab === 'add-property'}
           onClick={() => {
             onTabChange('add-property')
-            navigate('/property-owner/add-property', {replace: true})
+            navigate('/property/add-property', {replace: true})
           }}
           open={open}
         />
