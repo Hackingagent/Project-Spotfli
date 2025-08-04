@@ -55,6 +55,8 @@ import PropertyDashboard from './components/views/property/dasboard/property-das
 import PropertyLayout from './components/layout/property/Property-Layout';
 import Properties from './components/views/property/view-property/properties';
 import PropertyDetailPage from './components/properties/PropertyDetailPage/PropertyDetailPage';
+import HotelOverview from './components/hotel/HotelOverview';
+import SecuritySettings from './components/hotel/HotelSettings/SecuritySettings';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -130,11 +132,13 @@ function App() {
       <Route path='/hotel'>
         <Route path='login' element={<HotelLogin />} />
         <Route element={<HotelLayout />}>
-          <Route index element={<HotelDashboard />} />
+          <Route index element={<HotelOverview />} />
+          <Route path='overview' element={<HotelOverview />} />
           <Route path='rooms' element={<ManageRooms />} />
           <Route path='bookings' element={<ManageBookings />} />
           <Route path='analytics' element={<PerformanceCharts />} />
           <Route path='settings' element={<ProfileSettings />} />
+          <Route path='security' element={<SecuritySettings />} />
         </Route>
       </Route>
     </Route>

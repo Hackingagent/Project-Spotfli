@@ -66,6 +66,10 @@ const RoomSchema = new mongoose.Schema({
   images: [{
     type: String
   }],
+  numAvailable: {
+    type: Number,
+    default: 1
+  },
   isAvailable: {
     type: Boolean,
     default: true
@@ -117,10 +121,13 @@ const hotelSchema = new mongoose.Schema({
         type: [String],
         default: []
     },
+    images: [{
+        type: String,
+    }],
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
-        required: true
+        required: true 
     },
         rooms: [RoomSchema],
 }, {

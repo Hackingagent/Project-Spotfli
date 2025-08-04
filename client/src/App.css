@@ -21,6 +21,7 @@ body {
   /* place-items: center; */
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 .sidebar-menu{
   font-size: 1.6rem;

@@ -3,11 +3,12 @@ import './HotelSidebar.css';
 
 const HotelSidebar = ({ isOpen, toggle }) => {
   const navItems = [
-    { path: '/hotel', icon: 'fa-home', label: 'Overview' },
+    { path: '/hotel/overview', icon: 'fa-home', label: 'Overview' },
     { path: '/hotel/rooms', icon: 'fa-bed', label: 'Manage Rooms' },
     { path: '/hotel/bookings', icon: 'fa-calendar', label: 'Bookings' },
     { path: '/hotel/analytics', icon: 'fa-chart-line', label: 'Analytics' },
     { path: '/hotel/settings', icon: 'fa-cog', label: 'Settings' },
+    { path: '/hotel/security', icon: 'fa-shield-alt', label: 'Security' },
     { path: '/hotel/finace', icon: 'fa-money', label: 'Manage Finance'}
   ];
 
