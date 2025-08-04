@@ -120,7 +120,7 @@ function App() {
       <Route path='/hotel'>
         <Route path='login' element={<HotelLogin />} />
         <Route element={<HotelLayout />}>
-          <Route index element={<HotelDashboard />} />
+          <Route index element={<HotelOverview />} />
           <Route path='overview' element={<HotelOverview />} />
           <Route path='rooms' element={<ManageRooms />} />
           <Route path='bookings' element={<ManageBookings />} />
