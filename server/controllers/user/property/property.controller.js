@@ -1,8 +1,9 @@
+import Category from '../../../models/category.model.js';
 import  Property from '../../../models/property.model.js';
 import fs from 'fs';
 
 
-export const getProperties = async(req, res) => {
+export const getUserProperties = async(req, res) => {
     try {
         const userId = req.user;
         console.log("User Id", userId);
@@ -31,6 +32,74 @@ export const getProperties = async(req, res) => {
         });
   
     }
+}
+
+
+export const getSingleProperty = async(req, res) => {
+    try {
+        const {id} = req.params;
+        console.log('ID: ', id);
+        console.log('Hello i am here');
+
+        const property = await Property.findById(id).populate({
+            path: 'category',
+            select: 'name',
+            model: 'Category'
+        })
+
+        console.log('Property: ', property);
+
+        res.status(200).json({
+            success: true,
+            property: property
+        })
+
+    } catch (error) {
+
+        console.log(error)
+        res.status(500).json({
+            success: false,
+            error: error.message
+        })
+    }
+
+
+}
+
+
+export const getPropertySubcategory = async(req, res) => {
+    try {
+        console.log('Hello i am here');
+
+        const {id} = req.params;
+       
+
+        const categories = await Category.find();
+
+        const subcategory = categories.flatMap(category => category.subCategories).find(
+            sub => sub._id.toString() == id
+        );
+
+        if(!subcategory){
+            return res.status(404).json({
+                success: false,
+                error: 'Subcategory not found',
+            })
+        }
+
+
+        res.status(200).json({
+            success: true,
+            subcategory: subcategory,
+        });
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            success: false
+        })
+    }
+
 }
 
 

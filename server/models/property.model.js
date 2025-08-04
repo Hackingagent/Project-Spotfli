@@ -7,6 +7,10 @@ const propertySchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  toggledBY: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Admin',
+  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',

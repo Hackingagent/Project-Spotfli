@@ -54,6 +54,7 @@ import OwnerDashboard from './components/views/property/dasboard/property-dashbo
 import PropertyDashboard from './components/views/property/dasboard/property-dashboard';
 import PropertyLayout from './components/layout/property/Property-Layout';
 import Properties from './components/views/property/view-property/properties';
+import PropertyDetailPage from './components/properties/PropertyDetailPage/PropertyDetailPage';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -144,6 +145,7 @@ function App() {
             <Route index element={<PropertyDashboard />}/>
             <Route path='view-properties' element={<Properties />} />
             <Route path='add-property' element={<AddProperty />} />
+            <Route path='property-details/:id'  element={<PropertyDetailPage />} />
             {/* <Route path="my-property-details" element={<MyPropertyDetails />} /> */}
           </Route>
         </Route>

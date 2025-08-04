@@ -1,0 +1,554 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    color: var(--text-color);
+  }
+  
+  .backButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--bg-4);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+  }
+  
+  .backButton:hover {
+    text-decoration: underline;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .header h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--text-color);
+  }
+  
+  .actionButtons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .iconButton {
+    background: var(--bg-w2);
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--bg-w1);
+    transition: all 0.2s ease;
+  }
+  
+  .iconButton:hover {
+    background: var(--bg-4);
+    color: white;
+  }
+  
+  .iconButton.favorite {
+    color: #ff4757;
+    background: rgba(255, 71, 87, 0.1);
+  }
+  
+  .editButton, .saveButton, .cancelButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .editButton {
+    background: var(--bg-w2);
+    color: var(--bg-1);
+  }
+  
+  .editButton:hover {
+    background: var(--bg-3);
+    color: white;
+  }
+  
+  .saveButton {
+    background: var(--bg-4);
+    color: white;
+  }
+  
+  .saveButton:hover {
+    background: var(--bg-3);
+  }
+  
+  .cancelButton {
+    background: #f8f9fa;
+    color: #6c757d;
+  }
+  
+  .cancelButton:hover {
+    background: #e9ecef;
+  }
+  
+  .content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  @media (min-width: 992px) {
+    .content {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+  
+  .imageSection {
+    position: relative;
+  }
+  
+  .mainImageContainer {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-w2);
+    aspect-ratio: 16/9;
+  }
+  
+  .mainImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .deleteImageButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #dc3545;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+  }
+  
+  .deleteImageButton:hover {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .thumbnailContainer {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  
+  .thumbnailWrapper {
+    position: relative;
+  }
+  
+  .thumbnail {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s ease;
+  }
+  
+  .thumbnail:hover {
+    opacity: 1;
+  }
+  
+  .thumbnail.active {
+    opacity: 1;
+    border: 2px solid var(--bg-4);
+  }
+  
+  .deleteThumbnailButton {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    background: white;
+    border: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #dc3545;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .noImages {
+    background: var(--bg-w2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 16/9;
+    color: var(--bg-w1);
+  }
+  
+  .uploadSection {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--bg-w2);
+    padding-top: 1.5rem;
+  }
+  
+  .uploadButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg-w2);
+    color: var(--bg-1);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .uploadButton:hover {
+    background: var(--bg-4);
+    color: white;
+  }
+  
+  .uploadInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .uploadConfirmButton {
+    padding: 0.25rem 0.75rem;
+    background: var(--bg-4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .progressBar {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-w2);
+    border-radius: 3px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .progressFill {
+    height: 100%;
+    background: var(--bg-4);
+    transition: width 0.3s ease;
+  }
+  
+  .priceSection {
+    margin-bottom: 1.5rem;
+  }
+  
+  .priceSection h2 {
+    margin: 0;
+    font-size: 1.75rem;
+    color: var(--bg-4);
+  }
+  
+  .location {
+    margin: 0.25rem 0 0;
+    color: var(--bg-w1);
+  }
+  
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--bg-w2);
+    border-bottom: 1px solid var(--bg-w2);
+  }
+  
+  .feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .feature span {
+    font-size: 0.875rem;
+    color: var(--bg-w1);
+  }
+  
+  .feature strong {
+    font-size: 1.25rem;
+    color: var(--bg-1);
+  }
+  
+  .section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .section h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--text-color);
+  }
+  
+  .editSectionButton, .addButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--bg-4);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .editInput, .editTextarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--bg-w1);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  
+  .editTextarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  .amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .amenityItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .amenity {
+    background: var(--bg-w2);
+    color: var(--bg-1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+  }
+  
+  .deleteButton {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+  }
+  
+  .loading, .error {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.25rem;
+  }
+  
+  .error {
+    color: #dc3545;
+  }
+
+  .fieldGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .fieldItem {
+    margin-bottom: 1rem;
+  }
+  
+  .fieldLabel {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: var(--bg-1);
+  }
+  
+  .fieldValue {
+    min-height: 2rem;
+  }
+  
+  .editCheckbox {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .arrayField {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .arrayItem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .deleteArrayItem {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .addArrayItem {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    color: var(--bg-4);
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Add these to your PropertyDetailPage.module.css */
+
+.fieldHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .fieldEditButton {
+    background: none;
+    border: none;
+    color: var(--bg-4);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  
+  .fieldItem:hover .fieldEditButton {
+    opacity: 1;
+  }
+  
+  .arrayDisplay {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .arrayDisplay li {
+    padding: 0.25rem 0;
+  }
+  
+  .progressBar {
+    width: 100%;
+    height: 1rem;
+    background: var(--bg-w2);
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .progressFill {
+    height: 100%;
+    background: var(--bg-4);
+    transition: width 0.3s ease;
+  }
+  
+  .progressBar span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7rem;
+    color: white;
+    text-shadow: 0 0 2px rgba(0,0,0,0.5);
+  }
+  
+  .uploadButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-4);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+  }
+  
+  .uploadButton:hover {
+    background: var(--bg-3);
+  }
+  
+  .uploadInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .uploadConfirmButton {
+    padding: 0.5rem 1rem;
+    background: var(--bg-4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .noImages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-w2);
+    border-radius: 8px;
+    padding: 2rem;
+    color: var(--bg-w1);
+    text-align: center;
+  }
+  
+  .noImages svg {
+    margin-bottom: 1rem;
+  }

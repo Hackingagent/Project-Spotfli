@@ -1,4 +1,3 @@
-// components/PropertyCard/PropertyCard.jsx
 import { useState } from 'react';
 import styles from './PropertyCard.module.css';
 import { FiChevronLeft, FiChevronRight, FiHeart, FiShare2, FiEye } from 'react-icons/fi';
@@ -21,6 +20,27 @@ const PropertyCard = ({ property, onClick }) => {
     );
   };
 
+  // Get the most important features to display based on field definitions
+  const getKeyFeatures = () => {
+    // These are common important fields to show
+    const commonFeatures = ['bedrooms', 'bathrooms', 'area', 'size', 'rooms'];
+    
+    // Find which of these exist in the property data
+    return commonFeatures.filter(feature => 
+      property.data[feature] !== undefined && property.data[feature] !== null
+    ).slice(0, 3); // Show max 3 features
+  };
+
+  // Format feature values appropriately
+  const formatFeatureValue = (key, value) => {
+    if (key === 'area' || key === 'size') return `${value} sqft`;
+    if (key === 'bedrooms') return `${value} Bed${value !== 1 ? 's' : ''}`;
+    if (key === 'bathrooms') return `${value} Bath${value !== 1 ? 's' : ''}`;
+    return value;
+  };
+
+  const keyFeatures = getKeyFeatures();
+
   return (
     <div className={styles.card} onClick={() => onClick(property)}>
       <div className={styles.imageContainer}>
@@ -30,18 +50,23 @@ const PropertyCard = ({ property, onClick }) => {
               src={`http://localhost:5000${property.files[currentImageIndex].url}`} 
               alt={`Property ${currentImageIndex + 1}`}
               className={styles.propertyImage}
+              onError={(e) => {
+                e.target.src = '/placeholder-property.jpg';
+              }}
             />
             {property.files.length > 1 && (
               <>
                 <button 
                   className={`${styles.navButton} ${styles.prevButton}`}
                   onClick={handlePrev}
+                  aria-label="Previous image"
                 >
                   <FiChevronLeft />
                 </button>
                 <button 
                   className={`${styles.navButton} ${styles.nextButton}`}
                   onClick={handleNext}
+                  aria-label="Next image"
                 >
                   <FiChevronRight />
                 </button>
@@ -62,6 +87,7 @@ const PropertyCard = ({ property, onClick }) => {
             e.stopPropagation();
             setIsFavorite(!isFavorite);
           }}
+          aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
         >
           <FiHeart />
         </button>
@@ -71,16 +97,30 @@ const PropertyCard = ({ property, onClick }) => {
         <div className={styles.priceBadge}>
           ${property.data.price?.toLocaleString() || 'N/A'}
         </div>
-        <h3 className={styles.propertyTitle}>{property.data.title || 'Untitled Property'}</h3>
+        <h3 className={styles.propertyTitle}>
+          {property.data.title || 'Untitled Property'}
+        </h3>
         <p className={styles.propertyLocation}>
           {property.data.location || 'Location not specified'}
         </p>
         
-        <div className={styles.propertyFeatures}>
-          <span>{property.data.bedrooms || 0} Beds</span>
-          <span>{property.data.bathrooms || 0} Baths</span>
-          <span>{property.data.area || 0} sqft</span>
-        </div>
+        {keyFeatures.length > 0 && (
+          <div className={styles.propertyFeatures}>
+            {keyFeatures.map(feature => (
+              <span key={feature}>
+                {formatFeatureValue(feature, property.data[feature])}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Display property type if available */}
+        {property.category?.name && (
+          <div className={styles.propertyType}>
+            {property.category.name}
+            {property.subcategory?.name && ` • ${property.subcategory.name}`}
+          </div>
+        )}
       </div>
     </div>
   );

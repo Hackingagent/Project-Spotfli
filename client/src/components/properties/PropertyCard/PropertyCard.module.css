@@ -1,4 +1,3 @@
-/* components/PropertyCard/PropertyCard.module.css */
 .card {
     background: var(--bg-white);
     border-radius: 12px;
@@ -137,12 +136,20 @@
     margin: 0 0 8px 0;
     color: var(--text-color);
     font-weight: 600;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   
   .propertyLocation {
     color: var(--bg-w1);
     font-size: 0.9rem;
     margin: 0 0 12px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   
   .propertyFeatures {
@@ -153,4 +160,12 @@
     border-top: 1px solid var(--bg-w2);
     color: var(--bg-1);
     font-size: 0.85rem;
+    flex-wrap: wrap;
+  }
+  
+  .propertyType {
+    font-size: 0.8rem;
+    color: var(--bg-w1);
+    margin-top: 8px;
+    font-style: italic;
   }

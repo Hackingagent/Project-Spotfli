@@ -1,11 +1,17 @@
 // components/PropertyGrid/PropertyGrid.jsx
 import styles from './PropertyGrid.module.css';
 import PropertyCard from '../PropertyCard/PropertyCard';
-import { useState } from 'react';
-import PropertyModal from '../PropertyModal/PropertyModal';
+// import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PropertyGrid = ({ properties }) => {
-  const [selectedProperty, setSelectedProperty] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handlePropertyClick = (property) => {
+    // Navigate to the property detail page with the property ID
+    navigate(`/property/property-details/${property._id}`);
+  };
 
   return (
     <div className={styles.gridContainer}>
@@ -14,17 +20,12 @@ const PropertyGrid = ({ properties }) => {
           <PropertyCard 
             key={property._id} 
             property={property}
-            onClick={() => setSelectedProperty(property)}
+            onClick={() => handlePropertyClick(property)}
           />
         ))}
       </div>
 
-      {selectedProperty && (
-        <PropertyModal 
-          property={selectedProperty}
-          onClose={() => setSelectedProperty(null)}
-        />
-      )}
+      
     </div>
   );
 };

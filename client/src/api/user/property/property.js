@@ -53,6 +53,55 @@ export const getUserProperties = async() => {
     }
 }
 
+export const getSingleProperty = async (id) => {
+    try {
+
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.get(`user/getSingleProperty/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+
+        console.log('Response: ', response.data.property);
+        return {
+            success: true,
+            property: response.data.property,
+        }
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+}
+
+export const getPropertySubcategory = async(id) => {
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.get(`user/getPropertySubcategory/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+
+        return{
+            success: true,
+            subcategory: response.data.subcategory
+        }
+
+
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+}
+
+
 
 export const addProperty = async(formData) => {
 
@@ -61,6 +110,7 @@ export const addProperty = async(formData) => {
     console.log('Get Token: ', token);
 
     try {
+
         const response = await api.post('/user/addProperty', formData, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -73,12 +123,12 @@ export const addProperty = async(formData) => {
         return {
             success: true,
             message: response.data.message,
-
         }
+
     } catch (error) {
         return {
             success: false,
-            error,
+            error: error.message
         }
     }
 }
