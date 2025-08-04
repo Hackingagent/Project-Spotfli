@@ -113,6 +113,21 @@ export const updateHotelProfile = async (hotelId, hotelData) => {
     throw new Error(error.response?.data?.message || 'Failed to update hotel profile');
   }
 }
+// update hotel password 
+export const updatePassword = async (passwordData) => {
+  const token = localStorage.getItem('hotel_token');
+  
+  try {
+    const response = await api.put('/update-password', passwordData, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update password');
+  }
+};
 // get hotel overview
 export const getHotelOverview = async () => {
   const token = localStorage.getItem('hotel_token');

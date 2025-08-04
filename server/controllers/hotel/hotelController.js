@@ -85,7 +85,7 @@ export const registerHotel = async (req, res) => {
         });
     }
 };
-//get hotel overvie
+//get hotel overview
 export const getHotelOverview = async (req, res) => {
     try {
         const hotelId = req.hotel._id;
@@ -186,6 +186,42 @@ export const updateHotelProfile = async (req, res) => {
         console.error('Update hotel profile error:', error);
         res.status(500).json({
             message: error.message || 'Server error while updating hotel profile',
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+    }
+};
+
+//update hotel passwore
+export const updatePassword = async (req, res) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const hotelId = req.hotel._id;
+
+        if (!hotelId) {
+            return res.status(400).json({ message: 'Hotel authentication failed' });
+        }
+
+        const hotel = await Hotel.findById(hotelId).select('+password');
+        
+        // Verify current password
+        const isMatch = await hotel.matchPassword(currentPassword);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Current password is incorrect' });
+        }
+
+        // Update password
+        hotel.password = newPassword;
+        await hotel.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Password updated successfully'
+        });
+
+    } catch (error) {
+        console.error('Update password error:', error);
+        res.status(500).json({ 
+            message: error.message || 'Server error while updating password',
             stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
