@@ -1,0 +1,165 @@
+.hotel-overview-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: var(--text-color);
+}
+
+.overview-header {
+  color: var(--bg-1);
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  border-bottom: 2px solid var(--bg-w2);
+  padding-bottom: 0.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: var(--bg-white);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  color: var(--bg-2);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.stat-card p {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+  color: var(--bg-1);
+}
+
+.no-data {
+  font-size: 0.9rem;
+  color: var(--bg-w1);
+  font-style: italic;
+}
+
+.total-rooms {
+  border-top: 4px solid var(--bg-1);
+}
+
+.available-rooms {
+  border-top: 4px solid var(--bg-4);
+}
+
+.occupied-rooms {
+  border-top: 4px solid var(--bg-3);
+}
+
+.reserved-rooms {
+  border-top: 4px solid var(--bg-2);
+}
+
+.description-section {
+  background: var(--background-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 3rem;
+}
+
+.description-section h3 {
+  color: var(--bg-2);
+  margin-bottom: 1rem;
+}
+
+.description-section p {
+  line-height: 1.6;
+}
+
+.gallery-section {
+  margin-bottom: 2rem;
+}
+
+.gallery-section h3 {
+  color: var(--bg-2);
+  margin-bottom: 1.5rem;
+}
+
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-image {
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gallery-image:hover img {
+  transform: scale(1.05);
+}
+
+.no-images {
+  background: var(--bg-w2);
+  padding: 2rem;
+  text-align: center;
+  border-radius: 8px;
+  color: var(--bg-w1);
+}
+
+.loading-overview {
+  text-align: center;
+  padding: 3rem;
+  color: var(--bg-2);
+}
+
+.error-overview {
+  text-align: center;
+  padding: 3rem;
+  color: #dc3545;
+  background: #ffebee;
+  border-radius: 8px;
+  margin: 2rem;
+}
+
+@media (max-width: 768px) {
+  .hotel-overview-container {
+    padding: 1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .image-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .image-gallery {
+    grid-template-columns: 1fr;
+  }
+}

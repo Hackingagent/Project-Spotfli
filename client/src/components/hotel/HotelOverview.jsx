@@ -1,50 +1,89 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getHotelOverview } from '../../api/hotel/hotelApi';
 import './HotelOverview.css';
 
 const HotelOverview = () => {
-  const [stats, setStats] = useState({
-    totalRooms: 0,
-    availableRooms: 0,
-    bookingsToday: 0,
-    revenue: 0
-  });
+  const [hotelData, setHotelData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Fetch data from API
     const fetchData = async () => {
-      // Replace with actual API calls
-      setStats({
-        totalRooms: 42,
-        availableRooms: 15,
-        bookingsToday: 8,
-        revenue: 12500
-      });
+      try {
+        const response = await getHotelOverview();
+        if (response.success) {
+          setHotelData(response.data);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
     };
+    
     fetchData();
   }, []);
 
+  if (isLoading) return <div className="loading-overview">Loading hotel overview...</div>;
+  if (error) return <div className="error-overview">Error: {error}</div>;
+
   return (
-    <div className="hoteldash-overview">
-      <h2>Hotel Overview</h2>
-      <div className="hoteldash-stats-grid">
-        <div className="hoteldash-stat-card">
+    <div className="hotel-overview-container">
+      <h2 className="overview-header">{hotelData?.hotelName || 'Hotel'} Overview</h2>
+      
+      {/* Stats Cards */}
+      <div className="stats-grid">
+        <div className="stat-card total-rooms">
           <h3>Total Rooms</h3>
-          <p>{stats.totalRooms}</p>
+          <p>{hotelData?.totalRooms || 0}</p>
         </div>
-        <div className="hoteldash-stat-card">
-          <h3>Available Rooms</h3>
-          <p>{stats.availableRooms}</p>
+        
+        <div className="stat-card available-rooms">
+          <h3>Available</h3>
+          <p>{hotelData?.availableRooms || 0}</p>
+          {hotelData?.availableRooms === 0 && <span className="no-data">No rooms available</span>}
         </div>
-        <div className="hoteldash-stat-card">
-          <h3>Today's Bookings</h3>
-          <p>{stats.bookingsToday}</p>
+        
+        <div className="stat-card occupied-rooms">
+          <h3>Occupied</h3>
+          <p>{hotelData?.occupiedRooms || 0}</p>
+          {hotelData?.occupiedRooms === 0 && <span className="no-data">No rooms occupied</span>}
         </div>
-        <div className="hoteldash-stat-card">
-          <h3>Monthly Revenue</h3>
-          <p>${stats.revenue.toLocaleString()}</p>
+        
+        <div className="stat-card reserved-rooms">
+          <h3>Reserved</h3>
+          <p>{hotelData?.reservedRooms || 0}</p>
+          {hotelData?.reservedRooms === 0 && <span className="no-data">No rooms reserved</span>}
         </div>
       </div>
-      {/* Add more overview components */}
+
+      {/* Hotel Description */}
+      <div className="description-section">
+        <h3>About Our Hotel</h3>
+        <p>{hotelData?.description || 'No description provided'}</p>
+      </div>
+
+      {/* Hotel Images */}
+      <div className="gallery-section">
+        <h3>Hotel Gallery</h3>
+        {hotelData?.images?.length > 0 ? (
+          <div className="image-gallery">
+            {hotelData.images.map((image, index) => (
+              <div key={index} className="gallery-image">
+                <img 
+                  src={`http://localhost:5000/${image}`} 
+                  alt={`Hotel view ${index + 1}`}
+                  onError={(e) => {
+                    e.target.src = '/default-hotel.jpg';
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="no-images">No images available</div>
+        )}
+      </div>
     </div>
   );
 };

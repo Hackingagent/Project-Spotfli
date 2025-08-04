@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { HiX } from 'react-icons/hi';
 import logoLight from '../../../assets/logo2.png';
 import './sideBar.css';
 
@@ -10,7 +11,7 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
       <div className="side-bar">
         <div className="side-bar-top">
           <img src={logoLight} alt="" />
-          <i className="fa fa-times" onClick={toggleSidebar}></i> {/* Use the toggle function */}
+          <HiX  onClick={toggleSidebar} /> {/* Use the toggle function */}
         </div>
         <ul className="sidebar-content">
           {isServiceProvider && <>

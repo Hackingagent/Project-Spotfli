@@ -20,6 +20,7 @@
     justify-content: center;
     align-items: center;
     transition: 0.3s ease-in;
+    width: 100%;
 }
 .hoteldash-room-card:hover{
     transform: translateY(-5px);
@@ -73,4 +74,24 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
+}
+
+@media screen and (max-width: 1000px){
+    .hoteldash-room-types{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 1rem;
+        margin-top: 0.8rem;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .hoteldash-room-types{
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+        width: 100%;
+    }
 }

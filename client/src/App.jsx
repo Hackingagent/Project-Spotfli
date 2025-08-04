@@ -50,6 +50,8 @@ import ManageRooms from './components/hotel/HotelRooms/ManageRooms';
 import ManageBookings from './components/hotel/HotelBookings/ManageBookings';
 import PerformanceCharts from './components/hotel/HotelAnalytics/PerformanceCharts';
 import ProfileSettings from './components/hotel/HotelSettings/ProfileSettings';
+import HotelOverview from './components/hotel/HotelOverview';
+import SecuritySettings from './components/hotel/HotelSettings/SecuritySettings';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -119,10 +121,12 @@ function App() {
         <Route path='login' element={<HotelLogin />} />
         <Route element={<HotelLayout />}>
           <Route index element={<HotelDashboard />} />
+          <Route path='overview' element={<HotelOverview />} />
           <Route path='rooms' element={<ManageRooms />} />
           <Route path='bookings' element={<ManageBookings />} />
           <Route path='analytics' element={<PerformanceCharts />} />
           <Route path='settings' element={<ProfileSettings />} />
+          <Route path='security' element={<SecuritySettings />} />
         </Route>
       </Route>
     </Route>

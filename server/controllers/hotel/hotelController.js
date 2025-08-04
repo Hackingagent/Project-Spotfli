@@ -85,6 +85,111 @@ export const registerHotel = async (req, res) => {
         });
     }
 };
+//get hotel overvie
+export const getHotelOverview = async (req, res) => {
+    try {
+        const hotelId = req.hotel._id;
+        
+        if (!hotelId) {
+            return res.status(400).json({ message: 'Hotel authentication failed' });
+        }
+
+        const hotel = await Hotel.findById(hotelId)
+            .select('hotelName description images rooms')
+            .lean();
+
+        if (!hotel) {
+            return res.status(404).json({ message: 'Hotel not found' });
+        }
+
+        // Calculate room statistics
+        const roomStats = {
+            totalRooms: hotel.rooms.length,
+            availableRooms: hotel.rooms.filter(room => room.isAvailable).length,
+            occupiedRooms: hotel.rooms.filter(room => 
+                room.bookings.some(booking => 
+                    booking.status === 'confirmed' && 
+                    new Date(booking.checkInDate) <= new Date() && 
+                    new Date(booking.checkOutDate) >= new Date()
+                )
+            ).length,
+            reservedRooms: hotel.rooms.filter(room => 
+                room.bookings.some(booking => 
+                    booking.status === 'confirmed' && 
+                    new Date(booking.checkInDate) > new Date()
+                )
+            ).length
+        };
+
+        res.status(200).json({
+            success: true,
+            data: {
+                ...hotel,
+                ...roomStats
+            }
+        });
+
+    } catch (error) {
+        console.error('Get hotel overview error:', error);
+        res.status(500).json({ 
+            message: error.message || 'Server error while getting hotel overview',
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+    }
+};
+
+//update hotel profile
+export const updateHotelProfile = async (req, res) => {
+    try {
+        const { hotelName, email, phone, address, city, description, amenities } = req.body;
+        const hotelId = req.hotel._id;
+        
+        if (!hotelId) {
+            return res.status(400).json({ message: 'Hotel authentication failed' });
+        }
+
+        // Get existing hotel 
+        const hotel = await Hotel.findById(hotelId);
+        if (!hotel) {
+            return res.status(404).json({ message: 'Hotel not found' });
+        }
+
+        // Handle new images
+        let updatedImages = [...hotel.images];
+        if (req.files && req.files.length > 0) {
+            updatedImages = [...updatedImages, ...req.files.map(file => file.path)];
+        }
+
+        // Update hotel data
+        const updatedHotel = await Hotel.findByIdAndUpdate(
+            hotelId,
+            {
+                hotelName,
+                email,
+                phone,
+                address,
+                city,
+                description,
+                amenities: amenities?.split(',').map(item => item.trim()) || [],
+                images: updatedImages
+            },
+            { new: true }
+        ).select('-password');
+
+        res.status(200).json({
+            success: true,
+            message: 'Hotel profile updated successfully',
+            hotel: updatedHotel
+        });
+
+    } catch (error) {
+        console.error('Update hotel profile error:', error);
+        res.status(500).json({
+            message: error.message || 'Server error while updating hotel profile',
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
+    }
+};
 
 
 //add hotel rooms 
@@ -152,7 +257,7 @@ export const addRoom = async (req, res) => {
     }
 };
 
-// Update  Room
+// Update Room
 export const updateRoom = async (req, res) => {
     try {
         const { roomId } = req.params;
@@ -222,7 +327,7 @@ export const updateRoom = async (req, res) => {
             message: error.message || 'Server error while updating room',
             stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
-    }
+    } 
 };
 
 
@@ -288,5 +393,3 @@ export const getCurrentHotel = async (req, res) =>{
         res.status(500).json({message: 'Server error'});
     }
 };
-
- 
