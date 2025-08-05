@@ -13,11 +13,8 @@ import PropertyDetails from './components/propertyDetails/PropertyDetails';
 import ChatApp from './components/chat-system/ChatApp';
 import AdminDashboard from './components/views/admin/dasboard/admin-dashboard';
 import ServiceProviderSidebar from './components/navigation/serviceProvider/service-provider-sidebar';
-import PropertyOwnerSidebar from './components/navigation/propertyOwner/property-owner-sidebar';
-import ViewProperty from './components/views/property-owner/view-property/view-property';
-import MyPropertyDetails from './components/views/property-owner/view-property/property-details';
-import AddProperty from './components/views/property-owner/add-property/add-property';
-import MoreInfo from './components/views/property-owner/add-property/more-info/more-info';
+import AddProperty from './components/views/property/add-property/add-property';
+import MoreInfo from './components/views/property/add-property/more-info/more-info';
 import AllUnits from './components/views/admin/all-units/all-units';
 import PendingUnits from './components/views/admin/pending-units/pending-units';
 import RejectedUnits from './components/views/admin/rejected-units/rejected-units';
@@ -40,6 +37,9 @@ import UserProtectedRoute from './components/protected-routes/user-protected-rou
 import AdminPendingProvider from './components/views/admin/service-provider/AdminPendingProvider';
 import AdminApprovedProvider from './components/views/admin/service-provider/AdminApprovedProvider';
 import AdminDeclinedProvider from './components/views/admin/service-provider/AdminDeclinedProvider';
+import AdminCategory from './components/views/admin/category/Category';
+import AdminSubCategory from './components/views/admin/category/sub-categories/SubCategory';
+import SubcategoryFieldsPage from './components/views/admin/category/sub-categories/field/SubCategoryFieldsPage';
 import AdminAddHotel from './components/views/admin/hotels/AdminAddHotel';
 import ManageHotels from './components/views/admin/hotels/ManageHotels';
 import HotelLogin from './components/login/HotelLogin';
@@ -50,6 +50,11 @@ import ManageRooms from './components/hotel/HotelRooms/ManageRooms';
 import ManageBookings from './components/hotel/HotelBookings/ManageBookings';
 import PerformanceCharts from './components/hotel/HotelAnalytics/PerformanceCharts';
 import ProfileSettings from './components/hotel/HotelSettings/ProfileSettings';
+import OwnerDashboard from './components/views/property/dasboard/property-dashboard';
+import PropertyDashboard from './components/views/property/dasboard/property-dashboard';
+import PropertyLayout from './components/layout/property/Property-Layout';
+import Properties from './components/views/property/view-property/properties';
+import PropertyDetailPage from './components/properties/PropertyDetailPage/PropertyDetailPage';
 import HotelOverview from './components/hotel/HotelOverview';
 import SecuritySettings from './components/hotel/HotelSettings/SecuritySettings';
 
@@ -110,6 +115,13 @@ function App() {
             <Route path='service-provider/pending' element={<AdminPendingProvider />} />
             <Route path='service-provider/approved' element={<AdminApprovedProvider />} />
             <Route path='service-provider/declined' element={<AdminDeclinedProvider />} />
+            <Route path='category' element={<AdminCategory />} />
+            <Route path='category/:name' element={<AdminSubCategory />} />
+            <Route 
+              path="categories/:categoryId/subcategories/:subcategoryId/fields" 
+              element={<SubcategoryFieldsPage />} 
+            />
+                        
             {/* admin hotel management routes */}
             <Route path='hotel' element={<AdminAddHotel/>}></Route>
             <Route path='manage-hotels' element={<ManageHotels />}></Route>
@@ -132,14 +144,17 @@ function App() {
     </Route>
 
 
-        <Route path='/property-owner'>
-          <Route element={<PropertyOwnerSidebar />}>
-            <Route index />
-            <Route path='view-properties' element={<ViewProperty />} />
+        <Route path='/property'>
+          <Route element={<PropertyLayout />}>
+            <Route index element={<PropertyDashboard />}/>
+            <Route path='view-properties' element={<Properties />} />
             <Route path='add-property' element={<AddProperty />} />
-            <Route path="my-property-details" element={<MyPropertyDetails />} />
+            <Route path='property-details/:id'  element={<PropertyDetailPage />} />
+            {/* <Route path="my-property-details" element={<MyPropertyDetails />} /> */}
           </Route>
         </Route>
+
+        {/* <Route path='test' element={<OwnerDashboard />} /> */}
 
 
         <Route path='/service-provider'>

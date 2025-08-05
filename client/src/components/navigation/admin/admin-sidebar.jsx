@@ -111,6 +111,18 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
           }}
           open={open}
         />
+
+        <SidebarItem
+          icon={<FiSettings />}
+          text="Categories"
+          active={activeTab === 'categories'}
+          onClick={() => {
+            onTabChange('categories')
+            navigate('/admin/category', {replace: true})
+          }}
+          open={open}
+        />
+
         <SidebarItem
           icon={<FiSettings />}
           text="Settings"

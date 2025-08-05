@@ -10,7 +10,6 @@ import adminRoutes from './routes/admin.route.js';
 import hotelRoutes from './routes/hotel.js'
 
 
-
 dotenv.config();
 
 const app = express();

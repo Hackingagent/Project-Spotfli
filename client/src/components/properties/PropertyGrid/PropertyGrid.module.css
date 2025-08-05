@@ -1,0 +1,14 @@
+/* components/PropertyGrid/PropertyGrid.module.css */
+.gridContainer {
+    padding: 24px;
+    background: var(--background-color);
+    min-height: 100vh;
+  }
+  
+  .propertyGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }

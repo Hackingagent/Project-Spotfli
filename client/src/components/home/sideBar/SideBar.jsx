@@ -27,6 +27,11 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
             </Link>
           </li>
           <li>
+            <Link className="sideLinks" to="/property">
+             <i className="fa fa-home"></i> Manage Properties {' '}
+            </Link>
+          </li>
+          <li>
             <Link className="sideLinks" to="/coliving">
              <i className="fa fa-bed"></i> Find Room-Mate {' '}
             </Link>
