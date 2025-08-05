@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HiX } from 'react-icons/hi';
+import { IoMdExit } from "react-icons/io";
 import logoLight from '../../../assets/logo2.png';
 import './sideBar.css';
 
@@ -11,7 +11,7 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
       <div className="side-bar">
         <div className="side-bar-top">
           <img src={logoLight} alt="" />
-          <HiX  onClick={toggleSidebar} /> {/* Use the toggle function */}
+          <IoMdExit className='exit-side-bar'  onClick={toggleSidebar} /> {/* Use the toggle function */}
         </div>
         <ul className="sidebar-content">
           {isServiceProvider && <>

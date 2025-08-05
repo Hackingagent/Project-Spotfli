@@ -14,7 +14,12 @@
     animation: slideRight 0.4s ease-in forwards;
 
 }
+.exit-side-bar{
+    color: var(--bg-w2);
+    font-size: 1.8rem;
+    cursor: pointer;
 
+}
   
   .sidebar-container.open {
     display: flex;
