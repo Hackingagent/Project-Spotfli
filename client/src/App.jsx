@@ -85,7 +85,7 @@ function App() {
       {/* Manage hotel routes */}
       <Route path='/manage-hotel' element={<HotelDashboard />}> </Route>
       {/* Register Routes */}
-        <Route path="/register" element={<AccountType/>} />
+        <Route path="/register" element={<Register/>} />
         <Route path="/registerPS" element={<Register />} />
         <Route path="/registerSP" element={<RegisterServiceProvider/>} />
         <Route path="/registerPO" element={<RegisisterPropertyOwner />} />
