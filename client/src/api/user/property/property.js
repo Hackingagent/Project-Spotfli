@@ -123,8 +123,32 @@ export const addProperty = async(formData) => {
         return {
             success: true,
             message: response.data.message,
+            property: response.data.property,
         }
 
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+}
+
+
+export const updateProperty = async(id, formData) => {
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.put(`/user/updateProperty/${id}`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+
+        return {
+            success: true,
+            message: response.data.message
+        }
     } catch (error) {
         return {
             success: false,
