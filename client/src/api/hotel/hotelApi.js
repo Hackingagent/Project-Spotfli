@@ -193,21 +193,23 @@ export const updateRoom = async (roomId, roomData) => {
   }
 };
 
-// Public hotel endpoints
-export const getHotels = async () => {
-  try {
-    const response = await api.get('/');
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Failed to fetch hotels');
-  }
+// Get all hotels (public)
+export const getAllHotels = async (queryParams = {}) => {
+    try {
+        const queryString = new URLSearchParams(queryParams).toString();
+        const response = await axios.get(`${API_URL}/?${queryString}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to fetch hotels');
+    }
 };
 
+// Get hotel details (public)
 export const getHotelDetails = async (id) => {
-  try {
-    const response = await api.get(`/${id}`);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || 'Failed to fetch hotel details');
-  }
+    try {
+        const response = await axios.get(`${API_URL}/${id}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to fetch hotel details');
+    }
 };

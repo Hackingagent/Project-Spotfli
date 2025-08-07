@@ -57,6 +57,7 @@ import Properties from './components/views/property/view-property/properties';
 import PropertyDetailPage from './components/properties/PropertyDetailPage/PropertyDetailPage';
 import HotelOverview from './components/hotel/HotelOverview';
 import SecuritySettings from './components/hotel/HotelSettings/SecuritySettings';
+import HotelDetailsPage from './components/home/listings/hotel/HotelDetailsPage';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -75,6 +76,7 @@ function App() {
       <Route path='/singleprovider' element={<SingleServiceView />} />
       {/* hotels display route */}
       <Route path='/hotels' element={<HotelsView/>}/>
+      <Route path='/hotel/:id' element={<><Home /><HotelDetailsPage /></>} />
       {/* Rent Property Route */}
       <Route path='/rent' element={<BuyProperty />}/>
       {/* coliving page route */}

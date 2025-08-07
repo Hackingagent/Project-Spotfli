@@ -431,71 +431,82 @@ export const getCurrentHotel = async (req, res) =>{
 };
 
 
-// ***** Public API Endpoints *****
-
-// Get all hotels (public access)
+// Get all hotels (for public listing)
 export const getAllHotels = async (req, res) => {
-  try {
-    const hotels = await Hotel.find()
-      .select('-password -rooms.bookings -addedBy')
-      .populate('rooms', 'roomType pricePerNight capacity amenities images')
-      .lean();
+    try {
+        const { city, minPrice, maxPrice, rating, limit = 10, page = 1 } = req.query;
+        
+        const query = {};
+        
+        if (city) query.city = new RegExp(city, 'i');
+        if (minPrice || maxPrice) {
+            query['rooms.pricePerNight'] = {};
+            if (minPrice) query['rooms.pricePerNight'].$gte = Number(minPrice);
+            if (maxPrice) query['rooms.pricePerNight'].$lte = Number(maxPrice);
+        }
+        if (rating) query['ratings.average'] = { $gte: Number(rating) };
 
-    // Transform the data for better frontend consumption
-    const transformedHotels = hotels.map(hotel => {
-      // Get the lowest price room
-      const minPrice = hotel.rooms.length > 0 
-        ? Math.min(...hotel.rooms.map(room => room.pricePerNight))
-        : null;
+        const options = {
+            limit: parseInt(limit),
+            skip: (parseInt(page) - 1) * parseInt(limit),
+            select: '-password -addedBy -__v -createdAt -updatedAt'
+        };
 
-      return {
-        ...hotel,
-        minPrice,
-        image: hotel.images?.[0] || null, // Use first image as featured
-        roomTypes: [...new Set(hotel.rooms.map(room => room.roomType))] // Unique room types
-      };
-    });
+        const hotels = await Hotel.find(query, null, options);
+        const count = await Hotel.countDocuments(query);
 
-    res.status(200).json({
-      success: true,
-      count: transformedHotels.length,
-      data: transformedHotels
-    });
-  } catch (error) {
-    console.error('Get all hotels error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error while fetching hotels'
-    });
-  }
+        res.status(200).json({
+            success: true,
+            count: hotels.length,
+            total: count,
+            page: parseInt(page),
+            pages: Math.ceil(count / parseInt(limit)),
+            data: hotels
+        });
+    } catch (error) {
+        console.error('Get all hotels error:', error);
+        res.status(500).json({
+            message: error.message || 'Server error while fetching hotels'
+        });
+    }
 };
 
-// Get single hotel by ID (public access)
-export const getHotelById = async (req, res) => {
-  try {
-    const { id } = req.params;
+// Get single hotel details
+export const getHotelDetails = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const hotel = await Hotel.findById(id)
+            .select('-password -addedBy -__v')
+            .populate('rooms.bookings.guest', 'firstName lastName email phone');
 
-    const hotel = await Hotel.findById(id)
-      .select('-password -rooms.bookings.guest -addedBy')
-      .populate('rooms', '-bookings')
-      .lean();
+        if (!hotel) {
+            return res.status(404).json({ message: 'Hotel not found' });
+        }
 
-    if (!hotel) {
-      return res.status(404).json({
-        success: false,
-        message: 'Hotel not found'
-      });
+        // Calculate min and max room prices
+        let minPrice = Infinity;
+        let maxPrice = 0;
+        
+        hotel.rooms.forEach(room => {
+            if (room.pricePerNight < minPrice) minPrice = room.pricePerNight;
+            if (room.pricePerNight > maxPrice) maxPrice = room.pricePerNight;
+        });
+
+        res.status(200).json({
+            success: true,
+            data: {
+                ...hotel.toObject(),
+                priceRange: {
+                    min: minPrice !== Infinity ? minPrice : 0,
+                    max: maxPrice
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Get hotel details error:', error);
+        res.status(500).json({
+            message: error.message || 'Server error while fetching hotel details'
+        });
     }
-
-    res.status(200).json({
-      success: true,
-      data: hotel
-    });
-  } catch (error) {
-    console.error('Get hotel by ID error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error while fetching hotel'
-    });
-  }
 };

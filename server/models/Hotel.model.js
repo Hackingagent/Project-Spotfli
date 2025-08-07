@@ -124,6 +124,34 @@ const hotelSchema = new mongoose.Schema({
     images: [{
         type: String,
     }],
+     ratings: {
+        average: {
+            type: Number,
+            default: 0,
+            min: 0,
+            max: 5
+        },
+        count: {
+            type: Number,
+            default: 0
+        }
+    },
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number], // [longitude, latitude]
+            required: true
+        }
+    },
+    starRating: {
+        type: Number,
+        min: 1,
+        max: 5
+    },
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
