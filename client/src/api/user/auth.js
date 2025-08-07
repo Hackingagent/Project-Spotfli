@@ -18,7 +18,7 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (email, password) => {
   try {
-
+    console.log('Starting Login');
     const response = await api.post('/user/login', { email, password });
     
     // Store token in localStorage or cookies

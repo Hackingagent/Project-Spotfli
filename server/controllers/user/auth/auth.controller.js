@@ -69,6 +69,7 @@ export const registerUser = async(req, res) => {
 
 // User login
 export const loginUser = asyncHandler(async (req, res) => {
+    
     const { email, password } = req.body;
     
     console.log(req.body); // Check the incoming request data

@@ -5,7 +5,8 @@ import {
   FiSave, FiX, FiHeart, FiImage, FiUpload 
 } from 'react-icons/fi';
 import styles from './PropertyDetailPage.module.css';
-import { getPropertySubcategory, getSingleProperty } from '../../../api/user/property/property';
+import { getPropertySubcategory, getSingleProperty, updateProperty } from '../../../api/user/property/property';
+import Notification from '../../notification/notification';
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
@@ -21,7 +22,8 @@ const PropertyDetailPage = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [fieldDefinitions, setFieldDefinitions] = useState([]);
   const [activeEditField, setActiveEditField] = useState(null);
-  const [subcategory, setSubcategory] = useState();
+  const [subcategory, setSubcategory] = useState([]);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -140,11 +142,13 @@ const PropertyDetailPage = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await api.updateProperty(id, formData);
+      const response = await updateProperty(id, formData);
       setProperty(prev => ({
         ...prev,
         data: response.property
       }));
+
+      setMessage(response.message);
       setEditing(false);
       setActiveEditField(null);
     } catch (err) {
@@ -152,9 +156,9 @@ const PropertyDetailPage = () => {
     }
   };
 
-  const toggleEditField = (fieldKey) => {
-    setActiveEditField(activeEditField === fieldKey ? null : fieldKey);
-  };
+  // const toggleEditField = (fieldKey) => {
+  //   setActiveEditField(activeEditField === fieldKey ? null : fieldKey);
+  // };
 
   const renderFieldInput = (field) => {
     const value = formData[field.key];
@@ -162,6 +166,14 @@ const PropertyDetailPage = () => {
     if (activeEditField === field.key || editing) {
       switch (field.type) {
         case 'text':
+          return (
+            <input
+              type='text' 
+              value={value || ''}
+              onChange={(e)=> handleInputChange(field.key, e.target.value)}
+              className={styles.editInput}
+            />
+          )
         case 'textarea':
           return (
             <textarea
@@ -281,162 +293,172 @@ const PropertyDetailPage = () => {
   }, {});
 
   return (
-    <div className={styles.container}>
-      <button className={styles.backButton} onClick={() => navigate(-1)}>
-        <FiChevronLeft /> Back to Properties
-      </button>
+    <>
 
-      <div className={styles.header}>
-        <h1>{property.data?.title || 'Untitled Property'}</h1>
-        <div className={styles.actionButtons}>
-          <button 
-            className={`${styles.iconButton} ${isFavorite ? styles.favorite : ''}`}
-            onClick={toggleFavorite}
-          >
-            <FiHeart />
-          </button>
-          <button 
-            className={editing ? styles.cancelButton : styles.editButton}
-            onClick={() => {
-              setEditing(!editing);
-              setActiveEditField(null);
-            }}
-          >
-            {editing ? <><FiX /> Cancel</> : <><FiEdit2 /> Edit</>}
-          </button>
-          {editing && (
-            <button className={styles.saveButton} onClick={handleSubmit}>
-              <FiSave /> Save Changes
+      <Notification 
+        message={message}
+        noMessage={() => setMessage('')}
+        type='success'
+      />
+
+      
+      <div className={styles.container}>
+        <button className={styles.backButton} onClick={() => navigate(-1)}>
+          <FiChevronLeft /> Back to Properties
+        </button>
+
+        <div className={styles.header}>
+          <h1>{property.data?.title || 'Untitled Property'}</h1>
+          <div className={styles.actionButtons}>
+            <button 
+              className={`${styles.iconButton} ${isFavorite ? styles.favorite : ''}`}
+              onClick={toggleFavorite}
+            >
+              <FiHeart />
             </button>
-          )}
+            <button 
+              className={editing ? styles.cancelButton : styles.editButton}
+              onClick={() => {
+                setEditing(!editing);
+                setActiveEditField(null);
+              }}
+            >
+              {editing ? <><FiX /> Cancel</> : <><FiEdit2 /> Edit</>}
+            </button>
+            {editing && (
+              <button className={styles.saveButton} onClick={handleSubmit}>
+                <FiSave /> Save Changes
+              </button>
+            )}
+          </div>
         </div>
-      </div>
 
-      <div className={styles.content}>
-        <div className={styles.imageSection}>
-          {property.files.length > 0 ? (
-            <>
-              <div className={styles.mainImageContainer}>
-                <img
-                  src={`http://localhost:5000${property.files[currentImageIndex].url}`}
-                  alt={`Property ${currentImageIndex + 1}`}
-                  className={styles.mainImage}
-                  onError={(e) => {
-                    e.target.src = '/placeholder-property.jpg';
-                  }}
-                />
-                {editing && (
-                  <button 
-                    className={styles.deleteImageButton}
-                    onClick={() => handleDeleteImage(property.files[currentImageIndex]._id)}
-                  >
-                    <FiTrash2 /> Delete
-                  </button>
-                )}
-              </div>
-
-              {property.files.length > 1 && (
-                <div className={styles.thumbnailContainer}>
-                  {property.files.map((file, index) => (
-                    <div key={file._id} className={styles.thumbnailWrapper}>
-                      <img
-                        src={`http://localhost:5000${file.url}`}
-                        alt={`Thumbnail ${index + 1}`}
-                        className={`${styles.thumbnail} ${index === currentImageIndex ? styles.active : ''}`}
-                        onClick={() => handleImageChange(index)}
-                      />
-                      {editing && (
-                        <button 
-                          className={styles.deleteThumbnailButton}
-                          onClick={() => handleDeleteImage(file._id)}
-                        >
-                          <FiTrash2 size={12} />
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </>
-          ) : (
-            <div className={styles.noImages}>
-              <FiImage size={48} />
-              <p>No images available</p>
-            </div>
-          )}
-
-          {editing && (
-            <div className={styles.uploadSection}>
-              <label className={styles.uploadButton}>
-                <FiUpload /> Upload Images
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  style={{ display: 'none' }}
-                />
-              </label>
-              {newImages.length > 0 && (
-                <>
-                  <div className={styles.uploadInfo}>
-                    <span>{newImages.length} image{newImages.length !== 1 ? 's' : ''} selected</span>
+        <div className={styles.content}>
+          <div className={styles.imageSection}>
+            {property.files.length > 0 ? (
+              <>
+                <div className={styles.mainImageContainer}>
+                  <img
+                    src={`http://localhost:5000${property.files[currentImageIndex].url}`}
+                    alt={`Property ${currentImageIndex + 1}`}
+                    className={styles.mainImage}
+                    onError={(e) => {
+                      e.target.src = '/placeholder-property.jpg';
+                    }}
+                  />
+                  {editing && (
                     <button 
-                      className={styles.uploadConfirmButton}
-                      onClick={handleUploadImages}
+                      className={styles.deleteImageButton}
+                      onClick={() => handleDeleteImage(property.files[currentImageIndex]._id)}
                     >
-                      Confirm Upload
+                      <FiTrash2 /> Delete
                     </button>
-                  </div>
-                  {uploadProgress > 0 && uploadProgress < 100 && (
-                    <div className={styles.progressBar}>
-                      <div 
-                        className={styles.progressFill} 
-                        style={{ width: `${uploadProgress}%` }}
-                      />
-                      <span>{uploadProgress}%</span>
-                    </div>
                   )}
-                </>
-              )}
-            </div>
-          )}
-        </div>
+                </div>
 
-        <div className={styles.detailsSection}>
-          {Object.entries(groupedFields).map(([groupName, fields]) => (
-            <div key={groupName} className={styles.section}>
-              <div className={styles.sectionHeader}>
-                <h2>{groupName}</h2>
-              </div>
-              
-              <div className={styles.fieldGrid}>
-                {fields
-                  .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
-                  .map((field) => (
-                    <div key={field.key} className={styles.fieldItem}>
-                      <div className={styles.fieldHeader}>
-                        <label className={styles.fieldLabel}>{field.label}</label>
-                        {!editing && (
-                          <button
-                            className={styles.fieldEditButton}
-                            onClick={() => toggleEditField(field.key)}
+                {property.files.length > 1 && (
+                  <div className={styles.thumbnailContainer}>
+                    {property.files.map((file, index) => (
+                      <div key={file._id} className={styles.thumbnailWrapper}>
+                        <img
+                          src={`http://localhost:5000${file.url}`}
+                          alt={`Thumbnail ${index + 1}`}
+                          className={`${styles.thumbnail} ${index === currentImageIndex ? styles.active : ''}`}
+                          onClick={() => handleImageChange(index)}
+                        />
+                        {editing && (
+                          <button 
+                            className={styles.deleteThumbnailButton}
+                            onClick={() => handleDeleteImage(file._id)}
                           >
-                            <FiEdit2 size={14} />
+                            <FiTrash2 size={12} />
                           </button>
                         )}
                       </div>
-                      <div className={styles.fieldValue}>
-                        {renderFieldInput(field)}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className={styles.noImages}>
+                <FiImage size={48} />
+                <p>No images available</p>
               </div>
-            </div>
-          ))}
+            )}
+
+            {editing && (
+              <div className={styles.uploadSection}>
+                <label className={styles.uploadButton}>
+                  <FiUpload /> Upload Images
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+                {newImages.length > 0 && (
+                  <>
+                    <div className={styles.uploadInfo}>
+                      <span>{newImages.length} image{newImages.length !== 1 ? 's' : ''} selected</span>
+                      <button 
+                        className={styles.uploadConfirmButton}
+                        onClick={handleUploadImages}
+                      >
+                        Confirm Upload
+                      </button>
+                    </div>
+                    {uploadProgress > 0 && uploadProgress < 100 && (
+                      <div className={styles.progressBar}>
+                        <div 
+                          className={styles.progressFill} 
+                          style={{ width: `${uploadProgress}%` }}
+                        />
+                        <span>{uploadProgress}%</span>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className={styles.detailsSection}>
+            {Object.entries(groupedFields).map(([groupName, fields]) => (
+              <div key={groupName} className={styles.section}>
+                <div className={styles.sectionHeader}>
+                  <h2>{groupName}</h2>
+                </div>
+                
+                <div className={styles.fieldGrid}>
+                  {fields
+                    .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
+                    .map((field) => (
+                      <div key={field.key} className={styles.fieldItem}>
+                        <div className={styles.fieldHeader}>
+                          <label className={styles.fieldLabel}>{field.label}</label>
+                          {/* {!editing && (
+                            <button
+                              className={styles.fieldEditButton}
+                              onClick={() => toggleEditField(field.key)}
+                            >
+                              <FiEdit2 size={14} />
+                            </button>
+                          )} */}
+                        </div>
+                        <div className={styles.fieldValue}>
+                          {renderFieldInput(field)}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

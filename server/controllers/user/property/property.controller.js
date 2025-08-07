@@ -151,3 +151,44 @@ export const addProperty = async(req, res) => {
     }
 
 }
+
+
+
+export const updateProperty = async(req, res) => {
+    try {
+
+        const {id} = req.params;
+        const data = req.body;
+        
+        console.log('Data: ', data);
+        console.log('ID: ', id);
+
+        const property = await Property.findByIdAndUpdate(id,
+            {
+                data: data,
+            }, 
+
+            {new: true, runValidators: true}
+
+        )
+
+        if(!property){
+            return res.status(404).json({
+                success: false,
+                message: 'Property not found'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Property updated successfully',
+            property: property
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error
+        })
+    }
+}
