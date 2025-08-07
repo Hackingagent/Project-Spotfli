@@ -1,13 +1,37 @@
 import React, { useState } from 'react';
-import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaInfoCircle, FaTimes } from 'react-icons/fa';
+import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaInfoCircle, FaTimes, FaCheck, FaUser, FaPhone } from 'react-icons/fa';
 import './booking-modal.css';
+import { createBooking } from '../../api/user/serviceProvider/my-booking';
 
 const BookingModal = ({ service, showBookModal }) => {
+  // Validate service prop
+  if (!service || !service._id) {
+    return (
+      <div className="booking-modal-overlay">
+        <div className="booking-modal-container error-state">
+          <button className="close-btn" onClick={showBookModal}>
+            <FaTimes />
+          </button>
+          <div className="booking-error">
+            <p>Service information is not available.</p>
+            <button onClick={showBookModal} className="retry-btn">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const [activeTab, setActiveTab] = useState('date');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [timeSlot, setTimeSlot] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [error, setError] = useState('');
+  
   const [bookingDetails, setBookingDetails] = useState({
     location: '',
     description: '',
@@ -15,60 +39,97 @@ const BookingModal = ({ service, showBookModal }) => {
     specialRequests: ''
   });
 
-  // Generate time slots
+  // Generate time slots (8AM to 8PM)
   const timeSlots = [];
   for (let hour = 8; hour <= 20; hour++) {
     timeSlots.push(`${hour}:00 - ${hour + 1}:00`);
   }
 
-  // Handle date selection
   const handleDateSelect = (date) => {
     setSelectedDate(date);
+    setActiveTab('time');
   };
 
-  // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setBookingDetails(prev => ({ ...prev, [name]: value }));
   };
 
-  // Handle booking submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const bookingData = {
-      service,
-      date: selectedDate.toDateString(),
-      time: timeSlot,
-      ...bookingDetails
-    };
-    console.log('Booking data:', bookingData);
-    // Here you would typically send this data to your backend
-    onClose();
+    
+    // Validate all fields
+    const validationErrors = [];
+    if (!timeSlot) validationErrors.push('Please select a time slot');
+    if (!bookingDetails.location) validationErrors.push('Location is required');
+    if (!bookingDetails.description) validationErrors.push('Description is required');
+    if (!bookingDetails.contactNumber) validationErrors.push('Contact number is required');
+
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(', '));
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      // Format date for backend (YYYY-MM-DD)
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+      
+      const bookingData = {
+        serviceId: service._id,
+        serviceName: service.name,
+        date: formattedDate,
+        timeSlot,
+        clientDetails: {
+          ...bookingDetails,
+          bookingDate: new Date().toISOString()
+        },
+        status: 'pending'
+      };
+
+      const response = await createBooking(bookingData);
+      
+      if (response.success) {
+        setSubmitSuccess(true);
+      } else {
+        throw new Error(response.error || 'Booking failed');
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to create booking. Please try again.');
+      console.error('Booking error:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  // Generate calendar days
+  // Calendar rendering logic
   const renderCalendarDays = () => {
     const days = [];
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-    // Add previous month's days if needed
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
 
+    // Previous month's days
     for (let i = 0; i < firstDayOfMonth; i++) {
       days.push(<div key={`prev-${i}`} className="calendar-day empty"></div>);
     }
 
-    // Add current month's days
+    // Current month's days
     for (let day = 1; day <= daysInMonth; day++) {
       const currentDate = new Date(currentYear, currentMonth, day);
       const isSelected = currentDate.toDateString() === selectedDate.toDateString();
       const isToday = currentDate.toDateString() === new Date().toDateString();
+      const isPast = currentDate < new Date() && !isToday;
 
       days.push(
         <div
           key={`day-${day}`}
-          className={`calendar-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
-          onClick={() => handleDateSelect(currentDate)}
+          className={`calendar-day 
+            ${isSelected ? 'selected' : ''} 
+            ${isToday ? 'today' : ''}
+            ${isPast ? 'past' : ''}`}
+          onClick={() => !isPast && handleDateSelect(currentDate)}
         >
           {day}
           {isToday && <span className="today-label">Today</span>}
@@ -86,163 +147,194 @@ const BookingModal = ({ service, showBookModal }) => {
           <FaTimes />
         </button>
 
-        <div className="booking-header">
-          <h2>Book {service?.name || 'Service'}</h2>
-          <p>Fill in the details to book this service provider</p>
-        </div>
-
-        <div className="booking-content">
-          {/* Left Section - Calendar */}
-          <div className="booking-left">
-            <div className="calendar-tabs">
-              <button
-                className={`tab-btn ${activeTab === 'date' ? 'active' : ''}`}
-                onClick={() => setActiveTab('date')}
-              >
-                <FaCalendarAlt /> Select Date
-              </button>
-              <button
-                className={`tab-btn ${activeTab === 'time' ? 'active' : ''}`}
-                onClick={() => setActiveTab('time')}
-                disabled={!selectedDate}
-              >
-                <FaClock /> Select Time
-              </button>
+        {submitSuccess ? (
+          <div className="booking-success">
+            <div className="success-icon">
+              <FaCheck />
+            </div>
+            <h3>Booking Confirmed!</h3>
+            <div className="booking-summary">
+              <p><strong>Service:</strong> {service.name}</p>
+              <p><FaCalendarAlt /> <strong>Date:</strong> {selectedDate.toDateString()}</p>
+              <p><FaClock /> <strong>Time:</strong> {timeSlot}</p>
+              <p><FaMapMarkerAlt /> <strong>Location:</strong> {bookingDetails.location}</p>
+              <p><FaUser /> <strong>Contact:</strong> {bookingDetails.contactNumber}</p>
+            </div>
+            <button 
+              className="btn-primary"
+              onClick={showBookModal}
+            >
+              Done
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="booking-header">
+              <h2>Book {service.name}</h2>
+              <p className="subtitle">Schedule your service appointment</p>
+              {error && (
+                <div className="booking-error">
+                  <FaInfoCircle /> {error}
+                </div>
+              )}
             </div>
 
-            {activeTab === 'date' ? (
-              <div className="calendar-section">
-                <div className="calendar-header">
-                  <button 
-                    className="nav-btn"
-                    onClick={() => {
-                      if (currentMonth === 0) {
-                        setCurrentMonth(11);
-                        setCurrentYear(currentYear - 1);
-                      } else {
-                        setCurrentMonth(currentMonth - 1);
-                      }
-                    }}
+            <div className="booking-content">
+              <div className="booking-left">
+                <div className="tabs">
+                  <button
+                    className={`tab ${activeTab === 'date' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('date')}
                   >
-                    &lt;
+                    <FaCalendarAlt /> Date
                   </button>
-                  <h3>
-                    {new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} {currentYear}
-                  </h3>
-                  <button 
-                    className="nav-btn"
-                    onClick={() => {
-                      if (currentMonth === 11) {
-                        setCurrentMonth(0);
-                        setCurrentYear(currentYear + 1);
-                      } else {
-                        setCurrentMonth(currentMonth + 1);
-                      }
-                    }}
+                  <button
+                    className={`tab ${activeTab === 'time' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('time')}
+                    disabled={!selectedDate}
                   >
-                    &gt;
+                    <FaClock /> Time
                   </button>
                 </div>
 
-                <div className="calendar-weekdays">
-                  {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                    <div key={day} className="weekday">{day}</div>
-                  ))}
-                </div>
+                {activeTab === 'date' ? (
+                  <div className="calendar-container">
+                    <div className="calendar-header">
+                      <button 
+                        className="nav-btn"
+                        onClick={() => {
+                          if (currentMonth === 0) {
+                            setCurrentMonth(11);
+                            setCurrentYear(currentYear - 1);
+                          } else {
+                            setCurrentMonth(currentMonth - 1);
+                          }
+                        }}
+                      >
+                        &lt;
+                      </button>
+                      <h3>
+                        {new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' })} {currentYear}
+                      </h3>
+                      <button 
+                        className="nav-btn"
+                        onClick={() => {
+                          if (currentMonth === 11) {
+                            setCurrentMonth(0);
+                            setCurrentYear(currentYear + 1);
+                          } else {
+                            setCurrentMonth(currentMonth + 1);
+                          }
+                        }}
+                      >
+                        &gt;
+                      </button>
+                    </div>
 
-                <div className="calendar-days">
-                  {renderCalendarDays()}
-                </div>
-              </div>
-            ) : (
-              <div className="time-slots-section">
-                <h3>Available Time Slots</h3>
-                <div className="time-slots-grid">
-                  {timeSlots.map(slot => (
-                    <button
-                      key={slot}
-                      className={`time-slot ${timeSlot === slot ? 'selected' : ''}`}
-                      onClick={() => setTimeSlot(slot)}
-                    >
-                      {slot}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+                    <div className="weekdays">
+                      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                        <div key={day} className="weekday">{day}</div>
+                      ))}
+                    </div>
 
-          {/* Right Section - Booking Form */}
-          <div className="booking-right">
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label><FaMapMarkerAlt /> Service Location</label>
-                <input
-                  type="text"
-                  name="location"
-                  value={bookingDetails.location}
-                  onChange={handleInputChange}
-                  placeholder="Where should the service be provided?"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label><FaInfoCircle /> Problem Description</label>
-                <textarea
-                  name="description"
-                  value={bookingDetails.description}
-                  onChange={handleInputChange}
-                  placeholder="Describe what you need help with..."
-                  rows="4"
-                  required
-                ></textarea>
-              </div>
-
-              <div className="form-group">
-                <label>Contact Number</label>
-                <input
-                  type="tel"
-                  name="contactNumber"
-                  value={bookingDetails.contactNumber}
-                  onChange={handleInputChange}
-                  placeholder="Your phone number"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Special Requests</label>
-                <textarea
-                  name="specialRequests"
-                  value={bookingDetails.specialRequests}
-                  onChange={handleInputChange}
-                  placeholder="Any special instructions for the service provider..."
-                  rows="3"
-                ></textarea>
-              </div>
-
-              <div className="selected-datetime">
-                {selectedDate && (
-                  <div className="datetime-item">
-                    <FaCalendarAlt />
-                    <span>{selectedDate.toDateString()}</span>
+                    <div className="calendar-days">
+                      {renderCalendarDays()}
+                    </div>
                   </div>
-                )}
-                {timeSlot && (
-                  <div className="datetime-item">
-                    <FaClock />
-                    <span>{timeSlot}</span>
+                ) : (
+                  <div className="time-slots-container">
+                    <h3>Select Time Slot</h3>
+                    <div className="time-slots-grid">
+                      {timeSlots.map(slot => (
+                        <button
+                          key={slot}
+                          className={`time-slot-btn ${timeSlot === slot ? 'selected' : ''}`}
+                          onClick={() => setTimeSlot(slot)}
+                        >
+                          {slot}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
 
-              <button type="submit" className="book-now-btn">
-                Book Now
-              </button>
-            </form>
-          </div>
-        </div>
+              <div className="booking-right">
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label><FaMapMarkerAlt /> Service Location *</label>
+                    <input
+                      type="text"
+                      name="location"
+                      value={bookingDetails.location}
+                      onChange={handleInputChange}
+                      placeholder="Where should we provide the service?"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label><FaInfoCircle /> Service Description *</label>
+                    <textarea
+                      name="description"
+                      value={bookingDetails.description}
+                      onChange={handleInputChange}
+                      placeholder="Describe what you need..."
+                      rows="4"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label><FaPhone /> Contact Number *</label>
+                    <input
+                      type="tel"
+                      name="contactNumber"
+                      value={bookingDetails.contactNumber}
+                      onChange={handleInputChange}
+                      placeholder="Your phone number"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Special Requests</label>
+                    <textarea
+                      name="specialRequests"
+                      value={bookingDetails.specialRequests}
+                      onChange={handleInputChange}
+                      placeholder="Any special instructions..."
+                      rows="3"
+                    />
+                  </div>
+
+                  <div className="selected-info">
+                    {selectedDate && (
+                      <div className="info-item">
+                        <FaCalendarAlt />
+                        <span>{selectedDate.toDateString()}</span>
+                      </div>
+                    )}
+                    {timeSlot && (
+                      <div className="info-item">
+                        <FaClock />
+                        <span>{timeSlot}</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <button 
+                    type="submit" 
+                    className="submit-btn"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Processing...' : 'Confirm Booking'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

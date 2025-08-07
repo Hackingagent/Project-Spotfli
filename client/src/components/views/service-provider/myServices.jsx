@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import MyServiceCard from "../../statcard/MyServiceCard";
 import ServiceProviderApplication from "../../account-billing/account/ServiceProviderAppication";
 import styles from "./myServices.module.css"; // Importing CSS module
 import { deleteService, getMyService, updateService } from "../../../api/user/serviceProvider/my-service";
+import service1 from '../../../assets/service images/service1.jpg'
+
 
 const MyServices = () => {
   const [services, setServices] = useState([]);
@@ -29,6 +30,23 @@ const MyServices = () => {
 
     //Fetch  services  on component mount
   useEffect(() => {
+
+    const fetchServices = async () => {
+      //Replace with actual ApI
+setServices([
+      {
+            id: 1,
+            image: service1,
+            name: 'Paul Nails',
+            description: 'Lurem impus is the main person',
+            price: 100,
+            category: "Plumber",
+            avialalibilty: "Available"
+      },
+
+      //More service types...
+    ]);
+    };
       fetchServices();
   }, []);
 
@@ -79,25 +97,31 @@ const MyServices = () => {
 
   return (
     <div className={styles.adminServices}>
-      <div className={styles.header}>
+      <div className= "hoteldash-rooms-header">
         <h1>Manage Services</h1>
         <button
-          className={styles.btnPrimary}
+          className="btn btn-primary"
           onClick={toggle}
           disabled={isLoading}
 
         >
-          {isLoading ? 'Loading...' : '+ Add New Service'}
+          {isLoading ? 'Loading...' : '+ Apply For New Service'}
+          
         </button>
       </div>
 
-      <div className={styles.servicesGrid}>
-        {services.length === 0 ? (
+      <div className="hoteldash-room-types">
+    {isLoading && services.length === 0 ? (
+          <p>Loading services...</p>
+        ) : services.length === 0 ? (
           <p>No services found. Create your first service!</p>
         ) : (
           services.map((service) => (
-            <MyServiceCard
+          //  <img src={service1} alt="" />
+  
+            <MyServiceCard                                              
               key={service._id}
+             
               service={service}
               onEdit={() => {
                 setCurrentService(service);
@@ -105,6 +129,7 @@ const MyServices = () => {
               }}
               onDelete={() => handleDelete(service._id)}
             />
+
           ))
         )}
       </div>

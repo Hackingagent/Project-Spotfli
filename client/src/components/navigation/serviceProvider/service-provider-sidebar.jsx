@@ -23,7 +23,7 @@ const ServiceProviderSidebar = ({ open, mobileOpen, activeTab, onTabChange, onTo
     <div className={`sidebar ${open ? 'open' : 'closed'} ${mobileOpen ? 'mobile-open' : ''}`}>
       <div className="sidebar-header">
         {open ? (
-          <h2>SPOTFLI</h2>
+          <h2>SERVICE DASHBAORD</h2>
         ) : (
           <div className="sidebar-logo">SF</div>
         )}
@@ -45,7 +45,7 @@ const ServiceProviderSidebar = ({ open, mobileOpen, activeTab, onTabChange, onTo
           active={activeTab === 'property-owner'}
           onClick={() => {
             onTabChange('property-owner')
-            navigate('/admin', {replace: true})
+            navigate('/service-provider/my-booking', {replace: true})
           }}
           open={open}
         />

@@ -1,0 +1,46 @@
+.hoteldash-room-types{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 2rem;
+    margin-top: 0.8rem;
+    width: 100%;
+}
+.hoteldash-room-card img{
+    width: 100%;
+    border-radius: 1rem;
+
+}
+.hoteldash-room-card{
+    background: var(--bg-w2);
+    border-radius: 1rem;
+    padding: 0.7rem 0.3rem;
+    box-shadow: 4px 4px 7px rgba(0, 0, 0, 0.185);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease-in;
+}
+.hoteldash-room-card:hover{
+    transform: translateY(-5px);
+
+}
+.hoteldash-room-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.hoteldash-room-actions{
+    margin: 0.7rem 0;
+    display: flex;
+    gap: 0.7rem;
+}
+.hoteldash-room-actions .delete{
+    background: rgb(153, 5, 5);
+}
+.hoteldash-room-actions .delete:hover{
+    background-color: transparent;
+    border: 2px solid rgb(153, 5, 5);
+    color: rgb(153, 5, 5);
+}

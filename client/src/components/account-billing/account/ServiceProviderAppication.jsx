@@ -18,6 +18,7 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [services, setServices] = useState([]);
   const [error, setError] = useState('');
+  const [isLoadingServices, setIsLoadingServices] = useState(true);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,36 +28,54 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
     }));
   };
 
-  const fetchServices = async() => {
-    const response = await userGetServices();
-
-    console.log(response);
-    setServices(response.service);
-  }
+  const fetchServices = async () => {
+    setIsLoadingServices(true);
+    setError('');
+    try {
+      const response = await userGetServices();
+      console.log('Services response:', response); // Debug log
+      
+      if (response?.success) {
+        // Handle different possible response structures
+        const receivedServices = response.services || response.data?.services || [];
+        setServices(Array.isArray(receivedServices) ? receivedServices : []);
+      } else {
+        setError(response?.error || 'Failed to load services');
+      }
+    } catch (err) {
+      console.error('Service fetch error:', err);
+      setError('Failed to load services. Please try again later.');
+    } finally {
+      setIsLoadingServices(false);
+    }
+  };
 
   useEffect(() => {
     fetchServices();
-  }, [])
+  }, []);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-  
+    setError('');
 
     try {
-      const response = await becomeServiceProvider(formData)
-
-      if(response.success){
+      const response = await becomeServiceProvider(formData);
+      console.log('Submission response:', response); // Debug log
+      
+      if (response?.success) {
         setSubmitSuccess(true);
+      } else {
+        setError(response?.error || 'Submission failed. Please try again.');
       }
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      console.error('Submission error:', err);
+      setError('An unexpected error occurred');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    
   };
 
-  
   return (
     <div className="spa-modal-overlay">
       <div className="spa-modal-container">
@@ -71,34 +90,49 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
             </div>
             <h3>Application Submitted!</h3>
             <p>We'll review your information and get back to you soon.</p>
+            <button 
+              className="spa-close-success-btn"
+              onClick={toggleUpdatePanel}
+            >
+              Close
+            </button>
           </div>
         ) : (
           <>
             <div className="spa-modal-header">
               <h2>Become a Service Provider <i className='fa fa-gear'></i></h2>
               <p>Join our network of trusted Service Providers</p>
+              {error && <div className="spa-error-message">{error}</div>}
             </div>
 
             <form onSubmit={handleSubmit} className="spa-form">
-
               <div className="spa-form-group">
                 <label htmlFor="service">
                   <FiBriefcase className="spa-input-icon" />
                   Service Type
                 </label>
-                <select
-                  id="service"
-                  name="service"
-                  value={formData.service}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select a service</option>
-                  {services.map((service, index) => (
-                    <option key={index} value={service._id}>{service.name}</option>
-                  ))}
-                </select>
+                {isLoadingServices ? (
+                  <div className="spa-loading-services">Loading services...</div>
+                ) : services.length === 0 ? (
+                  <div className="spa-no-services">No services available</div>
+                ) : (
+                  <select
+                    id="service"
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select a service</option>
+                    {services.map((service) => (
+                      <option key={service._id} value={service._id}>
+                        {service.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
+
               <div className="spa-form-group">
                 <label htmlFor="name">
                   <FiUser className="spa-input-icon" />
@@ -117,7 +151,7 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
               <div className="spa-form-group">
                 <label htmlFor="email">
                   <FiMail className="spa-input-icon" />
-                  Buisness Email (if you have)
+                  Business Email (if you have)
                 </label>
                 <input
                   type="email"
@@ -144,8 +178,6 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
                   required
                 />
               </div>
-
-              
 
               <div className="spa-form-group">
                 <label htmlFor="experience">Years of Experience</label>
@@ -190,7 +222,7 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
               <button
                 type="submit"
                 className="spa-submit-btn"
-                disabled={isSubmitting || !formData.termsAccepted}
+                disabled={isSubmitting || !formData.termsAccepted || (services.length === 0 && !isLoadingServices)}
               >
                 {isSubmitting ? 'Submitting...' : 'Apply Now'}
               </button>

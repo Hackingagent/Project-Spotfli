@@ -22,6 +22,9 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+.sidebar-menu{
+  font-size: 1.6rem;
+}
 
 i{
   cursor: pointer;
