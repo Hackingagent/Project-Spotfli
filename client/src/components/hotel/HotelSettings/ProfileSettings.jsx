@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+// import loader from '../../../assets/preloadoers/Skateboarding.gif';
+import loader from '../../../assets/preloadoers/Main Scene.gif';
+
 import { updateHotelProfile, getCurrentHotel } from '../../../api/hotel/hotelApi';
 import './ProfileSettings.css';
 
@@ -111,7 +114,7 @@ const ProfileSettings = () => {
     }
   };
 
-  if (isLoading) return <div className="loading">Loading hotel data...</div>;
+  if (isLoading) return  <div className='preloader'><img src={loader} alt="" /></div>;
 
   return (
     <div className="profile-settings-container">

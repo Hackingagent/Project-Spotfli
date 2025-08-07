@@ -429,3 +429,73 @@ export const getCurrentHotel = async (req, res) =>{
         res.status(500).json({message: 'Server error'});
     }
 };
+
+
+// ***** Public API Endpoints *****
+
+// Get all hotels (public access)
+export const getAllHotels = async (req, res) => {
+  try {
+    const hotels = await Hotel.find()
+      .select('-password -rooms.bookings -addedBy')
+      .populate('rooms', 'roomType pricePerNight capacity amenities images')
+      .lean();
+
+    // Transform the data for better frontend consumption
+    const transformedHotels = hotels.map(hotel => {
+      // Get the lowest price room
+      const minPrice = hotel.rooms.length > 0 
+        ? Math.min(...hotel.rooms.map(room => room.pricePerNight))
+        : null;
+
+      return {
+        ...hotel,
+        minPrice,
+        image: hotel.images?.[0] || null, // Use first image as featured
+        roomTypes: [...new Set(hotel.rooms.map(room => room.roomType))] // Unique room types
+      };
+    });
+
+    res.status(200).json({
+      success: true,
+      count: transformedHotels.length,
+      data: transformedHotels
+    });
+  } catch (error) {
+    console.error('Get all hotels error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while fetching hotels'
+    });
+  }
+};
+
+// Get single hotel by ID (public access)
+export const getHotelById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const hotel = await Hotel.findById(id)
+      .select('-password -rooms.bookings.guest -addedBy')
+      .populate('rooms', '-bookings')
+      .lean();
+
+    if (!hotel) {
+      return res.status(404).json({
+        success: false,
+        message: 'Hotel not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: hotel
+    });
+  } catch (error) {
+    console.error('Get hotel by ID error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while fetching hotel'
+    });
+  }
+};

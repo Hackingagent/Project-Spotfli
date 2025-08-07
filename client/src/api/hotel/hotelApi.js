@@ -192,3 +192,22 @@ export const updateRoom = async (roomId, roomData) => {
     throw new Error(error.response?.data?.message || 'Failed to update room');
   }
 };
+
+// Public hotel endpoints
+export const getHotels = async () => {
+  try {
+    const response = await api.get('/');
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch hotels');
+  }
+};
+
+export const getHotelDetails = async (id) => {
+  try {
+    const response = await api.get(`/${id}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch hotel details');
+  }
+};

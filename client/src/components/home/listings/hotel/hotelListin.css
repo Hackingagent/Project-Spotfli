@@ -1,0 +1,250 @@
+/* Hotel Listing Styles */
+.hotel-section {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  color: var(--bg-1);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hotel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.hotel-card {
+  background: var(--bg-white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hotel-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.hotel-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.image-slider-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.hotel-image-container {
+  height: 200px;
+  width: 100%;
+  position: relative;
+}
+
+.hotel-image-container.no-image {
+  background-color: var(--bg-w2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg-w1);
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hotel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.hotel-card:hover .hotel-image {
+  transform: scale(1.05);
+}
+
+.wishlist-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  color: var(--bg-w1);
+  transition: all 0.3s ease;
+}
+
+.wishlist-button:hover {
+  color: #ff4757;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.hotel-info {
+  padding: 1.5rem;
+}
+
+.hotel-name {
+  font-size: 1.25rem;
+  margin: 0 0 0.5rem;
+  color: var(--bg-1);
+  font-weight: 600;
+}
+
+.hotel-location {
+  color: var(--bg-w1);
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.price-rating-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-weight: 600;
+  color: var(--bg-3);
+}
+
+.price .from {
+  font-size: 0.8rem;
+  color: var(--bg-w1);
+  font-weight: normal;
+}
+
+.price .per-night {
+  font-size: 0.8rem;
+  color: var(--bg-w1);
+}
+
+.price .no-rooms {
+  color: var(--bg-w1);
+  font-size: 0.9rem;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: var(--bg-w2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.star-icon {
+  color: #FFD700;
+}
+
+/* Slider styles */
+.custom-dots {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-dots ul {
+  display: flex;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-dots li {
+  list-style: none;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background-color: var(--bg-white);
+  width: 16px;
+  border-radius: 4px;
+}
+
+/* Loading and error states */
+.loading-container, .error-container, .no-hotels {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--bg-w2);
+  border-top: 4px solid var(--bg-3);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .hotel-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .hotel-section {
+    padding: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hotel-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .image-slider-container {
+    height: 180px;
+  }
+  
+  .hotel-info {
+    padding: 1rem;
+  }
+}

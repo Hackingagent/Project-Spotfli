@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import RoomCategoryForm from './RoomCategoryForm';
 import { getCurrentHotel, deleteRoom, updateRoom } from '../../../api/hotel/hotelApi';
 import './ManageRooms.css';
+import loader from '../../../assets/preloadoers/Main Scene.gif';
 import EditRoomModal from './EditRoomModal';
 
 const ManageRooms = () => {
@@ -75,8 +76,8 @@ const handleUpdateRoom = async (roomId, formData) => {
     setRooms([...rooms, newRoom]);
   };
 
-  if (isLoading) return <div>Loading rooms...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (isLoading) return <div className='preloader'><img src={loader} alt="" /></div>;
+  if (error) return <div> {error}</div>;
 
   return (
       <>
