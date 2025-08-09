@@ -77,7 +77,7 @@ const GigSchema = new mongoose.Schema({
     type: BookingSchema,
     required: false
   },
-  title: {
+  name: {
     type: String,
     required: true,
   },
@@ -85,7 +85,7 @@ const GigSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  price: {
+  pricePerHour: {
     type: Number,
     required: true
   },
@@ -97,9 +97,9 @@ const GigSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
-  available: {
-    type: AvailabilitySchema,
-    required: false
+  isAvailable: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
@@ -142,10 +142,6 @@ const userServiceSchema = new mongoose.Schema({
   experience: {
     type: Number,
     required: true,
-  },
-  website: {
-    type: String,
-    required: false,
   },
   termsAccepted: {
     type: Boolean,

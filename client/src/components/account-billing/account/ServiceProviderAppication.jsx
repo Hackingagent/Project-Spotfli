@@ -10,7 +10,6 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
     tell: '',
     experience: '',
     service: '',
-    website: '',
     termsAccepted: false
   });
 
@@ -190,18 +189,6 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
                   value={formData.experience}
                   onChange={handleChange}
                   required
-                />
-              </div>
-
-              <div className="spa-form-group">
-                <label htmlFor="website">Portfolio/Website URL (if you have)</label>
-                <input
-                  type="url"
-                  id="website"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleChange}
-                  placeholder="https://"
                 />
               </div>
 

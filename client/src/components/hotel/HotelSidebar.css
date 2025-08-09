@@ -4,7 +4,7 @@
   left: 0;
   height: 100vh;
   width: 250px;
-  background-color: #2c3e50;
+  background-color: #062544;
   color: white;
   transition: all 0.3s ease;
   z-index: 1000;
@@ -12,7 +12,8 @@
 }
 
 .hoteldash-sidebar.closed {
-  width: 80px;
+  display: none;
+  width: 2px;
 }
 
 .hoteldash-sidebar-header {
@@ -39,34 +40,36 @@
 .hoteldash-sidebar-toggle {
   background: none;
   border: none;
-  color: bla;
   font-size: 1.2rem;
   cursor: pointer;
+  color: var(--bg-white);
 }
 
 .hoteldash-sidebar-nav {
   padding: 20px 0;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0.5rem;
+  background-color: #062544;
 }
 
 .hoteldash-nav-item {
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  color: var(--bg-1);
+  color: var(--bg-white);
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .hoteldash-nav-item:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  color: var(--bg-3);
+  color: var(--bg-white);
 }
 
 .hoteldash-nav-item.active {
-  background-color: #3498db;
+  background-color:  rgba(255, 255, 255, 0.1);
   color: white;
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { IoMdExit } from "react-icons/io";
 import logoLight from '../../../assets/logo2.png';
 import './sideBar.css';
 
@@ -12,7 +13,7 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
       <div className="side-bar">
         <div className="side-bar-top">
           <img src={logoLight} alt="" />
-          <i className="fa fa-times" onClick={toggleSidebar}></i> {/* Use the toggle function */}
+          <IoMdExit className='exit-side-bar'  onClick={toggleSidebar} /> {/* Use the toggle function */}
         </div>
         <ul className="sidebar-content">
           { isApprovedProvider &&
@@ -34,6 +35,11 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
           <li>
             <Link className="sideLinks" to="/accountbilling">
              <i className="fa fa-user"></i> Manage Account {' '}
+            </Link>
+          </li>
+          <li>
+            <Link className="sideLinks" to="/property">
+             <i className="fa fa-home"></i> Manage Properties {' '}
             </Link>
           </li>
           <li>

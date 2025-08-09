@@ -1,0 +1,387 @@
+/* FieldForm.css */
+
+.field-form-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: var(--text-color);
+  }
+  
+  .field-form-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: var(--bg-1);
+  }
+  
+  .field-form-card {
+    background-color: var(--bg-white);
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+  }
+  
+  .field-form-subtitle {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--bg-2);
+  }
+  
+  .field-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  @media (min-width: 768px) {
+    .field-form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  .field-form-group {
+    margin-bottom: 16px;
+  }
+  
+  .field-form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-color);
+  }
+  
+  .field-form-input,
+  .field-form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--bg-w1);
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+  }
+  
+  .field-form-input:focus,
+  .field-form-select:focus {
+    outline: none;
+    border-color: var(--bg-4);
+  }
+  
+  .field-form-checkbox-container {
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .field-form-checkbox-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .field-form-checkbox {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+  
+  .field-form-checkbox-label {
+    font-size: 14px;
+  }
+  
+  .field-form-option-container {
+    display: flex;
+    margin-top: 8px;
+  }
+  
+  .field-form-option-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--bg-w1);
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .field-form-option-button {
+    margin-left: 8px;
+    padding: 0 16px;
+    background-color: var(--bg-4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .field-form-option-button:hover {
+    background-color: var(--bg-3);
+  }
+  
+  .field-form-option-list {
+    margin-top: 8px;
+  }
+  
+  .field-form-option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-w2);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+  }
+  
+  .field-form-option-remove {
+    color: #dc2626;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .field-form-option-remove:hover {
+    text-decoration: underline;
+  }
+  
+  .field-form-primary-button {
+    padding: 10px 20px;
+    background-color: var(--bg-4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 16px;
+  }
+  
+  .field-form-primary-button:hover {
+    background-color: var(--bg-3);
+  }
+  
+  .field-form-preview-container {
+    margin-top: 16px;
+  }
+  
+  .field-form-preview-item {
+    border: 1px solid var(--bg-w1);
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .field-form-preview-content {
+    flex: 1;
+  }
+  
+  .field-form-preview-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  
+  .field-form-preview-text {
+    font-size: 14px;
+    color: var(--bg-w1);
+    margin-bottom: 8px;
+  }
+  
+  .field-form-required-badge {
+    display: inline-block;
+    font-size: 12px;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+  
+  .field-form-preview-options {
+    margin-top: 8px;
+  }
+  
+  .field-form-preview-options-title {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  
+  .field-form-preview-options-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    font-size: 14px;
+    color: var(--text-color);
+  }
+  
+  .field-form-remove-button {
+    color: #dc2626;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .field-form-remove-button:hover {
+    text-decoration: underline;
+  }
+  
+  .field-form-submit-button {
+    padding: 10px 20px;
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 16px;
+  }
+  
+  .field-form-submit-button:hover {
+    background-color: #15803d;
+  }
+
+  .field-form-loading {
+    text-align: center;
+    padding: 20px;
+    color: var(--bg-2);
+  }
+  
+  .field-form-error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .field-form-error button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #b91c1c;
+  }
+  
+  .field-form-existing-container {
+    margin-top: 16px;
+  }
+  
+  .field-form-existing-item {
+    border: 1px solid var(--bg-w1);
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .field-form-existing-content {
+    flex: 1;
+  }
+  
+  .field-form-existing-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .field-form-edit-button {
+    padding: 6px 12px;
+    background-color: var(--bg-4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .field-form-delete-button {
+    padding: 6px 12px;
+    background-color: #dc2626;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .field-form-update-button {
+    padding: 10px 20px;
+    background-color: var(--bg-3);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .field-form-cancel-button {
+    padding: 10px 20px;
+    background-color: var(--bg-w1);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .field-form-no-fields {
+    text-align: center;
+    color: var(--bg-w1);
+    padding: 20px 0;
+  }
+
+  /* Reorder Controls */
+.field-reorder-controls {
+  display: flex;
+  flex-direction: column;
+  margin-right: 12px;
+}
+
+.move-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #666;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.move-button:hover {
+  color: #1890ff;
+}
+
+.move-button:disabled {
+  color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Save Order Button */
+.save-order-container {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.save-order-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.save-order-button:hover {
+  background-color: #45a049;
+}
+
+.save-order-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

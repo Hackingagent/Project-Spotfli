@@ -13,6 +13,7 @@
   display: flex;
   min-height: 100vh;
   background-color: #f5f7fa;
+  overflow-y: hidden;
 }
 
 .hoteldash-main {
@@ -22,10 +23,16 @@
 }
 
 .hoteldash-sidebar-collapsed {
-  margin-left: 80px;
+  margin-left: 2px;
 }
 
 .hoteldash-content {
   padding: 20px;
   margin-top: 60px;
+}
+@media screen and (max-width: 720px) {
+.hoteldash-main {
+  flex: 1;
+  margin-left: 2px;
+}
 }

@@ -26,12 +26,12 @@ const HotelTopNav = ({ toggleSidebar }) => {
           onClick={toggleSidebar} 
           className="hoteldash-menu-toggle"
         >
-          <i className="fa fa-bars"></i>
+         <span>Menu</span> <i className="fa fa-bars"></i>
         </button>
-        <div className="hoteldash-search">
+        {/* <div className="hoteldash-search">
           <input type="text" placeholder="Search..." />
           <i className="fa fa-search"></i>
-        </div>
+        </div> */}
       </div>
       <div className="hoteldash-topnav-right">
         <div className="hoteldash-profile">

@@ -1,0 +1,133 @@
+/* src/components/hotel/RoomList.css */
+.room-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.room-card {
+    display: flex;
+    border: 1px solid var(--bg-w2);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.room-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.room-image {
+    width: 200px;
+    height: 150px;
+    flex-shrink: 0;
+}
+
+.room-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.room-details {
+    flex: 1;
+    padding: 1rem;
+}
+
+.room-details h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--bg-1);
+}
+
+.room-description {
+    color: var(--bg-w1);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.room-amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.amenity-tag {
+    background-color: var(--bg-w2);
+    color: var(--text-color);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.amenity-more {
+    color: var(--bg-4);
+    font-size: 0.8rem;
+}
+
+.room-capacity {
+    font-size: 0.9rem;
+    color: var(--bg-w1);
+}
+
+.room-price {
+    width: 150px;
+    padding: 1rem;
+    text-align: right;
+    border-left: 1px solid var(--bg-w2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.price-amount {
+    font-weight: bold;
+    color: var(--bg-1);
+    font-size: 1.2rem;
+}
+
+.price-night {
+    color: var(--bg-w1);
+    font-size: 0.8rem;
+}
+
+.room-status {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.available {
+    color: green;
+}
+
+.unavailable {
+    color: red;
+}
+
+.no-rooms {
+    text-align: center;
+    padding: 2rem;
+    color: var(--bg-w1);
+}
+
+@media (max-width: 768px) {
+    .room-card {
+        flex-direction: column;
+    }
+    
+    .room-image {
+        width: 100%;
+        height: 150px;
+    }
+    
+    .room-price {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--bg-w2);
+        text-align: left;
+        padding: 0.5rem 1rem;
+    }
+}

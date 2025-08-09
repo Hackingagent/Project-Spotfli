@@ -1,0 +1,38 @@
+/* src/components/hotel/HotelAmenities.css */
+.hotel-amenities {
+    margin-top: 2rem;
+}
+
+.hotel-amenities h2 {
+    color: var(--bg-1);
+    margin-bottom: 1rem;
+}
+
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: var(--bg-w2);
+    border-radius: 4px;
+}
+
+.amenity-icon {
+    color: var(--bg-4);
+}
+
+.amenity-name {
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .amenities-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}

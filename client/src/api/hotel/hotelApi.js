@@ -97,3 +97,119 @@ export const getHotelById = async (id,token) => {
     throw error.response.data.message || 'Failed to fetch hotel';
   }
 };
+
+// update hotel profile
+export const updateHotelProfile = async (hotelId, hotelData) => {
+  const token = localStorage.getItem('hotel_token');
+  try{
+      const response = await api.put(`/editProfile/${hotelId}`, hotelData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  return response.data; 
+  }catch(error){
+    throw new Error(error.response?.data?.message || 'Failed to update hotel profile');
+  }
+}
+// update hotel password 
+export const updatePassword = async (passwordData) => {
+  const token = localStorage.getItem('hotel_token');
+  
+  try {
+    const response = await api.put('/update-password', passwordData, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update password');
+  }
+};
+// get hotel overview
+export const getHotelOverview = async () => {
+  const token = localStorage.getItem('hotel_token');
+  
+  try {
+    const response = await api.get('/overview', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch hotel overview');
+  }
+};
+//add hotel room
+export const addRoom = async (roomData) => {
+  const token = localStorage.getItem('hotel_token');
+  
+  try {
+    const response = await api.post('/rooms', roomData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to add room');
+  }
+};
+
+// delete hotel room 
+export const deleteRoom = async (roomId) => {
+  const token = localStorage.getItem('hotel_token');
+
+  try{
+    const response = await api.delete(`/rooms/${roomId}`,{
+      headers: {
+        'Authorization' : `Bearer ${token}`
+      }
+    });
+    return response.data
+  }catch(error){
+    throw new Error(error.message?.data?.message || 'Failed to delet room')
+  }
+};
+
+//update hotel room
+export const updateRoom = async (roomId, roomData) => {
+  const token = localStorage.getItem('hotel_token');
+  
+  try {
+    const response = await api.put(`/rooms/${roomId}`, roomData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update room');
+  }
+};
+
+// Get all hotels (public)
+export const getAllHotels = async (queryParams = {}) => {
+    try {
+        const queryString = new URLSearchParams(queryParams).toString();
+        const response = await axios.get(`${API_URL}/?${queryString}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to fetch hotels');
+    }
+};
+
+// Get hotel details (public)
+export const getHotelDetails = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/${id}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to fetch hotel details');
+    }
+};

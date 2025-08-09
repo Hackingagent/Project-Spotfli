@@ -31,22 +31,6 @@ const MyServices = () => {
     //Fetch  services  on component mount
   useEffect(() => {
 
-    const fetchServices = async () => {
-      //Replace with actual ApI
-setServices([
-      {
-            id: 1,
-            image: service1,
-            name: 'Paul Nails',
-            description: 'Lurem impus is the main person',
-            price: 100,
-            category: "Plumber",
-            avialalibilty: "Available"
-      },
-
-      //More service types...
-    ]);
-    };
       fetchServices();
   }, []);
 
@@ -98,7 +82,7 @@ setServices([
   return (
     <div className={styles.adminServices}>
       <div className= "hoteldash-rooms-header">
-        <h1>Manage Services</h1>
+        <h1>My Services</h1>
         <button
           className="btn btn-primary"
           onClick={toggle}
@@ -117,11 +101,9 @@ setServices([
           <p>No services found. Create your first service!</p>
         ) : (
           services.map((service) => (
-          //  <img src={service1} alt="" />
   
             <MyServiceCard                                              
-              key={service._id}
-             
+              id ={service._id}
               service={service}
               onEdit={() => {
                 setCurrentService(service);

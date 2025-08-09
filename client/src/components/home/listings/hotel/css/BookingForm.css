@@ -1,0 +1,78 @@
+/* src/components/hotel/BookingForm.css */
+.booking-form-container {
+    background-color: white;
+    border: 1px solid var(--bg-w2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px;
+}
+
+.booking-form-container h3 {
+    margin-top: 0;
+    color: var(--bg-1);
+}
+
+.booking-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--bg-1);
+    margin: 1rem 0;
+}
+
+.booking-price span {
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--bg-w1);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid var(--bg-w2);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.book-now-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--bg-4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.book-now-btn:hover {
+    background-color: var(--bg-3);
+}
+
+@media (max-width: 768px) {
+    .booking-form-container {
+        position: static;
+        margin-top: 2rem;
+    }
+}

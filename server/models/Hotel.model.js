@@ -66,6 +66,10 @@ const RoomSchema = new mongoose.Schema({
   images: [{
     type: String
   }],
+  numAvailable: {
+    type: Number,
+    default: 1
+  },
   isAvailable: {
     type: Boolean,
     default: true
@@ -117,11 +121,43 @@ const hotelSchema = new mongoose.Schema({
         type: [String],
         default: []
     },
+    images: [{
+        type: String,
+    }],
+     ratings: {
+        average: {
+            type: Number,
+            default: 0,
+            min: 0,
+            max: 5
+        },
+        count: {
+            type: Number,
+            default: 0
+        }
+    },
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number], // [longitude, latitude]
+            required: true
+        }
+    },
+    starRating: {
+        type: Number,
+        min: 1,
+        max: 5
+    },
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
-        required: true
-    }
+        required: true 
+    },
+        rooms: [RoomSchema],
 }, {
     timestamps: true
 })
