@@ -2,27 +2,41 @@ import React, { useEffect, useState } from "react";
 import TableComponent from '../../../sections/table/table-component';
 import TopNavigation from '../../../navigation/admin/top-navigation';
 import { FaTrash, FaEdit } from "react-icons/fa";
-import {  getProvider, toggleProvider } from "../../../../api/admin/serviceProvider/admin-service-provider";
-import ViewProviderModal from "./modals/ViewProvider";
+import { RxCrossCircled } from "react-icons/rx";
 import ConfirmationModal from '../../../confirmation-modal/ConfirmationModal';
 import Notification from '../../../notification/notification';
+import { getProperties, toggleProperty } from "../../../../api/admin/properties/property";
+import ViewPropertyModal from "./modals/ViewProperty";
 
 
-const AdminPendingProvider = () => {
+const AdminDeclinedProperties = () => {
 
     const [data, setData] = useState([]);
-    const [selectedData, setSelectedData] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [selectedData, setSelectedData] = useState([]);
+    const [status, setStatus] = useState('');
     const [confirmationModal, setConfirmationModal] = useState(false);
     const [message, setMessage] = useState('');
-    const [status, setStatus] = useState('');
+
 
     const fetchProviders = async() => {
         console.log("Getting Pending Providers");
-        const response = await getProvider('pending');
+        const response = await getProperties('declined');
         console.log('Response from Function: ', response)
-        setData(response.provider);
+        setData(response.properties);
     }
+
+    
+    useEffect(() => {
+        fetchProviders()
+    }, []);
+
+    const propertyHeadings = [
+        'user',
+        'status',
+        'admin',
+        'actions',
+    ]
 
     const handleApprove = () => {
         console.log('Approving: ', selectedData.id);
@@ -31,19 +45,13 @@ const AdminPendingProvider = () => {
         setConfirmationModal(true);
     }
 
-    const handleDecline = () => {
-        console.log('Declining: ', selectedData.id);
-        setShowModal(false);
-        setStatus('declined'),
-        setConfirmationModal(true);
-    }
-
     const handleConfirm = async(status) => {
-        console.log('Selected Service: ', selectedData);
+        console.log('Selected Property: ', selectedData);
         console.log('Status in confirm message: ', status);
 
         try {
-            const response = await toggleProvider(selectedData.id, status);
+            
+            const response = await toggleProperty(selectedData._id, status);
             setMessage(response.message);
             setConfirmationModal(false);
             fetchProviders();
@@ -51,18 +59,6 @@ const AdminPendingProvider = () => {
             console.log('error: ', error.message);
         }
     }
-
-    
-    useEffect(() => {
-        fetchProviders()
-    }, []);
-
-    const serviceProviderHeadings = [
-        'user',
-        'service',
-        'status',
-        'actions',
-    ]
     
 
     //Table rows actions (edit and delete)
@@ -70,28 +66,15 @@ const AdminPendingProvider = () => {
         {
             label: "view",
             handler: (row) => {
-				console.log('Row to edit', row);
                 setSelectedData(row);
                 setShowModal(true);
-                // toggleEditService();
-                // setEditData(row);
+                console.log('Row to edit', selectedData);
+
 				
 			},
-			icon: <i className='fa fa-eye' ></i>,
+			icon: <FaEdit />,
             type: "text-green text-[20px]" // Customize button type (for styling)
         },
-        // {
-        //     label: "Delete",
-        //     handler: async(row) => {
-		// 		console.log('Row to delete', row);
-		// 		console.log('Row ID', row._id);
-        //         // const response = await deleteService(row._id) //Delete FUnction called
-        //         // setMessage(response.message)
-        //         // fetchServices();
-		// 	},
-		// 	icon: <FaTrash />,
-        //     type: "text-red text-[20px]" // Customize button type (for styling)
-        // }
     ];
 
     return (
@@ -104,34 +87,34 @@ const AdminPendingProvider = () => {
                 />
             }
 
-            <TopNavigation heading={'Service Providers: Pending'} />
+            <TopNavigation heading={'Properties: Declined'} />
             {/* <div className="addServiceBtn" onClick={toggleAddService}>
                 Add Service <i className="fa fa-plus"></i>
             </div> */}
             <TableComponent 
-                headers={serviceProviderHeadings}
+                headers={propertyHeadings}
                 data={data}
                 actions={actions}
             />
 
-            <ViewProviderModal 
+            <ViewPropertyModal 
                 show={showModal}
                 onClose={() =>  setShowModal(false)}
-                application={selectedData}
-                currentStatusPage="Pending"
+                property={selectedData}
+                currentStatusPage="Declined"
                 onApprove={handleApprove}
-                onDecline={handleDecline}
             />
 
             <ConfirmationModal 
                 isOpen={confirmationModal}
                 message={
                     <>
-                        Are you sure you want to Perform this action
+                       Are you sure you want to Perform this action
                         <br />
-                        <b>Name:</b> {selectedData.userDetails?.first_name}<br />
-                        <b>Business Name:</b> {selectedData.name}<br />
-                        <b>category</b> {selectedData.service}
+                        <b>Name:</b> {selectedData.userDetails?.first_name} {selectedData.userDetails?.last_name}<br />
+                        <b>Title</b> {selectedData.data?.title}<br />
+                        <b>category</b> {selectedData.category?.name} <br />
+                        <b>Sub Category</b> {selectedData.subcategory?.name}
                     </>
                 }
                 onClose={() => {
@@ -145,4 +128,4 @@ const AdminPendingProvider = () => {
     )
 }
 
-export default AdminPendingProvider
+export default AdminDeclinedProperties

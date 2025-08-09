@@ -156,3 +156,26 @@ export const updateProperty = async(id, formData) => {
         }
     }
 }
+
+export const deletePropertyFile = async(id, fileId) => {
+    try{
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.delete(`user/${id}/deletePropertyFile/${fileId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        return {
+            success: true,
+            message: response.data.message,
+        }
+
+    }catch(error){
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+}

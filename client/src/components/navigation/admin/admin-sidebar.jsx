@@ -8,10 +8,16 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
   const navigate = useNavigate();
   const [isServiceProviderOpen, setIsServiceProviderOpen] = useState(false);
   const [hotelDrop, isHotelDrop] = useState(false)
+  const [isPropertyOpen, setIsPropertyOpen] = useState(false)
 
   // toggle service provider menu dropdown
   const toggleServiceProvider = () => {
     setIsServiceProviderOpen(!isServiceProviderOpen);
+  };  
+  
+  // toggle Properties menu dropdown
+  const toggleProperties = () => {
+    setIsPropertyOpen(!isPropertyOpen);
   };
 
   // toggle hotel menu deropdown
@@ -39,16 +45,58 @@ const AdminSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) =>
           }}
           open={open}
         />
-        <SidebarItem
-          icon={<FiHome />}
-          text="Property Owners"
-          active={activeTab === 'property-owner'}
-          onClick={() => {
-            onTabChange('property-owner')
-            navigate('/admin', {replace: true})
-          }}
-          open={open}
-        />
+
+
+        <div className={`sidebar-dropdown ${isPropertyOpen ? 'open' : ''}`}>
+          <div 
+            className={`sidebar-item ${activeTab.startsWith('service-provider') ? 'active' : ''}`}
+            onClick={toggleProperties}
+          >
+            <div className="sidebar-icon"><FiHome /></div>
+            {open && (
+              <>
+                <span>Properties</span>
+                {isPropertyOpen ? <FiChevronDown /> : <FiChevronRight />}
+              </>
+            )}
+          </div>
+          
+          {open && isPropertyOpen && (
+            <div className="sidebar-submenu">
+              <SidebarItem
+                text="Approved"
+                active={activeTab === 'property-approved'}
+                onClick={() => {
+                  onTabChange('property-approved')
+                  navigate('/admin/properties/approved', {replace: true})
+                }}
+                open={open}
+                isSubItem
+              />
+              <SidebarItem
+                text="Pending"
+                active={activeTab === 'property-pending'}
+                onClick={() => {
+                  onTabChange('property-pending')
+                  navigate('/admin/properties/pending', {replace: true})
+                }}
+                open={open}
+                isSubItem
+              />
+              <SidebarItem
+                text="Declined"
+                active={activeTab === 'property-declined'}
+                onClick={() => {
+                  onTabChange('property-declined')
+                  navigate('/admin/properties/declined', {replace: true})
+                }}
+                open={open}
+                isSubItem
+              />
+            </div>
+          )}
+        </div>
+
         
         {/* Service Provider with dropdown */}
         <div className={`sidebar-dropdown ${isServiceProviderOpen ? 'open' : ''}`}>

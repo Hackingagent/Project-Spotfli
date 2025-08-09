@@ -3,7 +3,7 @@ import { loginUser, logoutUser, registerUser } from "../controllers/user/auth/au
 import userAuthenticate from "../middlewares/userAuthenticate.middleware.js";
 import { becomeServiceProvider, userGetService } from "../controllers/user/service-provider/service-provider.controller.js";
 import { getCategory } from "../controllers/admin/category/category.controller.js";
-import { addProperty, getPropertySubcategory, getSingleProperty, getUserProperties, updateProperty } from "../controllers/user/property/property.controller.js";
+import { addProperty, deletePropertyFile, getPropertySubcategory, getSingleProperty, getUserProperties, updateProperty } from "../controllers/user/property/property.controller.js";
 import { upload } from "../utils/propertyFIleUpload.js";
 
 const userRoutes = express.Router();
@@ -27,6 +27,7 @@ userRoutes.get('/getPropertySubcategory/:id', userAuthenticate, getPropertySubca
 
 userRoutes.post('/addProperty', userAuthenticate, upload.array('files', 5), addProperty);
 userRoutes.put('/updateProperty/:id', userAuthenticate, updateProperty );
+userRoutes.delete('/:id/deletePropertyFile/:fileId', userAuthenticate, deletePropertyFile);
 
 
 

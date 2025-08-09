@@ -169,3 +169,29 @@
     margin-top: 8px;
     font-style: italic;
   }
+
+  .propertyBottom {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .propertyStatus{
+    border-radius: 20px;
+    padding: 0 10px;
+  }
+
+  .propertyStatus p {
+    padding: 0;
+    color: white;
+    font-size: 12px;
+  }
+
+
+   .submitted{
+    background-color: orange;
+  }
+
+   .declined{
+    background-color: #e50808;
+  }

@@ -38,7 +38,7 @@ const propertySchema = new mongoose.Schema({
   }],
   status: {
     type: String,
-    enum: ['draft', 'submitted', 'approved', 'rejected'],
+    enum: ['draft', 'submitted', 'approved', 'declined'],
     default: 'submitted'
   },
   notes: String

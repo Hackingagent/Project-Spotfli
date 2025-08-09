@@ -38,8 +38,6 @@ export const getUserProperties = async(req, res) => {
 export const getSingleProperty = async(req, res) => {
     try {
         const {id} = req.params;
-        console.log('ID: ', id);
-        console.log('Hello i am here');
 
         const property = await Property.findById(id).populate({
             path: 'category',
@@ -47,7 +45,6 @@ export const getSingleProperty = async(req, res) => {
             model: 'Category'
         })
 
-        console.log('Property: ', property);
 
         res.status(200).json({
             success: true,
@@ -159,9 +156,6 @@ export const updateProperty = async(req, res) => {
 
         const {id} = req.params;
         const data = req.body;
-        
-        console.log('Data: ', data);
-        console.log('ID: ', id);
 
         const property = await Property.findByIdAndUpdate(id,
             {
@@ -191,4 +185,38 @@ export const updateProperty = async(req, res) => {
             error: error
         })
     }
+}
+
+
+export const deletePropertyFile = async(req, res) => {
+    try{
+        const {id, fileId} = req.params;
+
+
+        const updatedProperty = await Property.findByIdAndUpdate(id, {
+            $pull: {files: {_id: fileId}}
+        },{new: true});
+
+        if(!updateProperty){
+            return res.status(404).json({
+                success: false,
+                error: 'Property not found'
+            })
+        }
+
+
+        res.status(200).json({
+            success: true,
+            message: 'File Deleted Successfully'
+        })
+    }catch(error){
+        res.status(500).json({
+            success: false,
+            error: error
+        })
+    }
+}
+
+export const dashboardInfo = async (req, res) => {
+    
 }

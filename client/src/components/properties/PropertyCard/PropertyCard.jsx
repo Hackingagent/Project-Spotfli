@@ -115,12 +115,24 @@ const PropertyCard = ({ property, onClick }) => {
         )}
 
         {/* Display property type if available */}
-        {property.category?.name && (
-          <div className={styles.propertyType}>
-            {property.category.name}
-            {property.subcategory?.name && ` • ${property.subcategory.name}`}
-          </div>
-        )}
+        <div className={styles.propertyBottom}>
+          {property.category?.name && (
+            <div className={styles.propertyType}>
+              {property.category.name}
+              {property.subcategory?.name && ` • ${property.subcategory.name}`}
+            </div>
+          )}
+
+          {property.status === 'submitted' && (
+              <div className={`${styles.propertyStatus} ${styles.submitted}`}> <p>Property Under Review</p> </div>
+
+          )}
+
+          {property.status === 'declined' && (
+              <div className={`${styles.propertyStatus} ${styles.declined}`}> <p>Property Declined</p> </div>
+
+          )}
+        </div>
       </div>
     </div>
   );

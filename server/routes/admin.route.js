@@ -6,6 +6,9 @@ import {  getProviders, toggleProvider, } from "../controllers/admin/serviceProv
 import { addCategory, addMultipleFields, addSubCategory, deleteField, getCategory, getFields, getSubCategories, reorderFields, updateField } from "../controllers/admin/category/category.controller.js";
 
 import { registerHotel, getHotels} from "../controllers/hotel/hotelController.js";
+import { getProperties, toggleProperty } from "../controllers/admin/properties/admin-properties.controller.js";
+
+
 const adminRoutes = express.Router();
 
 //Authentication Routes
@@ -27,9 +30,10 @@ adminRoutes.get('/getSubCategories/:id', adminAuthenticate, getSubCategories);
 //Service Providers Routes
 adminRoutes.get('/getProviders/:status', adminAuthenticate, getProviders);
 adminRoutes.get('/toggleProvider/:id/:status', adminAuthenticate, toggleProvider);
-adminRoutes.post('/registerhotel', adminAuthenticate, registerHotel);
 // Hotel Routes
 adminRoutes.get('/',  adminAuthenticate, getHotels);
+adminRoutes.post('/registerhotel', adminAuthenticate, registerHotel);
+
 
 //Field Routes
 adminRoutes.post('/:categoryId/subcategories/:subcategoryId/addField', adminAuthenticate, addMultipleFields);
@@ -42,6 +46,10 @@ adminRoutes.put('/:categoryId/subcategories/:subcategoryId/updateField/:fieldId'
 
 adminRoutes.delete('/:categoryId/subcategories/:subcategoryId/deleteField/:fieldId', adminAuthenticate, deleteField);
 
+//Properties Routes
 
+adminRoutes.get('/getProperties/:status', adminAuthenticate, getProperties);
+
+adminRoutes.put('/toggleProperty/:id/:status', adminAuthenticate, toggleProperty);
 
 export default adminRoutes;

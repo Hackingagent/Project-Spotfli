@@ -552,3 +552,26 @@
   .noImages svg {
     margin-bottom: 1rem;
   }
+
+  .propertyStatus{
+    border-radius: 100px;
+    padding: 0 5px;
+  }
+
+  .submitted{
+    background-color: orange;
+  }
+
+  .declined{
+    background-color: #e50808;
+  }
+
+  .propertyStatus p {
+    
+    padding: 0;
+    color: white;
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 900;
+
+  }

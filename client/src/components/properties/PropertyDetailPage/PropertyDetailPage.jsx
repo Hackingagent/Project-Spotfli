@@ -5,7 +5,7 @@ import {
   FiSave, FiX, FiHeart, FiImage, FiUpload 
 } from 'react-icons/fi';
 import styles from './PropertyDetailPage.module.css';
-import { getPropertySubcategory, getSingleProperty, updateProperty } from '../../../api/user/property/property';
+import { deletePropertyFile, getPropertySubcategory, getSingleProperty, updateProperty } from '../../../api/user/property/property';
 import Notification from '../../notification/notification';
 
 const PropertyDetailPage = () => {
@@ -54,7 +54,9 @@ const PropertyDetailPage = () => {
 
   const handleDeleteImage = async (imageId) => {
     try {
-      await api.deleteImage(id, imageId);
+      const response = await deletePropertyFile(id, imageId);
+
+      setMessage(response.message);
       setProperty(prev => ({
         ...prev,
         files: prev.files.filter(file => file._id !== imageId)
@@ -301,7 +303,7 @@ const PropertyDetailPage = () => {
         type='success'
       />
 
-      
+
       <div className={styles.container}>
         <button className={styles.backButton} onClick={() => navigate(-1)}>
           <FiChevronLeft /> Back to Properties
@@ -309,6 +311,19 @@ const PropertyDetailPage = () => {
 
         <div className={styles.header}>
           <h1>{property.data?.title || 'Untitled Property'}</h1>
+
+          {property.status === 'submitted' && (
+            <div className={`${styles.propertyStatus} ${styles.submitted}`}>
+              <p>Property Under Review</p>
+            </div>
+          )}
+
+          {property.status === 'declined' && (
+            <div className={`${styles.propertyStatus} ${styles.declined}`}>
+              <p>Property had been Declined</p>
+            </div>
+          )}
+          
           <div className={styles.actionButtons}>
             <button 
               className={`${styles.iconButton} ${isFavorite ? styles.favorite : ''}`}

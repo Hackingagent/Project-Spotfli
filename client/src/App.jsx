@@ -57,6 +57,9 @@ import Properties from './components/views/property/view-property/properties';
 import PropertyDetailPage from './components/properties/PropertyDetailPage/PropertyDetailPage';
 import HotelOverview from './components/hotel/HotelOverview';
 import SecuritySettings from './components/hotel/HotelSettings/SecuritySettings';
+import AdminPendingProperties from './components/views/admin/properties/AdminPendingProperties';
+import AdminApprovedProperties from './components/views/admin/properties/AdminApprovedProperties';
+import AdminDeclinedProperties from './components/views/admin/properties/AdminDeclinedProperties';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -112,9 +115,20 @@ function App() {
             <Route path='rejected-units' element={<RejectedUnits />}/>
             <Route path='reported-units' element={<ReportedUnits />}/>
             <Route path='services' element={<AdminService />} />
+
+            {/* Admin Service Provide routes */}
             <Route path='service-provider/pending' element={<AdminPendingProvider />} />
             <Route path='service-provider/approved' element={<AdminApprovedProvider />} />
             <Route path='service-provider/declined' element={<AdminDeclinedProvider />} />
+
+
+            {/* Admin Properties Routes */}
+            <Route path='properties/pending' element={<AdminPendingProperties />} />
+            <Route path='properties/approved' element={<AdminApprovedProperties />} />
+            <Route path='properties/declined' element={<AdminDeclinedProperties />} />           
+
+
+
             <Route path='category' element={<AdminCategory />} />
             <Route path='category/:name' element={<AdminSubCategory />} />
             <Route 
