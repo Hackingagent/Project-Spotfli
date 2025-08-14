@@ -373,7 +373,7 @@ const PropertyDetailPage = () => {
               <>
                 <div className={styles.mainImageContainer}>
                   <img
-                    src={`http://localhost:5000${property.files[currentImageIndex].url}`}
+                    src={`${import.meta.env.VITE_FILE_API_URL}${property.files[currentImageIndex].url}`}
                     alt={`Property ${currentImageIndex + 1}`}
                     className={styles.mainImage}
                     onError={(e) => {
@@ -395,7 +395,7 @@ const PropertyDetailPage = () => {
                     {property.files.map((file, index) => (
                       <div key={file._id} className={styles.thumbnailWrapper}>
                         <img
-                          src={`http://localhost:5000${file.url}`}
+                          src={`${import.meta.env.VITE_FILE_API_URL}${file.url}`}
                           alt={`Thumbnail ${index + 1}`}
                           className={`${styles.thumbnail} ${index === currentImageIndex ? styles.active : ''}`}
                           onClick={() => handleImageChange(index)}

@@ -176,7 +176,7 @@ const handleSubmit = async (e) => {
               {formData.images.map((image, index) => (
                 <div key={index} className="image-preview">
                   <img 
-                    src={`http://localhost:5000/${image}`} 
+                    src={`${import.meta.env.VITE_FILE_API_URL}/${image}`} 
                     alt={`Room ${index + 1}`}
                     onError={(e) => {
                       e.target.src = '/default-room.jpg';

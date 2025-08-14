@@ -127,7 +127,7 @@ const ViewPropertyModal = ({
                     {property.files.map((file, index) => (
                       <div key={file._id} className='file'>
                         <img
-                          src={`http://localhost:5000${file.url}`}
+                          src={`${import.meta.env.VITE_FILE_API_URL}${file.url}`}
                           alt={`Thumbnail ${index + 1}`}
                         />
                       </div>

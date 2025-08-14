@@ -38,7 +38,7 @@ const PropertyModal = ({ property, onClose }) => {
             {property.files.length > 0 ? (
               <>
                 <img 
-                    src={`http://localhost:5000${property.files[currentImageIndex].url}`} 
+                    src={`${import.meta.env.VITE_FILE_API_URL}${property.files[currentImageIndex].url}`} 
                     alt={`Property ${currentImageIndex + 1}`}
                   className={styles.mainImage}
                 />

@@ -46,7 +46,7 @@ const PropertyRoomsList = () => {
           {room.files.length > 0 && (
             <>
               <img 
-                src={`http://localhost:5000${room.files[currentImageIndex].url}`} 
+                src={`${import.meta.env.VITE_FILE_API_URL}${room.files[currentImageIndex].url}`} 
                 alt={`Room ${currentImageIndex + 1}`}
                 className={styles.roomImage}
               />
