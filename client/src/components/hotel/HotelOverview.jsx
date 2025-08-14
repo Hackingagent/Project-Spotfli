@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import loader from '../../assets/preloadoers/Main Scene.gif';
 import { getHotelOverview } from '../../api/hotel/hotelApi';
 import './HotelOverview.css';
 
@@ -24,7 +25,7 @@ const HotelOverview = () => {
     fetchData();
   }, []);
 
-  if (isLoading) return <div className="loading-overview">Loading hotel overview...</div>;
+  if (isLoading) return <div className='preloader'><img src={loader} alt="" /></div>;
   if (error) return <div className="error-overview">Error: {error}</div>;
 
   return (

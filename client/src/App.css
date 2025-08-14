@@ -13,6 +13,18 @@
 .container{
   padding: 1.7rem 2rem;
 }
+.preloader{
+  margin-top: 10%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255,255,255,0.8);
+  }
+.preloader img{
+  width: 15rem;
+  height: 15rem;
+}
 body {
   font-family: Arial, sans-serif;
   background-color: var(--bg-white);
@@ -20,8 +32,7 @@ body {
   padding: 0;
   /* place-items: center; */
   min-width: 320px;
-  min-height: 100vh;
-  overflow-x: hidden;
+  min-height: 100vh; 
 }
 .sidebar-menu{
   font-size: 1.6rem;
