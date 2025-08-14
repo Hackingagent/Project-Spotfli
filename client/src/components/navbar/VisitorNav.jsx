@@ -11,7 +11,9 @@ const Navbar = () => {
                 <li><Link className='link' to="/">Home <i className="fa fa-home"></i></Link></li>
                 <li><Link className='link' to="/">Listings <i className="fa fa-building"></i></Link></li>
                 <li><Link className='link' to="/">Service Provider <i className="fa fa-gear"></i></Link></li>
-                <li><Link className='link' to="/">Login <i className="fa fa-user"></i></Link></li>
+                <li><Link className='link' to="/admin/login">Admin Login <i className="fa fa-user"></i></Link></li>
+                <li><Link className='link' to="/hotel/login">Hotel Login <i className="fa fa-user"></i></Link></li>
+                {/* <li><Link className='link' to="/">Login <i className="fa fa-user"></i></Link></li> */}
                 <li className=''><Link className='btn' to="/"> <button className='btn btn-primary'>Register</button></Link></li>
             </ul>
         </nav>
