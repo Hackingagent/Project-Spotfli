@@ -1,0 +1,267 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(35, 42, 47, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    background-color: var(--bg-white);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--bg-w2);
+    background-color: var(--bg-3);
+    color: white;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .modalHeader h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .form {
+    padding: 1.5rem;
+  }
+  
+  .formGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+  
+  .input, .selectInput, .textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--bg-w1);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+  
+  .input:focus, .selectInput:focus, .textarea:focus {
+    outline: none;
+    border-color: var(--bg-4);
+  }
+  
+  .numberInput {
+    width: 80px;
+    padding: 0.5rem;
+    border: 1px solid var(--bg-w1);
+    border-radius: 4px;
+  }
+  
+  .textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .roomFeatures {
+    margin-bottom: 1.5rem;
+  }
+  
+  .roomFeatures h3 {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+  
+  .featureGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  
+  .amenityInput {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .amenityInput input {
+    flex: 1;
+  }
+  
+  .addButton {
+    padding: 0 1rem;
+    background-color: var(--bg-4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .addButton:hover {
+    background-color: var(--bg-3);
+  }
+  
+  .amenityList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .amenityTag {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--bg-w2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+  }
+  
+  .removeAmenity {
+    margin-left: 0.25rem;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+  }
+  
+  .dropzone {
+    border: 2px dashed var(--bg-w1);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 1rem;
+  }
+  
+  .dropzone.dragging {
+    border-color: var(--bg-4);
+    background-color: rgba(15, 123, 205, 0.05);
+  }
+  
+  .dropzoneContent {
+    pointer-events: none;
+  }
+  
+  .dropzone p {
+    margin: 0 0 0.5rem;
+    font-weight: 500;
+  }
+  
+  .dropzone small {
+    color: var(--bg-w1);
+  }
+  
+  .fileInput {
+    display: none;
+  }
+  
+  .filePreviews {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+  
+  .filePreview {
+    position: relative;
+    border: 1px solid var(--bg-w2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .previewImage {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+  }
+  
+  .fileInfo {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .fileInfo span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .removeFile {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0 0 0 4px;
+  }
+  
+  .formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--bg-w2);
+  }
+  
+  .cancelButton {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--bg-w1);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cancelButton:hover {
+    background-color: var(--bg-w2);
+  }
+  
+  .submitButton {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--bg-4);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submitButton:hover {
+    background-color: var(--bg-3);
+  }

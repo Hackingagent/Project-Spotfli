@@ -24,8 +24,8 @@ adminRoutes.put('/updateService/:id', adminAuthenticate, updateService)
 //Category Routes
 adminRoutes.get('/getCategory', adminAuthenticate, getCategory );
 adminRoutes.post('/addCategory', adminAuthenticate, addCategory );
-adminRoutes.put('/addSubCategory/:id', adminAuthenticate, addSubCategory);
-adminRoutes.get('/getSubCategories/:id', adminAuthenticate, getSubCategories);
+adminRoutes.put('/addSubcategory/:id', adminAuthenticate, addSubCategory);
+adminRoutes.get('/getSubcategories/:id', adminAuthenticate, getSubCategories);
 
 //Service Providers Routes
 adminRoutes.get('/getProviders/:status', adminAuthenticate, getProviders);

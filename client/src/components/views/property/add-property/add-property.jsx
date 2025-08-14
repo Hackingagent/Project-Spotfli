@@ -464,7 +464,7 @@ const AddProperty = () => {
                     <FaCheckCircle />
                   </div>
                   <h3>{category.name}</h3>
-                  <p>{category.subCategories.length} subcategories available</p>
+                  <p>{category.subcategories.length} subcategories available</p>
                   <div className={styles.selectArrow}>
                     <FaChevronRight />
                   </div>
@@ -478,7 +478,7 @@ const AddProperty = () => {
           <div className={styles.stepContent}>
             <h2>Select a Subcategory</h2>
             <div className={styles.subcategoryList}>
-              {selectedCategory.subCategories.map(subcategory => (
+              {selectedCategory.subcategories.map(subcategory => (
                 <div 
                   key={subcategory._id} 
                   className={styles.subcategoryCard}

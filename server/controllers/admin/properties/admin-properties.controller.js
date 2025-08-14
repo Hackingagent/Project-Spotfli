@@ -29,7 +29,7 @@ export const getProperties = async (req, res) => {
         const formattedProperties = await Promise.all(
             properties.map(async (property) => {
                 const category = await Category.findById(property.category);
-                const subcategory = category.subCategories.id(property.subcategory);
+                const subcategory = category.subcategories.id(property.subcategory);
 
 
                 return {
@@ -54,7 +54,7 @@ export const getProperties = async (req, res) => {
 
         
 
-        console.log('Pending Properties: ', formattedProperties);
+        console.log(' Properties: ', formattedProperties);
 
         res.status(200).json({
             success: true,

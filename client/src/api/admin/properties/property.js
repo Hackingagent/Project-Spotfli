@@ -14,7 +14,8 @@ export const getProperties = async(status) => {
                 'Authorization': `Bearer ${token}`
             }
         });
-        console.log(response);
+
+        console.log("Response from Backend: ", response);
 
         return {
             success: true,

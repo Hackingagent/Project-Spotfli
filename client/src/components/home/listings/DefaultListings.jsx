@@ -1,14 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Listings from './Listings'
 import propertyList from './propertyList';
 import '../home.css'
 import PropertyFilter from '../filters/PropertyFilter';
+import { getAllProperties } from '../../../api/user/property/property';
+
+
 const DefaultListings = () => {
   const [showFilterP, setShowFilterP] = useState(false);
+  const [properties, setProperties] = useState([]);
   // function to toggle filter display
   function toggleFilter (){
     setShowFilterP(!showFilterP);
   }
+
+
+  useEffect (() => {
+    const fetchAllProperties = async() => {
+      const response = await getAllProperties();
+
+      setProperties(response.properties);
+
+
+    }
+  });
+
+
   return (
     <>
     {/* conditional rendering of property filter */}

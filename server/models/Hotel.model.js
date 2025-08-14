@@ -127,7 +127,7 @@ const hotelSchema = new mongoose.Schema({
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
-        required: true 
+        required: true,
     },
         rooms: [RoomSchema],
 }, {
@@ -135,7 +135,7 @@ const hotelSchema = new mongoose.Schema({
 })
 
 
-// code to Hash password befor saving
+// code to Hash password before saving
 
 hotelSchema.pre('save', async function(next) {
     if(!this.isModified('password')) return next();

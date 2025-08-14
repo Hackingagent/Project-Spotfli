@@ -95,16 +95,16 @@ const PropertyCard = ({ property, onClick }) => {
 
       <div className={styles.cardContent}>
         <div className={styles.priceBadge}>
-          ${property.data.price?.toLocaleString() || 'N/A'}
+          {property.data.name || 'Untitled Property'}
         </div>
         <h3 className={styles.propertyTitle}>
-          {property.data.title || 'Untitled Property'}
+          {property.data.location || 'Location not specified' }
         </h3>
         <p className={styles.propertyLocation}>
-          {property.data.location || 'Location not specified'}
+          Rooms: {property.data.rooms}
         </p>
         
-        {keyFeatures.length > 0 && (
+        {/* {keyFeatures.length > 0 && (
           <div className={styles.propertyFeatures}>
             {keyFeatures.map(feature => (
               <span key={feature}>
@@ -112,7 +112,7 @@ const PropertyCard = ({ property, onClick }) => {
               </span>
             ))}
           </div>
-        )}
+        )} */}
 
         {/* Display property type if available */}
         <div className={styles.propertyBottom}>

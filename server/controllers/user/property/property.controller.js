@@ -2,6 +2,70 @@ import Category from '../../../models/category.model.js';
 import  Property from '../../../models/property.model.js';
 import fs from 'fs';
 
+export const getAllProperties = async (req, res) => {
+    try {
+        // const {status} = req.params;
+                
+        const properties = await Property.find({status: approved}).populate({
+           path: 'user',
+           select: 'first_name last_name email tell',
+           model: User,
+        }).populate({
+            path: 'category',
+            select: 'name',
+            model: Category,
+        }).populate({
+            path: 'toggledBY',
+            select: 'first_name',
+            model: Admin,
+        }).sort({ createdAt: -1 });
+
+
+
+        const formattedProperties = await Promise.all(
+            properties.map(async (property) => {
+                const category = await Category.findById(property.category);
+                const subcategory = category.subCategories.id(property.subcategory);
+
+
+                return {
+                    ...property.toObject(),
+                    category: {
+                        _id: property.category._id,
+                        name: property.category.name,
+                        isActive: property.category.isActive,
+                    },
+
+                    subcategory: subcategory ? {
+                        _id: subcategory._id,
+                        name: subcategory.name,                      
+                    } : null,
+                    user: `${property.user?.first_name} ${property.user.last_name}`,
+                    userDetails: property.user,
+                    admin: property.toggledBY?.first_name,
+                    
+                }
+            })
+        )
+
+        
+
+        console.log('Pending Properties: ', formattedProperties);
+
+        res.status(200).json({
+            success: true,
+            properties:formattedProperties
+        })
+
+
+    } catch (error) {
+        res.status(400).json({
+            message: error.message,
+            success: false
+        });
+    }
+}
+
 
 export const getUserProperties = async(req, res) => {
     try {
@@ -73,7 +137,7 @@ export const getPropertySubcategory = async(req, res) => {
 
         const categories = await Category.find();
 
-        const subcategory = categories.flatMap(category => category.subCategories).find(
+        const subcategory = categories.flatMap(category => category.subcategories).find(
             sub => sub._id.toString() == id
         );
 

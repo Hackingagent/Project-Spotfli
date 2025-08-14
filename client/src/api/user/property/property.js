@@ -179,3 +179,75 @@ export const deletePropertyFile = async(id, fileId) => {
         }
     }
 }
+
+
+export const getAllProperties = async() => {
+
+    try {
+        const response = await api.get('/user/getAllProperties');
+        console.log(response);
+
+        return {
+            success: true,
+            properties: response.data.properties,
+        };
+
+    
+
+    }catch(error){
+        return {
+            success: false,
+            error
+        }
+    }
+}
+
+export const addPropertyRoom = async(formData, propertyId) => {
+
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.post(`user/addPropertyRoom/${propertyId}`, formData, {
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+
+            }
+        });
+
+        return {
+            success: false,
+            message: response.data.message,
+        }
+    } catch (error) {
+        return{
+            success: false,
+            error: error.message
+        }
+    }
+}
+
+
+export const getPropertyRooms = async (propertyId) => {
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.get(`user/getPropertyRooms/${propertyId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+
+        console.log('Response from backend: ', response);
+
+        return {
+            success: true,
+            propertyRooms: response.data.propertyRooms,
+        }
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message,
+        }
+    }
+}

@@ -4,7 +4,7 @@ import TopNavigation from '../../../../navigation/admin/top-navigation';
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import TableComponent from '../../../../sections/table/table-component';
 import AddSubCategoryModal from "./modal/AddSubCategoryModal";
-import { getSubCategories } from "../../../../../api/admin/category/category";
+import { getSubcategories } from "../../../../../api/admin/category/category";
 
 const AdminSubCategory = () => {
     const navigate = useNavigate();
@@ -20,8 +20,8 @@ const AdminSubCategory = () => {
     }
 
     const fetchSubCategories = async() => {
-        const response = await getSubCategories(categoryData.id);
-        setData(response.subCategory);
+        const response = await getSubcategories(categoryData.id);
+        setData(response.subcategory);
         setMessage(response.message);
     }
 

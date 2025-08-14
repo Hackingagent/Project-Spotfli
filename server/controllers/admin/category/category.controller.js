@@ -76,7 +76,7 @@ export const addSubCategory = async(req, res) => {
             })
         }
 
-        category.subCategories.push({
+        category.subcategories.push({
             name,
             description,
             addedBy: req.admin,
@@ -100,8 +100,8 @@ export const addSubCategory = async(req, res) => {
 export const getSubCategories = async(req, res) => {
     try {
         const {id} = req.params;
-        const category = await Category.findById(id).select('subCategories').populate({
-            path: 'subCategories.addedBy',
+        const category = await Category.findById(id).select('subcategories').populate({
+            path: 'subcategories.addedBy',
             select: 'first_name',
             model: Admin
         });
@@ -113,9 +113,9 @@ export const getSubCategories = async(req, res) => {
             })
         }
 
-        const subCategory = category.subCategories;
+        const subcategory = category.subcategories;
 
-        const subCategories = subCategory.map(sub => ({
+        const subcategories = subcategory.map(sub => ({
             id : sub._id,
             name : sub.name,
             description: sub.description,
@@ -126,7 +126,7 @@ export const getSubCategories = async(req, res) => {
 
         res.status(200).json({
             success: true,
-            subCategories: subCategories,
+            subcategories: subcategories,
         })
 
 
@@ -147,7 +147,7 @@ export const getFields = async(req, res) => {
         throw new Error('Category not found');
     }
 
-    const subcategory = category.subCategories.id(req.params.subcategoryId);
+    const subcategory = category.subcategories.id(req.params.subcategoryId);
 
     if(!subcategory){
         res.status(404);
@@ -204,7 +204,7 @@ export const addMultipleFields = async (req, res) => {
             });
         }
 
-        const subcategory = category.subCategories.id(req.params.subcategoryId);
+        const subcategory = category.subcategories.id(req.params.subcategoryId);
         if (!subcategory) {
             return res.status(404).json({
                 success: false,
@@ -304,7 +304,7 @@ export const deleteField = async(req, res) => {
         throw new Error('Category not found');
     }
 
-    const subcategory = category.subCategories.id(req.params.subcategoryId);
+    const subcategory = category.subcategories.id(req.params.subcategoryId);
     
     if (!subcategory) {
         res.status(404);
@@ -335,7 +335,7 @@ export const reorderFields = async(req, res) => {
       throw new Error('Category not found');
     }
   
-    const subcategory = category.subCategories.id(req.params.subcategoryId);
+    const subcategory = category.subcategories.id(req.params.subcategoryId);
     
     if (!subcategory) {
       res.status(404);

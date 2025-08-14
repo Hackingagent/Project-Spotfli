@@ -5,8 +5,11 @@ import {
   FiSave, FiX, FiHeart, FiImage, FiUpload 
 } from 'react-icons/fi';
 import styles from './PropertyDetailPage.module.css';
-import { deletePropertyFile, getPropertySubcategory, getSingleProperty, updateProperty } from '../../../api/user/property/property';
+import { addPropertyRoom, deletePropertyFile, getPropertySubcategory, getSingleProperty, updateProperty } from '../../../api/user/property/property';
 import Notification from '../../notification/notification';
+import { FaPlus } from 'react-icons/fa';
+import PropertyRoomModal from './modal/PropertyRoomModal';
+import PropertyRoomsList from './PropertyRoomList/PropertyRoomList';
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
@@ -24,6 +27,7 @@ const PropertyDetailPage = () => {
   const [activeEditField, setActiveEditField] = useState(null);
   const [subcategory, setSubcategory] = useState([]);
   const [message, setMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -157,6 +161,14 @@ const PropertyDetailPage = () => {
       console.error('Error updating property:', err);
     }
   };
+
+  const handleAddPropertyRoom = async (formData) => {
+    console.log('User section id: ', id);
+    console.log('User section Form Data: ', formData);
+    const response = await addPropertyRoom(formData, id);
+
+    setMessage(response.message);
+  }
 
   // const toggleEditField = (fieldKey) => {
   //   setActiveEditField(activeEditField === fieldKey ? null : fieldKey);
@@ -303,6 +315,13 @@ const PropertyDetailPage = () => {
         type='success'
       />
 
+      {showModal && (
+        <PropertyRoomModal 
+          onClose={() => setShowModal(false)}
+          onSubmit={handleAddPropertyRoom}
+        />
+      )}
+
 
       <div className={styles.container}>
         <button className={styles.backButton} onClick={() => navigate(-1)}>
@@ -437,6 +456,10 @@ const PropertyDetailPage = () => {
                 )}
               </div>
             )}
+
+            <button className={styles.addRoom} onClick={() => setShowModal(true)} > <FaPlus /> Add Room</button>
+
+            <PropertyRoomsList />
           </div>
 
           <div className={styles.detailsSection}>
