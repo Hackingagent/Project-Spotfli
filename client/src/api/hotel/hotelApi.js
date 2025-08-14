@@ -2,9 +2,11 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/hotel'; // This will proxy to http://localhost:5000/api/hotel
 
+
 // Set up axios instance with auth token
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  timeout: 10000,
 });
 
 // Add a request interceptor to include the token
@@ -40,7 +42,7 @@ const api = axios.create({
 
 export const loginHotel  = async (credentials) => {
     try{
-        const response = await api.post('/login', credentials);
+        const response = await api.post('/hotel/login', credentials);
         // Store token in localStorage or cookies
         if (response.data.hotel_token) {
             localStorage.setItem('hotel_token', response.data.hotel_token);
@@ -63,7 +65,7 @@ export const getCurrentHotel = async () => {
     console.log("Token", token);
 
     try {
-        const response = await api.get('/me', {
+        const response = await api.get('/hotel/me', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -102,7 +104,7 @@ export const getHotelById = async (id,token) => {
 export const updateHotelProfile = async (hotelId, hotelData) => {
   const token = localStorage.getItem('hotel_token');
   try{
-      const response = await api.put(`/editProfile/${hotelId}`, hotelData, {
+      const response = await api.put(`/hotel/editProfile/${hotelId}`, hotelData, {
     headers: {
       'Content-Type': 'multipart/form-data',
       'Authorization': `Bearer ${token}`
@@ -118,7 +120,7 @@ export const updatePassword = async (passwordData) => {
   const token = localStorage.getItem('hotel_token');
   
   try {
-    const response = await api.put('/update-password', passwordData, {
+    const response = await api.put('/hotel/update-password', passwordData, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -133,7 +135,7 @@ export const getHotelOverview = async () => {
   const token = localStorage.getItem('hotel_token');
   
   try {
-    const response = await api.get('/overview', {
+    const response = await api.get('/hotel/overview', {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -148,7 +150,7 @@ export const addRoom = async (roomData) => {
   const token = localStorage.getItem('hotel_token');
   
   try {
-    const response = await api.post('/rooms', roomData, {
+    const response = await api.post('/hotel/rooms', roomData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${token}`
@@ -165,7 +167,7 @@ export const deleteRoom = async (roomId) => {
   const token = localStorage.getItem('hotel_token');
 
   try{
-    const response = await api.delete(`/rooms/${roomId}`,{
+    const response = await api.delete(`/hotel/rooms/${roomId}`,{
       headers: {
         'Authorization' : `Bearer ${token}`
       }
@@ -181,7 +183,7 @@ export const updateRoom = async (roomId, roomData) => {
   const token = localStorage.getItem('hotel_token');
   
   try {
-    const response = await api.put(`/rooms/${roomId}`, roomData, {
+    const response = await api.put(`/hotel/rooms/${roomId}`, roomData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${token}`
