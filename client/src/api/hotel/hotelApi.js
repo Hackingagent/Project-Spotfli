@@ -199,7 +199,7 @@ export const updateRoom = async (roomId, roomData) => {
 export const getAllHotels = async (queryParams = {}) => {
     try {
         const queryString = new URLSearchParams(queryParams).toString();
-        const response = await axios.get(`${API_URL}/?${queryString}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/?${queryString}`);
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'Failed to fetch hotels');
@@ -209,7 +209,7 @@ export const getAllHotels = async (queryParams = {}) => {
 // Get hotel details (public)
 export const getHotelDetails = async (id) => {
     try {
-        const response = await axios.get(`${API_URL}/${id}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/${id}`);
         return response.data;
     } catch (error) {
         throw new Error(error.response?.data?.message || 'Failed to fetch hotel details');

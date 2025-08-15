@@ -54,7 +54,7 @@ const handleSubmit = async (e) => {
     });
     console.log('Token:', localStorage.getItem('hotel_token'));
 
-    const response = await axios.post('http://localhost:5000/api/hotel/rooms', formDataToSend, {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/hotel/rooms`, formDataToSend, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${localStorage.getItem('hotel_token')}`
