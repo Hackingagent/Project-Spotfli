@@ -76,7 +76,14 @@ function App() {
       <Route path='/singleprovider' element={<SingleServiceView />} />
       {/* hotels display route */}
       <Route path='/hotels' element={<HotelsView/>}/>
-      <Route path='/hotel/:id' element={<><Home /><HotelDetailsPage /></>} />
+      <Route path='/hotel/:id' element={
+        <>
+        <UserProtectedRoute>
+          <Home />
+          <HotelDetailsPage />
+        </UserProtectedRoute>
+        </>} 
+        />
       {/* Rent Property Route */}
       <Route path='/rent' element={<BuyProperty />}/>
       {/* coliving page route */}
