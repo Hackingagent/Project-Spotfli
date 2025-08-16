@@ -32,6 +32,11 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
             </Link>
           </li>
           <li>
+            <Link className="sideLinks" to="/user/bookings">
+             <i className="fa fa-clock"></i> Booking History {' '}
+            </Link>
+          </li>
+          <li>
             <Link className="sideLinks" to="/coliving">
              <i className="fa fa-bed"></i> Find Room-Mate {' '}
             </Link>
