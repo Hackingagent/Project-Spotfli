@@ -73,19 +73,21 @@
 
 @media  screen and (max-width: 500px) {
   .option-bar .options {
-    width: 19rem;
+    width: 17rem;
     overflow-x: auto;
+    gap: 1rem;
+    font-size: 2rem;
   }
 }
 @media  screen and (max-width: 390px) {
-  .option-bar .options {
-    width: 18rem;
-    overflow-x: auto;
-  }
-}
-@media  screen and (max-width: 350px) {
   .option-bar .options {
     width: 15rem;
     overflow-x: auto;
   }
 }
+/* @media  screen and (max-width: 350px) {
+  .option-bar .options {
+    width: 15rem;
+    overflow-x: auto;
+  }
+} */
