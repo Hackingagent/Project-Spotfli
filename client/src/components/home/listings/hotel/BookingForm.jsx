@@ -1,5 +1,7 @@
 // src/components/hotel/BookingForm.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { createBooking } from '../../../../api/booking';
 import './css/BookingForm.css';
 
 const BookingForm = ({ hotelId, room }) => {
@@ -9,6 +11,9 @@ const BookingForm = ({ hotelId, room }) => {
         guests: 1,
         specialRequests: ''
     });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,10 +23,39 @@ const BookingForm = ({ hotelId, room }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Implement booking logic
-        console.log('Booking submitted:', { hotelId, room, ...formData });
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await createBooking(hotelId, room._id, formData);
+            
+            if (response.success) {
+                // Redirect to bookings page or show success message
+                navigate('/user/bookings', { 
+                    state: { 
+                        bookingSuccess: true,
+                        bookingId: response.booking._id 
+                    } 
+                });
+            }
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Calculate total price preview
+    const calculateTotal = () => {
+        if (formData.checkInDate && formData.checkOutDate) {
+            const checkIn = new Date(formData.checkInDate);
+            const checkOut = new Date(formData.checkOutDate);
+            const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+            return nights * room.pricePerNight;
+        }
+        return 0;
     };
 
     return (
@@ -82,9 +116,31 @@ const BookingForm = ({ hotelId, room }) => {
                         placeholder="Any special requirements?"
                     />
                 </div>
+
+                {formData.checkInDate && formData.checkOutDate && (
+                    <div className="price-summary">
+                        <div className="price-line">
+                            <span>{room.pricePerNight.toLocaleString()} XAF × </span>
+                            <span>{Math.ceil(
+                                (new Date(formData.checkOutDate) - new Date(formData.checkInDate)) / 
+                                (1000 * 60 * 60 * 24)
+                            )} nights</span>
+                        </div>
+                        <div className="total-price">
+                            <span>Total:</span>
+                            <span>{calculateTotal().toLocaleString()} XAF</span>
+                        </div>
+                    </div>
+                )}
                 
-                <button type="submit" className="book-now-btn">
-                    Book Now
+                {error && <div className="error-message">{error}</div>}
+                
+                <button 
+                    type="submit" 
+                    className="book-now-btn"
+                    disabled={loading}
+                >
+                    {loading ? 'Processing...' : 'Book Now'}
                 </button>
             </form>
         </div>

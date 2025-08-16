@@ -58,6 +58,7 @@ import PropertyDetailPage from './components/properties/PropertyDetailPage/Prope
 import HotelOverview from './components/hotel/HotelOverview';
 import SecuritySettings from './components/hotel/HotelSettings/SecuritySettings';
 import HotelDetailsPage from './components/home/listings/hotel/HotelDetailsPage';
+import Bookings from './components/views/user/Bookings';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -84,6 +85,8 @@ function App() {
         </UserProtectedRoute>
         </>} 
         />
+        {/* Bookings */}
+        <Route path='/user/bookings' element={<UserProtectedRoute><Home/><Bookings /></UserProtectedRoute>} />
       {/* Rent Property Route */}
       <Route path='/rent' element={<BuyProperty />}/>
       {/* coliving page route */}

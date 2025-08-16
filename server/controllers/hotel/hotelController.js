@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 const { JsonWebTokenError, sign, verify } = jwt;
 import Hotel from "../../models/Hotel.model.js";
 import Admin from "../../models/admin.model.js";
-
+import User from '../../models/user.model.js';
 
 import fs from 'fs';
 import path from 'path';
@@ -512,3 +512,4 @@ export const getHotelDetails = async (req, res) => {
         });
     }
 };
+
