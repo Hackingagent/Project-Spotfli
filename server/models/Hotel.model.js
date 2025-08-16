@@ -20,10 +20,19 @@ const BookingSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    specialRequests: {
+        type: String,
+        trim: true
+    },
     status: {
         type: String,
         enum: ['pending', 'confirmed', 'cancelled', 'completed'],
         default: 'confirmed'
+    },
+    checkedStatus: {
+        type: String,
+        enum: ['not checked', 'checked in', 'checked out'],
+        default: 'not checked'
     },
     paymentStatus: {
         type: String,
@@ -68,7 +77,6 @@ const RoomSchema = new mongoose.Schema({
   }],
   numAvailable: {
     type: Number,
-    default: 1
   },
   isAvailable: {
     type: Boolean,

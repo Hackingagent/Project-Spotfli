@@ -32,6 +32,11 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
             </Link>
           </li>
           <li>
+            <Link className="sideLinks" to="/user/bookings">
+             <i className="fa fa-clock"></i> Booking History {' '}
+            </Link>
+          </li>
+          <li>
             <Link className="sideLinks" to="/coliving">
              <i className="fa fa-bed"></i> Find Room-Mate {' '}
             </Link>
@@ -67,10 +72,10 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
         </ul>
         <div className="side-bar-buttons">
         <Link className="sideLinks notification" to="/">
-              Notification <i className="fa fa-bell"></i>{' '}
+              <i className="fa fa-bell"></i> Notification {' '}
         </Link>
         <Link className="sideLinks logout" to="/">
-              Logout <i className="fa fa-sign-out"></i>{' '}
+             <i className="fa fa-sign-out"></i> Logout{' '}
         </Link>
         </div>
       </div>

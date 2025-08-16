@@ -1,4 +1,4 @@
-/* src/components/hotel/BookingForm.css */
+
 .booking-form-container {
     background-color: white;
     border: 1px solid var(--bg-w2);
@@ -75,4 +75,42 @@
         position: static;
         margin-top: 2rem;
     }
+}
+
+.price-summary {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background-color: var(--bg-w2);
+    border-radius: 4px;
+}
+
+.price-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.total-price {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: var(--bg-1);
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--bg-w1);
+}
+
+.error-message {
+    color: #dc3545;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+@media screen and (max-width: 900px){
+    .booking-form-container {
+        position: fixed;
+        top: 120px;
+        width: 70vw;
+        box-shadow: 4px 6px 100px rgba(0, 0, 0, 0.63);
+    }
+
 }

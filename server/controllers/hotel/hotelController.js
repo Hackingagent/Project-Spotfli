@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 const { JsonWebTokenError, sign, verify } = jwt;
 import Hotel from "../../models/Hotel.model.js";
 import Admin from "../../models/admin.model.js";
-
+import User from '../../models/user.model.js';
 
 import fs from 'fs';
 import path from 'path';
@@ -247,6 +247,7 @@ export const addRoom = async (req, res) => {
             roomNumber, 
             roomType, 
             pricePerNight, 
+            numAvailable,
             capacity, 
             description, 
             amenities 
@@ -263,7 +264,8 @@ export const addRoom = async (req, res) => {
             roomNumber,
             roomType,
             pricePerNight,
-            capacity,
+            numAvailable: numAvailable ? Number(numAvailable) : 1, // Default to 1 if not provided
+            capacity, 
             description,
             amenities: amenities?.split(',').map(item => item.trim()) || [],
             images: req.files?.map(file => file.path) || []
@@ -510,3 +512,4 @@ export const getHotelDetails = async (req, res) => {
         });
     }
 };
+

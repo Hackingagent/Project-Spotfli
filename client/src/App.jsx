@@ -61,6 +61,7 @@ import AdminPendingProperties from './components/views/admin/properties/AdminPen
 import AdminApprovedProperties from './components/views/admin/properties/AdminApprovedProperties';
 import AdminDeclinedProperties from './components/views/admin/properties/AdminDeclinedProperties';
 import HotelDetailsPage from './components/home/listings/hotel/HotelDetailsPage';
+import Bookings from './components/views/user/Bookings';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -79,7 +80,16 @@ function App() {
       <Route path='/singleprovider' element={<SingleServiceView />} />
       {/* hotels display route */}
       <Route path='/hotels' element={<HotelsView/>}/>
-      <Route path='/hotel/:id' element={<><Home /><HotelDetailsPage /></>} />
+      <Route path='/hotel/:id' element={
+        <>
+        <UserProtectedRoute>
+          <Home />
+          <HotelDetailsPage />
+        </UserProtectedRoute>
+        </>} 
+        />
+        {/* Bookings */}
+        <Route path='/user/bookings' element={<UserProtectedRoute><Home/><Bookings /></UserProtectedRoute>} />
       {/* Rent Property Route */}
       <Route path='/rent' element={<BuyProperty />}/>
       {/* coliving page route */}

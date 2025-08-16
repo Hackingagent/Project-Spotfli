@@ -22,6 +22,11 @@
   align-items: center;
   gap: 2.1rem;
   overflow-x: auto;
+    scrollbar-width: none; 
+  -ms-overflow-style: none; 
+}
+.option-bar .options::-webkit-scrollbar {
+  display: none; 
 }
 .all-optionsB{
   display: flex;
@@ -69,6 +74,18 @@
 @media  screen and (max-width: 500px) {
   .option-bar .options {
     width: 19rem;
+    overflow-x: auto;
+  }
+}
+@media  screen and (max-width: 390px) {
+  .option-bar .options {
+    width: 18rem;
+    overflow-x: auto;
+  }
+}
+@media  screen and (max-width: 350px) {
+  .option-bar .options {
+    width: 15rem;
     overflow-x: auto;
   }
 }
