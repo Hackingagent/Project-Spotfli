@@ -38,7 +38,7 @@ const PropertyDetailPage = () => {
         setFormData(response.property.data || {});
         // setIsFavorite(response.data.isFavorite);
         
-        const subcategoryResponse = await getPropertySubcategory(response.property.subcategory);
+        const subcategoryResponse = await getPropertySubcategory(response.property.subcategory._id);
         setSubcategory(subcategoryResponse.subcategory);
         setFieldDefinitions(subcategoryResponse.subcategory.fields || []);
         

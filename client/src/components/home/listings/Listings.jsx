@@ -1,6 +1,7 @@
 import React from 'react';
 import './listings.css';
 import { Link } from 'react-router-dom';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 const Listings = (props) => {
   return (
@@ -13,9 +14,9 @@ const Listings = (props) => {
       </div>
       <div className="listing-description">
         <div className="descriptions">
-          <div className='listing-title'>{props.title}</div>
-          <span className="distance">{props.type}</span>
-          <div className="price">XAF {props.price}/<span>Month</span></div>
+          <div className='listing-title'>{props.name}</div>
+          <span className="distance">{props.floors} Floors <tr /> {props.rooms} Rooms</span>
+          <div className="price"><FaMapMarkerAlt /> {props.location}</div>
         </div>
 
         <div className="rating">

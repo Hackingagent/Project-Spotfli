@@ -62,7 +62,7 @@ import AdminApprovedProperties from './components/views/admin/properties/AdminAp
 import AdminDeclinedProperties from './components/views/admin/properties/AdminDeclinedProperties';
 import HotelDetailsPage from './components/home/listings/hotel/HotelDetailsPage';
 import Bookings from './components/views/user/Bookings';
-import Rent from './components/home/listings/rent/Rent';
+import RentView from './components/views/user/rent-view';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -75,6 +75,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
       {/* Buy Property Rout */}
       <Route path="/buy" element={<UserProtectedRoute><BuyProperty/></UserProtectedRoute>} />
+
+      <Route path='/rent' element={<RentView />}/>
+
       {/* Service Provider Rout */}
       <Route path="/serviceProvider" element={<ServiceProviderView />} />
       {/* Single service provider Route */}
@@ -92,7 +95,6 @@ function App() {
         {/* Bookings */}
         <Route path='/user/bookings' element={<UserProtectedRoute><Home/><Bookings /></UserProtectedRoute>} />
       {/* Rent Property Route */}
-      <Route path='/rent' element={<Rent />}/>
       {/* coliving page route */}
       <Route path='/coliving' element={<ColivingView />} />
       {/* Account And Billing Route */}
@@ -112,7 +114,8 @@ function App() {
         <Route path="/registerPO" element={<RegisisterPropertyOwner />} />
         <Route path="/addService" element={<AddServiceInfo />} />
         <Route path="/experienceLevel" element={<ExperienceLevel/>} />
-        <Route path="/propertyDetails" element={<><Home /><PropertyDetails/></>} />
+
+        <Route path="/propertyDetails/:id" element={<><Home /><PropertyDetails/></>} />
         {/* Login Routes */}
         <Route path='/login' element={<Login />} />
         <Route path='/home' element={<Home />} />

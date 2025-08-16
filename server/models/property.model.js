@@ -42,7 +42,26 @@ const propertySchema = new mongoose.Schema({
     default: 'submitted'
   },
   notes: String
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
+
+// Virtual for rooms
+propertySchema.virtual('rooms', {
+  ref: 'PropertyRoom',       // Reference model
+  localField: '_id',         // Field in Property
+  foreignField: 'property',  // Field in PropertyRoom
+  options: { 
+    sort: { createdAt: -1 }  // Default sorting
+  }
+});
+
+// Indexes for better performance
+propertySchema.index({ user: 1 });
+propertySchema.index({ status: 1 });
+propertySchema.index({ 'data.name': 'text' });
 
 
 const Property = mongoose.model('Property', propertySchema);

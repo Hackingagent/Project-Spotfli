@@ -132,7 +132,7 @@ const hotelSchema = new mongoose.Schema({
     images: [{
         type: String,
     }],
-     ratings: {
+    ratings: {
         average: {
             type: Number,
             default: 0,
