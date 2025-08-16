@@ -37,9 +37,10 @@ nav .logo{
 .mobile-nav-links{
     position: absolute;
     top: 3.5rem;
-    right: 0.3rem;
+    right: 0;
     background-color: var(--bg-2);
     z-index: 3;
+    width: 100vw;
 }
 .mobile-nav-links li{
     display: flex;

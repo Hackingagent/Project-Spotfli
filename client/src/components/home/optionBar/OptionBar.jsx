@@ -58,12 +58,12 @@ const OptionBar = ({ toggleSidebar, toggleFilter }) => { // Receive toggleSideba
         </Link> */}
 
 
-        <Link className='links' to='/coliving'>
+        {/* <Link className='links' to='/coliving'>
         <div className="option option1">
             <MdOutlineMeetingRoom className='optionbar-icons'/>
             <span>Co-Living</span>
         </div>
-        </Link>
+        </Link> */}
 
 
         <Link className='links' to='/'>
