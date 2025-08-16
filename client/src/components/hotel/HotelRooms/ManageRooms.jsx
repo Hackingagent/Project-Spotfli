@@ -25,7 +25,7 @@ const ManageRooms = () => {
 
       if(response.success) {
         // update the rooms state by filtering out the deleted room
-setRooms(prevRooms => prevRooms.filter(room => room._id !== roomId));
+       setRooms(prevRooms => prevRooms.filter(room => room._id !== roomId));
       }
     }catch(err){
       setError(err.message);

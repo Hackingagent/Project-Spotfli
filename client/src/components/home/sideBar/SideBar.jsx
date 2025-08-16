@@ -67,10 +67,10 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
         </ul>
         <div className="side-bar-buttons">
         <Link className="sideLinks notification" to="/">
-              Notification <i className="fa fa-bell"></i>{' '}
+              <i className="fa fa-bell"></i> Notification {' '}
         </Link>
         <Link className="sideLinks logout" to="/">
-              Logout <i className="fa fa-sign-out"></i>{' '}
+             <i className="fa fa-sign-out"></i> Logout{' '}
         </Link>
         </div>
       </div>

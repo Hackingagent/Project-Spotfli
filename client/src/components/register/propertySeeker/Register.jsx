@@ -51,13 +51,13 @@ const Register = () => {
     <>
       <Navbar />
       <div className='register-container'>
-        <div className="register">
+        <div className="fade-up  register">
           <div className="register-form-container">
               <div className="register-img">
                   <img src={register} alt="" />
               </div>
               <div className="register-form">
-                  <h2>Property Seeker <i className="fa fa-search"></i></h2>
+                  <h2>Join The Trend<i className="fa fa-search"></i></h2>
                   <form onSubmit={handleSubmit}>
                     {error && <div className="error">{error}</div>}
                       <label htmlFor="first_name">First Name:</label>

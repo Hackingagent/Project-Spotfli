@@ -91,6 +91,12 @@
 
 /* ************************* Responsivenes Design ************************* */
 
-@media screen and (max-width: 1250px){
-
+@media screen and (max-width: 650px){
+  .listings-top{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.1rem;
+  }
 }

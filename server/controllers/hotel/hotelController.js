@@ -247,6 +247,7 @@ export const addRoom = async (req, res) => {
             roomNumber, 
             roomType, 
             pricePerNight, 
+            numAvailable,
             capacity, 
             description, 
             amenities 
@@ -263,7 +264,8 @@ export const addRoom = async (req, res) => {
             roomNumber,
             roomType,
             pricePerNight,
-            capacity,
+            numAvailable: numAvailable ? Number(numAvailable) : 1, // Default to 1 if not provided
+            capacity, 
             description,
             amenities: amenities?.split(',').map(item => item.trim()) || [],
             images: req.files?.map(file => file.path) || []

@@ -68,7 +68,6 @@ const RoomSchema = new mongoose.Schema({
   }],
   numAvailable: {
     type: Number,
-    default: 1
   },
   isAvailable: {
     type: Boolean,

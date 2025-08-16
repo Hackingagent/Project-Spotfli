@@ -6,6 +6,7 @@ const RoomCategoryForm = ({ onClose, onSave }) => {
     roomNumber: '',
     roomType: 'single',
     pricePerNight: '',
+    numAvailable: '',
     capacity: 1, 
     description: '',
     amenities: '',
@@ -118,6 +119,17 @@ const handleSubmit = async (e) => {
                 type="number"
                 name="pricePerNight"
                 value={formData.pricePerNight}
+                onChange={handleChange}
+                min="1"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>How Many Available</label>
+              <input
+                type="number"
+                name="numAvailable"
+                value={formData.numAvailable}
                 onChange={handleChange}
                 min="1"
                 required
