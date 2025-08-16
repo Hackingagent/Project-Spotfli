@@ -62,6 +62,7 @@ import AdminApprovedProperties from './components/views/admin/properties/AdminAp
 import AdminDeclinedProperties from './components/views/admin/properties/AdminDeclinedProperties';
 import HotelDetailsPage from './components/home/listings/hotel/HotelDetailsPage';
 import Bookings from './components/views/user/Bookings';
+import Rent from './components/home/listings/rent/Rent';
 
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 function App() {
@@ -91,7 +92,7 @@ function App() {
         {/* Bookings */}
         <Route path='/user/bookings' element={<UserProtectedRoute><Home/><Bookings /></UserProtectedRoute>} />
       {/* Rent Property Route */}
-      <Route path='/rent' element={<BuyProperty />}/>
+      <Route path='/rent' element={<Rent />}/>
       {/* coliving page route */}
       <Route path='/coliving' element={<ColivingView />} />
       {/* Account And Billing Route */}

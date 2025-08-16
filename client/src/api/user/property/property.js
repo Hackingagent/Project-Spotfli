@@ -181,26 +181,6 @@ export const deletePropertyFile = async(id, fileId) => {
 }
 
 
-export const getAllProperties = async() => {
-
-    try {
-        const response = await api.get('/user/getAllProperties');
-        console.log(response);
-
-        return {
-            success: true,
-            properties: response.data.properties,
-        };
-
-    
-
-    }catch(error){
-        return {
-            success: false,
-            error
-        }
-    }
-}
 
 export const addPropertyRoom = async(formData, propertyId) => {
 
@@ -248,6 +228,29 @@ export const getPropertyRooms = async (propertyId) => {
         return {
             success: false,
             error: error.message,
+        }
+    }
+}
+
+
+
+export const getAllProperties = async() => {
+
+    try {
+        const response = await api.get('/user/getAllProperties');
+        console.log(response);
+
+        return {
+            success: true,
+            properties: response.data.properties,
+        };
+
+    
+
+    }catch(error){
+        return {
+            success: false,
+            error
         }
     }
 }

@@ -1,12 +1,13 @@
 import Category from '../../../models/category.model.js';
 import  Property from '../../../models/property.model.js';
+import User from '../../../models/user.model.js';
+import Admin from '../../../models/admin.model.js';
 import fs from 'fs';
 
 export const getAllProperties = async (req, res) => {
     try {
-        // const {status} = req.params;
                 
-        const properties = await Property.find({status: approved}).populate({
+        const properties = await Property.find({status: 'approved'}).populate({
            path: 'user',
            select: 'first_name last_name email tell',
            model: User,
@@ -25,7 +26,7 @@ export const getAllProperties = async (req, res) => {
         const formattedProperties = await Promise.all(
             properties.map(async (property) => {
                 const category = await Category.findById(property.category);
-                const subcategory = category.subCategories.id(property.subcategory);
+                const subcategory = category.subcategories.id(property.subcategory);
 
 
                 return {
@@ -48,9 +49,8 @@ export const getAllProperties = async (req, res) => {
             })
         )
 
-        
 
-        console.log('Pending Properties: ', formattedProperties);
+        console.log('Properties: ', formattedProperties);
 
         res.status(200).json({
             success: true,
@@ -65,6 +65,8 @@ export const getAllProperties = async (req, res) => {
         });
     }
 }
+
+
 
 
 export const getUserProperties = async(req, res) => {

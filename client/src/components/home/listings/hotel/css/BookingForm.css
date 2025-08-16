@@ -114,3 +114,13 @@
     }
 
 }
+@media screen and (max-width: 500px){
+    .booking-form-container {
+        position: fixed;
+        top: 70px;
+        width: 70vw;
+        padding: 1.5rem 2rem 1.5rem 1rem;
+        box-shadow: 4px 6px 100px rgba(0, 0, 0, 0.63);
+    }
+
+}
