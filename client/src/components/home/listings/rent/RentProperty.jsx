@@ -1,7 +1,7 @@
 import React from 'react'
 import '../listings.css';
 
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 const RentProperty = (props) => {
 
@@ -16,7 +16,6 @@ const RentProperty = (props) => {
 
     
     <div onClick={handleViewProperty}>
-    {/* <Link className='links' to='/propertydetails'> */}
     <div className='listing'>
       <div className="img">
         <i className="fa fa-heart"></i>
@@ -36,7 +35,6 @@ const RentProperty = (props) => {
       </div>
 
     </div>
-    {/* </Link> */}
     </div>
   )
 }

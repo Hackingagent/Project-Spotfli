@@ -7,7 +7,7 @@ const BuyProperty = (props) => {
   const navigate = useNavigate();
 
   const handleViewProperty = () => {
-    navigate(`/propertyDetails/${props.id}`)
+    navigate(`/propertyDetails/${props.id}`, {replace: true})
   }
   
   return (
