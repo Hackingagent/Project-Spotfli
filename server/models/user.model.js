@@ -73,8 +73,18 @@ const userSchema = new mongoose.Schema({
     last_updated_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin'
-    }
+    },
+    
 
+    //
+    role: {
+        type: String,
+        enum: ['user', 'service_provider', 'admin'], default: 'user'
+    },
+isApprovedProvider: {
+    type: Boolean, 
+    default: false
+}
 
 }, {
     timestamps: true // createdAt and updatedAt in the document

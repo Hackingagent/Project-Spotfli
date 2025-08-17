@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url';
 
 import userRoutes from './routes/user.route.js';
 import adminRoutes from './routes/admin.route.js';
+import serviceProviderRoutes from './routes/serviceProvider.route.js';
+import bookingRoutes from './routes/booking.route.js';
 import hotelRoutes from './routes/hotel.js'
 import bookingRoutes from './routes/booking.route.js';
 
@@ -26,6 +28,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
+app.use('/api/service-provider', serviceProviderRoutes);
+app.use('/api/bookings', bookingRoutes); 
+
 app.use('/api/hotel', hotelRoutes);
 app.use('/api', bookingRoutes);
 
