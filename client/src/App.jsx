@@ -42,9 +42,9 @@ import AdminSubCategory from "./components/views/admin/category/sub-categories/S
 import SubcategoryFieldsPage from "./components/views/admin/category/sub-categories/field/SubCategoryFieldsPage";
 import AdminAddHotel from "./components/views/admin/hotels/AdminAddHotel";
 import ManageHotels from "./components/views/admin/hotels/ManageHotels";
-import ProviderDashboard from "./components/views/service-provider/ProviderDashboard";
+import ProviderDashboard from "./components/views/service-provider/providerDashboard";
 import ServiceProviderLayout from "./components/layout/service-provider/Service-Provider-Layout";
-import MyServices from "./components/views/service-provider/MyServices";
+import MyServices from "./components/views/service-provider/myServices";
 // import UserProtectedRoute from './components/protected-routes/user-protected-route';
 import HotelLogin from "./components/login/HotelLogin";
 
