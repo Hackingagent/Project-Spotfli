@@ -85,11 +85,11 @@ const GigSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  pricePerHour: {
+  pricePerDay: {
     type: Number,
     required: true
   },
-  image: {
+  images: {
     type: String,
     required: true
   },
@@ -100,6 +100,10 @@ const GigSchema = new mongoose.Schema({
   isAvailable: {
     type: Boolean,
     default: true
+  },
+  experience: {
+    type: Number,
+    required: true
   }
 }, {
   timestamps: true

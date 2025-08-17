@@ -15,17 +15,6 @@ export const createBooking = async (bookingData) => {
       },
     });
 
-    // // Notify admin
-    // await axios.post('/api/notifications', {
-    //   type: 'new_booking',
-    //   bookingId: response.data._id,
-    //   message: `New booking for ${bookingData.serviceId}`
-    // }, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   }
-    // });
-
     return {
       success: true,
       data: response.data,

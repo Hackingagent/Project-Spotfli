@@ -9,7 +9,8 @@ const serviceProviderRoutes = express.Router();
 
 
 //POST /api/gigs
-serviceProviderRoutes.post('/', [userAuthenticate, providerCheck], createService);
+// serviceProviderRoutes.post('/', [userAuthenticate, providerCheck], createService);
+serviceProviderRoutes.post('/', userAuthenticate, createService);
 //GET /api/gigs/my-gigs
 serviceProviderRoutes.get('/my-service', userAuthenticate, getMyService);
 //PATCH /api/gigs/:id

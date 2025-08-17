@@ -79,7 +79,7 @@ const handleSubmit = async (e) => {
     <div className="hoteldash-modal-overlay">
       <div className="hoteldash-modal">
         <button className="hoteldash-modal-close" onClick={onClose}>&times;</button>
-        <h2 className='hoteldash-modal-header '>Add New Room</h2>
+        <h2 className='hoteldash-modal-header'>Add New Room</h2>
         
         {error && <div className="error-message">{error}</div>}
         
