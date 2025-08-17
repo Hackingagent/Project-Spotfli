@@ -26,7 +26,8 @@ const Navbar = () => {
                 <li><Link className='links' to="/">Home <i className="fa fa-home"></i></Link></li>
                 <li><Link className='links' to="/">Listings <i className="fa fa-building"></i></Link></li>
                 <li><Link className='links' to="/">Service Provider <i className="fa fa-gear"></i></Link></li>
-                <li><Link className='links' to="/">Login <i className="fa fa-user"></i></Link></li>
+                <li><Link className='links' to="/admin/login">Admin Login <i className="fa fa-user"></i></Link></li>
+                <li><Link className='links' to="/hotel/login">Hotel Login <i className="fa fa-user"></i></Link></li>
                 <li className=''><Link className='btn' to="/"> <button className='btn btn-primary'>Register</button></Link></li>
             </ul>
             </>}

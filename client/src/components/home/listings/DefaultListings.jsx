@@ -65,6 +65,7 @@ const DefaultListings = () => {
       properties?.map((property) => (
         <Listings
           key={property._id}
+          id={property._id}
           image={`${import.meta.env.VITE_FILE_API_URL}${property.files?.[0]?.url}`}
           name={property.data.name}
           location={property.data.location}

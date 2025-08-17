@@ -6,7 +6,7 @@ import { getCategory } from "../controllers/admin/category/category.controller.j
 import { addProperty, deletePropertyFile, getAllProperties, getPropertySubcategory, getSingleProperty, getUserProperties, updateProperty } from "../controllers/user/property/property.controller.js";
 import { upload } from "../utils/propertyFIleUpload.js";
 import { uploadRoom } from "../utils/propertyRoomFileUpload.js";
-import { addPropertyRoom, getPropertyRooms } from "../controllers/user/property/propertyRoom.controller.js";
+import { addPropertyRoom, getPropertyRooms, updatePropertyRoom } from "../controllers/user/property/propertyRoom.controller.js";
 
 const userRoutes = express.Router();
 // const verifyToken = require('../middlewares/validationmidleware');
@@ -34,6 +34,7 @@ userRoutes.delete('/:id/deletePropertyFile/:fileId', userAuthenticate, deletePro
 
 userRoutes.get('/getPropertyRooms/:propertyId', userAuthenticate, getPropertyRooms);
 userRoutes.post('/addPropertyRoom/:propertyId', userAuthenticate, uploadRoom.array('files'), addPropertyRoom);
+userRoutes.post('/updatePropertyRoom/:id', userAuthenticate, uploadRoom.array('files'), updatePropertyRoom);
 
 
 

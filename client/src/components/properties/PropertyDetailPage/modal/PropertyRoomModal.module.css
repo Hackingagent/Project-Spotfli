@@ -265,3 +265,319 @@
   .submitButton:hover {
     background-color: var(--bg-3);
   }
+
+  .numberInputContainer {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Reduced gap for tighter layout */
+    margin-top: 6px;
+  }
+  
+  .numberInput {
+    width: 50px;
+    height: 15px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #f9fafb;
+    color: #111827;
+    font-weight: 500;
+    pointer-events: none; /* Prevents any interaction */
+  }
+  
+  .numberControl {
+    width: 30px;
+    height: 25px;
+    border: none;
+    border-radius: 6px;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  
+  .numberControl:hover {
+    background-color: #2563eb;
+    transform: translateY(-1px);
+  }
+  
+  .numberControl:active {
+    background-color: #1d4ed8;
+    transform: translateY(0);
+  }
+  
+  .numberControl:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  /* Focus styles for better accessibility */
+  .numberControl:focus-visible {
+    outline: 2px solid #93c5fd;
+    outline-offset: 2px;
+  }
+
+
+
+
+
+  /* View Mode Styles */
+.viewContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 20px;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.detailValue {
+  color: #1f2937;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.featureItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+
+.imageGallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.galleryImage {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.galleryImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Edit Button */
+.editButton {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  margin-right: 1rem;
+}
+
+.editButton:hover {
+  background-color: #2563eb;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+}
+
+.noAmenities,
+.noImages {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Image Grid Container */
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Image Preview Items */
+.imagePreview, .galleryImage {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: transform 0.2s ease;
+}
+
+.imagePreview:hover, .galleryImage:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Elements */
+.previewImage, .galleryImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Remove Image Button */
+.removeImage {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background-color: rgba(239, 68, 68, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+.removeImage:hover {
+  background-color: rgb(220, 38, 38);
+}
+
+/* File Info (Edit Mode) */
+.fileInfo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  color: white;
+  padding: 8px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.fileInfo span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Empty State */
+.noImages {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #9ca3af;
+  padding: 2rem;
+  border: 1px dashed #e5e7eb;
+  border-radius: 8px;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .imageGrid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 400px) {
+  .imageGrid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
+
+
+
+
+
+
+
+
+
+/* Amenities Container */
+.amenitiesContainer {
+  margin-top: 1rem;
+}
+
+/* Amenities List */
+.amenitiesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Individual Amenity Pill */
+.amenityPill {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e2e8f0;
+  padding: 0.4rem 0.8rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+/* Remove Button */
+.removeAmenity {
+  margin-left: 0.5rem;
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Hover effect */
+.removeAmenity:hover {
+  color: #dc2626;
+  transform: scale(1.1);
+}
+
+/* Add Amenity Input */
+.addAmenityContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.amenityInput {
+  flex-grow: 1;
+}
+
+.addAmenityButton {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.addAmenityButton:hover {
+  background-color: #2563eb;
+}

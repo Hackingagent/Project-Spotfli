@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
-    timeout: 10000,
+    timeout: 100000,
 });
 
 export const getCategories = async ()=>{
@@ -292,6 +292,38 @@ export const getAllProperties = async() => {
         return {
             success: false,
             error
+        }
+    }
+}
+
+
+
+
+export const UpdatePropertyRoom = async(formData, propertyId) => {
+
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.post(`user/updatePropertyRoom/${propertyId}`, formData, {
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+
+            }
+        });
+
+        return {
+            success: false,
+            message: response.data.message,
+        }
+    } catch (error) {
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
+        return{
+            success: false,
+            error: error.message
         }
     }
 }

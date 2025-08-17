@@ -113,7 +113,11 @@ const PropertyRoomModal = ({ onClose, onSubmit }) => {
         formDataToSend.append('price', formData.price);
         formDataToSend.append('description', formData.description);
         formDataToSend.append('quantityAvailable', formData.quantityAvailable);
-        formDataToSend.append('amenities', JSON.stringify(formData.amenities));
+
+        formData.amenities.forEach(amenity => {
+          formDataToSend.append('amenities', amenity);
+        })
+        // formDataToSend.append('amenities', JSON.stringify(formData.amenities));
         
         // Append each file
         fileUploads.forEach(file => {
@@ -159,57 +163,164 @@ const PropertyRoomModal = ({ onClose, onSubmit }) => {
           <div className={styles.roomFeatures}>
             <h3>Room Features</h3>
             <div className={styles.featureGrid}>
+
+              {/* Living Room */}
               <div className={styles.formGroup}>
                 <label htmlFor="livingRoom">Living Rooms</label>
-                <input
-                  type="number"
-                  id="livingRoom"
-                  name="livingRoom"
-                  min="0"
-                  value={formData.livingRoom}
-                  onChange={handleNumberChange}
-                  className={styles.numberInput}
-                />
+                <div className={styles.numberInputContainer}>
+                  <button 
+                    type="button"
+                    className={styles.numberControl}
+                    onClick={() => handleNumberChange({
+                      target: {
+                        name: 'livingRoom',
+                        value: Math.max(0, formData.livingRoom - 1)
+                      }
+                    })}
+                    disabled={formData.livingRoom <= 0} // Disable when at minimum
+                  >
+                    -
+                  </button>
+                  <input
+                    type="text" // Changed from "number" to prevent keyboard input
+                    id="livingRoom"
+                    name="livingRoom"
+                    value={formData.livingRoom}
+                    readOnly // Prevents typing
+                    className={styles.numberInput}
+                  />
+                  <button 
+                    type="button"
+                    className={styles.numberControl}
+                    onClick={() => handleNumberChange({
+                      target: {
+                        name: 'livingRoom',
+                        value: formData.livingRoom + 1
+                      }
+                    })}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="bedRoom">Bed Rooms</label>
-                <input
-                  type="number"
-                  id="bedRoom"
-                  name="bedRoom"
-                  min="0"
-                  value={formData.bedRoom}
-                  onChange={handleNumberChange}
-                  className={styles.numberInput}
-                />
+                <div className={styles.numberInputContainer}>
+                  <button 
+                    type="button"
+                    className={styles.numberControl}
+                    onClick={() => handleNumberChange({
+                      target: {
+                        name: 'bedRoom',
+                        value: Math.max(0, formData.bedRoom - 1)
+                      }
+                    })}
+                    disabled={formData.bedRoom <= 0} // Disable when at minimum
+                  >
+                    -
+                  </button>
+                  <input
+                    type="text" // Changed from "number" to prevent keyboard input
+                    id="bedRoom"
+                    name="bedRoom"
+                    value={formData.bedRoom}
+                    readOnly // Prevents typing
+                    className={styles.numberInput}
+                  />
+                  <button 
+                    type="button"
+                    className={styles.numberControl}
+                    onClick={() => handleNumberChange({
+                      target: {
+                        name: 'bedRoom',
+                        value: formData.bedRoom + 1
+                      }
+                    })}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="toilet">Bath Rooms</label>
-                <input
-                  type="number"
-                  id="toilet"
-                  name="toilet"
-                  min="0"
-                  value={formData.toilet}
-                  onChange={handleNumberChange}
-                  className={styles.numberInput}
-                />
+                <label htmlFor="toilet">Toilet</label>
+                <div className={styles.numberInputContainer}>
+                  <button 
+                    type="button"
+                    className={styles.numberControl}
+                    onClick={() => handleNumberChange({
+                      target: {
+                        name: 'toilet',
+                        value: Math.max(0, formData.toilet - 1)
+                      }
+                    })}
+                    disabled={formData.toilet <= 0} // Disable when at minimum
+                  >
+                    -
+                  </button>
+                  <input
+                    type="text" // Changed from "number" to prevent keyboard input
+                    id="toilet"
+                    name="toilet"
+                    value={formData.toilet}
+                    readOnly // Prevents typing
+                    className={styles.numberInput}
+                  />
+                  <button 
+                    type="button"
+                    className={styles.numberControl}
+                    onClick={() => handleNumberChange({
+                      target: {
+                        name: 'toilet',
+                        value: formData.toilet + 1
+                      }
+                    })}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="kitchen">Kitchens</label>
-                <input
-                  type="number"
-                  id="kitchen"
-                  name="kitchen"
-                  min="0"
-                  value={formData.kitchen}
-                  onChange={handleNumberChange}
-                  className={styles.numberInput}
-                />
+                <label htmlFor="kitchen">Kitchen</label>
+                <div className={styles.numberInputContainer}>
+                  <button 
+                    type="button"
+                    className={styles.numberControl}
+                    onClick={() => handleNumberChange({
+                      target: {
+                        name: 'kitchen',
+                        value: Math.max(0, formData.kitchen - 1)
+                      }
+                    })}
+                    disabled={formData.kitchen <= 0} // Disable when at minimum
+                  >
+                    -
+                  </button>
+                  <input
+                    type="text" // Changed from "number" to prevent keyboard input
+                    id="kitchen"
+                    name="kitchen"
+                    value={formData.kitchen}
+                    readOnly // Prevents typing
+                    className={styles.numberInput}
+                  />
+                  <button 
+                    type="button"
+                    className={styles.numberControl}
+                    onClick={() => handleNumberChange({
+                      target: {
+                        name: 'kitchen',
+                        value: formData.kitchen + 1
+                      }
+                    })}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
+
             </div>
           </div>
 
