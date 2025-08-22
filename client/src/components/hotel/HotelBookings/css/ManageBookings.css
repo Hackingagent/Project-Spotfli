@@ -1,0 +1,120 @@
+/* components/hotel/HotelBookings/ManageBookings.css */
+.hotel-bookings-container {
+  padding: 2rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.hotel-bookings-header {
+  margin-bottom: 2rem;
+}
+
+.hotel-bookings-header h1 {
+  color: var(--bg-1);
+  margin-bottom: 1rem;
+}
+
+.hotel-bookings-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-buttons button {
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-w2);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.filter-buttons button.active {
+  background-color: var(--bg-4);
+  color: white;
+}
+
+.filter-buttons button:hover:not(.active) {
+  background-color: var(--bg-w1);
+}
+
+.add-walkin-btn {
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-3);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-walkin-btn:hover {
+  background-color: var(--bg-4);
+}
+
+.bookings-table-container {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+}
+
+.bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bookings-table th,
+.bookings-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--bg-w2);
+}
+
+.bookings-table th {
+  background-color: var(--bg-1);
+  color: white;
+  font-weight: 500;
+}
+
+.bookings-table tr:hover {
+  background-color: rgba(15, 123, 205, 0.05);
+}
+
+.no-bookings {
+  text-align: center;
+  padding: 2rem;
+  color: var(--bg-w1);
+}
+
+.error-message {
+  color: #dc3545;
+  padding: 1rem;
+  background-color: #f8d7da;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .hotel-bookings-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .bookings-table th,
+  .bookings-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+  }
+}

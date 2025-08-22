@@ -195,6 +195,75 @@ export const updateRoom = async (roomId, roomData) => {
   }
 };
 
+// hotel bookings management calls
+
+export const getHotelBookings = async (status = '') => {
+    const token = localStorage.getItem('hotel_token');
+    try {
+        const response = await axios.get(`${API_URL}/bookings?status=${status}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to fetch bookings');
+    }
+};
+
+export const updateBookingStatus = async (roomId, bookingId, statusData) => {
+    const token = localStorage.getItem('hotel_token');
+    try {
+        const response = await axios.put(
+            `${API_URL}/rooms/${roomId}/bookings/${bookingId}/status`,
+            statusData,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to update booking status');
+    }
+};
+
+export const createWalkInBooking = async (bookingData) => {
+    const token = localStorage.getItem('hotel_token');
+    try {
+        const response = await axios.post(
+            `${API_URL}/walk-in-booking`,
+            bookingData,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to create walk-in booking');
+    }
+};
+
+export const deleteHotelBooking = async (roomId, bookingId) => {
+    const token = localStorage.getItem('hotel_token');
+    try {
+        const response = await axios.delete(
+            `${API_URL}/rooms/${roomId}/bookings/${bookingId}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response?.data?.message || 'Failed to delete booking');
+    }
+};
+
 // Get all hotels (public)
 export const getAllHotels = async (queryParams = {}) => {
     try {
