@@ -33,37 +33,7 @@ hotelRoutes.get('/', getAllHotels);
 hotelRoutes.get('/:id', getHotelDetails);
 
 
-// Add this temporary route to your hotelRoutes.js
-hotelRoutes.post('/fix-bookings', async (req, res) => {
-    try {
-        const hotels = await Hotel.find({});
-        
-        let fixedCount = 0;
-        
-        for (const hotel of hotels) {
-            for (const room of hotel.rooms) {
-                for (const booking of room.bookings) {
-                    if (!booking.room) {
-                        booking.room = room._id;
-                        fixedCount++;
-                    }
-                }
-            }
-            await hotel.save();
-        }
-        
-        res.status(200).json({
-            success: true,
-            message: `Fixed ${fixedCount} bookings across ${hotels.length} hotels`
-        });
-        
-    } catch (error) {
-        console.error('Fix bookings error:', error);
-        res.status(500).json({
-            message: error.message || 'Server error while fixing bookings'
-        });
-    }
-});
+
 
 
 
