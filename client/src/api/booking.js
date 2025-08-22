@@ -1,4 +1,3 @@
-// src/api/booking.js
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api'; // Your backend base URL

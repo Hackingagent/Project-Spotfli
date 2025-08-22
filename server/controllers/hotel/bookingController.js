@@ -30,7 +30,7 @@ export const createBooking = async (req, res) => {
             return res.status(404).json({ message: 'Hotel not found' });
         }
 
-        const room = hotel.rooms.id(roomId);
+        const room = hotel.rooms.find(r => r._id.toString() === roomId);
         if (!room) {
             return res.status(404).json({ message: 'Room not found' });
         }
@@ -62,9 +62,10 @@ export const createBooking = async (req, res) => {
         const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
         const totalPrice = room.pricePerNight * nights;
 
-        // Create new booking
+        // Create new booking WITH ROOM ID
         const newBooking = {
             guest: userId,
+            room: room._id,  // STORE THE ROOM ID
             checkInDate: checkIn,
             checkOutDate: checkOut,
             totalPrice,
@@ -86,10 +87,12 @@ export const createBooking = async (req, res) => {
         // Save changes
         await hotel.save();
 
+        // Get the newly created booking with ID
+        const savedBooking = room.bookings[room.bookings.length - 1];
+
         // Populate guest details for response
         const populatedBooking = {
-            ...newBooking,
-            _id: room.bookings[room.bookings.length - 1]._id,
+            ...savedBooking.toObject(),
             guest: await User.findById(userId).select('first_name last_name email')
         };
 
@@ -174,12 +177,12 @@ export const cancelBooking = async (req, res) => {
             return res.status(404).json({ message: 'Hotel not found' });
         }
 
-        const room = hotel.rooms.id(roomId);
+        const room = hotel.rooms.find(r => r._id.toString() === roomId);
         if (!room) {
             return res.status(404).json({ message: 'Room not found' });
         }
 
-        const booking = room.bookings.id(bookingId);
+        const booking = room.bookings.find(b => b._id.toString() === bookingId);
         if (!booking) {
             return res.status(404).json({ message: 'Booking not found' });
         }
@@ -230,14 +233,13 @@ export const cancelBooking = async (req, res) => {
     }
 };
 
-
 export const getHotelBookings = async (req, res) => {
     try {
         const hotelId = req.hotel._id;
         const { status } = req.query;
 
         const hotel = await Hotel.findById(hotelId)
-            .select('rooms.bookings')
+            .select('hotelName rooms')
             .populate('rooms.bookings.guest', 'first_name last_name email phone');
 
         if (!hotel) {
@@ -251,7 +253,7 @@ export const getHotelBookings = async (req, res) => {
                 if (!status || booking.status === status) {
                     bookings.push({
                         _id: booking._id,
-                        roomId: room._id,
+                        roomId: room._id,  // This is crucial!
                         roomNumber: room.roomNumber,
                         roomType: room.roomType,
                         guest: booking.guest,
@@ -284,66 +286,114 @@ export const getHotelBookings = async (req, res) => {
         });
     }
 };
-
 export const updateBookingStatus = async (req, res) => {
     try {
         const hotelId = req.hotel._id;
         const { roomId, bookingId } = req.params;
         const { status, checkedStatus } = req.body;
 
+        console.log('Attempting to update booking status:', {
+            hotelId,
+            roomId,
+            bookingId,
+            status,
+            checkedStatus
+        });
+
+        // Validate input
+        if (!hotelId || !roomId || !bookingId) {
+            console.error('Missing required parameters');
+            return res.status(400).json({ message: 'Missing required parameters' });
+        }
+
+        // Find the hotel
         const hotel = await Hotel.findById(hotelId);
         if (!hotel) {
+            console.error('Hotel not found with ID:', hotelId);
             return res.status(404).json({ message: 'Hotel not found' });
         }
 
-        const room = hotel.rooms.id(roomId);
+        console.log(`Found hotel with ${hotel.rooms.length} rooms`);
+
+        // Find the room using string comparison
+        const room = hotel.rooms.find(r => r._id.toString() === roomId);
         if (!room) {
+            console.error('Room not found in hotel. Provided roomId:', roomId);
+            console.error('Available room IDs:', hotel.rooms.map(r => r._id.toString()));
             return res.status(404).json({ message: 'Room not found' });
         }
-        
 
-        const booking = room.bookings.id(bookingId);
+        console.log(`Found room with ${room.bookings.length} bookings`);
+
+        // Find the booking using string comparison
+        const booking = room.bookings.find(b => b._id.toString() === bookingId);
         if (!booking) {
+            console.error('Booking not found in room. Provided bookingId:', bookingId);
+            console.error('Available booking IDs:', room.bookings.map(b => b._id.toString()));
             return res.status(404).json({ message: 'Booking not found' });
         }
 
+        console.log('Current booking status:', booking.status);
+
         // Validate status transition
         const validTransitions = {
-            'confirmed': ['cancelled', 'completed'],
+            'confirmed': ['cancelled', 'checked-in'],
             'checked-in': ['checked-out'],
-            'checked-out': []
+            'checked-out': [],
+            'cancelled': []
         };
 
         if (status && !validTransitions[booking.status]?.includes(status)) {
-            return res.status(400).json({ 
-                message: `Invalid status transition from ${booking.status} to ${status}` 
-            });
+            const message = `Invalid status transition from ${booking.status} to ${status}`;
+            console.error(message);
+            return res.status(400).json({ message });
         }
 
         // Update status if provided
-        if (status) booking.status = status;
-        if (checkedStatus) booking.checkedStatus = checkedStatus;
+        if (status) {
+            console.log(`Updating status from ${booking.status} to ${status}`);
+            booking.status = status;
+        }
+
+        if (checkedStatus) {
+            console.log(`Updating checkedStatus to ${checkedStatus}`);
+            booking.checkedStatus = checkedStatus;
+        }
 
         // Update room availability if needed
         if (status === 'checked-out' || status === 'cancelled') {
+            console.log('Increasing room availability');
             room.numAvailable += 1;
             if (room.numAvailable > 0) {
                 room.isAvailable = true;
             }
         }
 
+        // Save changes
         await hotel.save();
 
-        res.status(200).json({
+        console.log('Booking updated successfully');
+        return res.status(200).json({
             success: true,
             message: 'Booking updated successfully',
-            booking
+            booking: {
+                _id: booking._id,
+                status: booking.status,
+                checkedStatus: booking.checkedStatus,
+                roomId: room._id,
+                roomNumber: room.roomNumber
+            }
         });
 
     } catch (error) {
-        console.error('Update booking status error:', error);
-        res.status(500).json({
-            message: error.message || 'Server error while updating booking'
+        console.error('Error in updateBookingStatus:', {
+            message: error.message,
+            stack: error.stack,
+            requestParams: req.params,
+            requestBody: req.body
+        });
+        return res.status(500).json({
+            message: error.message || 'Server error while updating booking status'
         });
     }
 };
@@ -368,7 +418,8 @@ export const createWalkInBooking = async (req, res) => {
             return res.status(404).json({ message: 'Hotel not found' });
         }
 
-        const room = hotel.rooms.id(roomId);
+        // Find the room using string comparison
+        const room = hotel.rooms.find(r => r._id.toString() === roomId);
         if (!room) {
             return res.status(404).json({ message: 'Room not found' });
         }
@@ -434,21 +485,22 @@ export const deleteBooking = async (req, res) => {
             return res.status(404).json({ message: 'Hotel not found' });
         }
 
-        // Find the room using proper ID matching
+        // Find the room using string comparison
         const room = hotel.rooms.find(r => r._id.toString() === roomId);
         if (!room) {
-            console.log('Room not found in hotel:', { hotelRooms: hotel.rooms.map(r => r._id) });
+            console.log('Room not found in hotel:', { hotelRooms: hotel.rooms.map(r => r._id.toString()) });
             return res.status(404).json({ message: 'Room not found' });
         }
 
-        const booking = room.bookings.id(bookingId);
+        // Find the booking using string comparison
+        const booking = room.bookings.find(b => b._id.toString() === bookingId);
         if (!booking) {
             console.log('Booking not found in room');
             return res.status(404).json({ message: 'Booking not found' });
         }
 
-        // Remove the booking
-        room.bookings.pull(bookingId);
+        // Remove the booking using filter
+        room.bookings = room.bookings.filter(b => b._id.toString() !== bookingId);
 
         // Update room availability if booking was active
         if (booking.status === 'confirmed' || booking.status === 'checked-in') {
@@ -472,5 +524,3 @@ export const deleteBooking = async (req, res) => {
         });
     }
 };
-
-export default {

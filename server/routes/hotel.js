@@ -3,6 +3,7 @@ import { registerHotel, getHotels, loginHotel, getCurrentHotel, addRoom, deleteR
 import adminAuthenticate from "../middlewares/adminAuthenticate.middleware.js";
 import hotelAuthenticate from "../middlewares/hotelAuthenticate.middleware.js";
 import upload from "../middlewares/multer.middleware.js";
+import { createWalkInBooking, deleteBooking, getHotelBookings, updateBookingStatus } from "../controllers/hotel/bookingController.js";
 
 
 const hotelRoutes = express.Router();
@@ -22,9 +23,48 @@ hotelRoutes.put('/rooms/:roomId', hotelAuthenticate, upload.array('images', 5), 
 hotelRoutes.put('/editProfile/:hotelId', hotelAuthenticate,upload.array('images', 10), updateHotelProfile);
 hotelRoutes.put('/update-password', hotelAuthenticate, updatePassword);
 hotelRoutes.get('/overview', hotelAuthenticate, getHotelOverview);
+hotelRoutes.get('/bookings', hotelAuthenticate, getHotelBookings);
+
+hotelRoutes.put('/rooms/:roomId/bookings/:bookingId/status', hotelAuthenticate, updateBookingStatus);
+hotelRoutes.post('/walk-in-booking', hotelAuthenticate, createWalkInBooking);
+hotelRoutes.delete('/rooms/:roomId/bookings/:bookingId', hotelAuthenticate, deleteBooking);
 
 hotelRoutes.get('/', getAllHotels);
 hotelRoutes.get('/:id', getHotelDetails);
+
+
+// Add this temporary route to your hotelRoutes.js
+hotelRoutes.post('/fix-bookings', async (req, res) => {
+    try {
+        const hotels = await Hotel.find({});
+        
+        let fixedCount = 0;
+        
+        for (const hotel of hotels) {
+            for (const room of hotel.rooms) {
+                for (const booking of room.bookings) {
+                    if (!booking.room) {
+                        booking.room = room._id;
+                        fixedCount++;
+                    }
+                }
+            }
+            await hotel.save();
+        }
+        
+        res.status(200).json({
+            success: true,
+            message: `Fixed ${fixedCount} bookings across ${hotels.length} hotels`
+        });
+        
+    } catch (error) {
+        console.error('Fix bookings error:', error);
+        res.status(500).json({
+            message: error.message || 'Server error while fixing bookings'
+        });
+    }
+});
+
 
 
 export default hotelRoutes; 

@@ -8,6 +8,9 @@ const BookingSchema = new mongoose.Schema({
         ref: User,
         request: true
     },
+        room: {  // ADD THIS FIELD
+        type: mongoose.Schema.Types.ObjectId,
+    },
     checkInDate: {
         type: Date,
         required: true,
@@ -26,12 +29,12 @@ const BookingSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'confirmed', 'cancelled', 'completed'],
+   enum: ['pending', 'confirmed', 'cancelled', 'completed', 'checked-in', 'checked-out'],
         default: 'confirmed'
     },
     checkedStatus: {
         type: String,
-        enum: ['not checked', 'checked in', 'checked out'],
+    enum: ['not checked', 'checked in', 'checked out'],
         default: 'not checked'
     },
     paymentStatus: {
@@ -46,7 +49,7 @@ const BookingSchema = new mongoose.Schema({
 
 
 // Rooms Schema with bookings embeded into it 
-const RoomSchema = new mongoose.Schema({
+const RoomSchema = new mongoose.Schema({ 
   roomNumber: {
     type: String,
     required: true,
