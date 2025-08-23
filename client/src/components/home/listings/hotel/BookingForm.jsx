@@ -59,7 +59,8 @@ const BookingForm = ({ hotelId, room }) => {
     };
 
     return (
-        <div className="booking-form-container">
+        <div className="hotels-booking-form-modal">
+         <div className="booking-form-container">
             <h3>Book {room.roomType} Room</h3>
             <div className="booking-price">
                 XAF {room.pricePerNight.toLocaleString()} <span>per night</span>
@@ -143,6 +144,7 @@ const BookingForm = ({ hotelId, room }) => {
                     {loading ? 'Processing...' : 'Book Now'}
                 </button>
             </form>
+        </div>
         </div>
     );
 };

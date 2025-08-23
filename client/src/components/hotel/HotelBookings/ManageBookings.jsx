@@ -1,101 +1,150 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './ManageBookings.css';
+import { getHotelBookings, updateBookingStatus, deleteHotelBooking } from '../../../api/hotel/hotelApi';
+import { formatDate, formatCurrency } from '../../../utils/format';
+import BookingStatusBadge from './BookingStatusBadge';
+import BookingActions from './BookingActions';
+import WalkInBookingModal from './WalkInBookingModal';
+import BookingDetailsModal from './BookingDetailsModal';
+import Loader from '../../common/Loader';
+import './css/ManageBookings.css';
 
 const ManageBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showWalkInModal, setShowWalkInModal] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
-  useEffect(() => {
-    // Simulate API call
-    const fetchBookings = async () => {
-      setTimeout(() => {
-        setBookings([
-          {
-            id: 1,
-            guestName: 'John Doe',
-            roomType: 'Deluxe Room',
-            checkIn: '2023-06-15',
-            checkOut: '2023-06-20',
-            status: 'checked-in',
-            totalPrice: 1000
-          },
-          // More bookings...
-        ]);
-        setLoading(false);
-      }, 1000);
-    };
-    fetchBookings();
-  }, []);
-
-  const filteredBookings = filter === 'all' 
-    ? bookings 
-    : bookings.filter(b => b.status === filter);
-
-  const updateStatus = (id, newStatus) => {
-    setBookings(prev => 
-      prev.map(booking => 
-        booking.id === id ? { ...booking, status: newStatus } : booking
-      )
-    );
+  const fetchBookings = async () => {
+    try {
+      setLoading(true);
+      const response = await getHotelBookings(filter === 'all' ? '' : filter);
+      if (response.success) {
+        console.log('Fetched bookings:', response.data);
+        setBookings(response.data);
+      }
+    } catch (err) {
+      console.error('Error fetching bookings:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const extendStay = (id, newCheckoutDate) => {
-    setBookings(prev => 
-      prev.map(booking => 
-        booking.id === id ? { ...booking, checkOut: newCheckoutDate } : booking
-      )
-    );
+  useEffect(() => {
+    fetchBookings();
+  }, [filter]);
+
+  const handleStatusUpdate = async (roomId, bookingId, statusData) => {
+    try {
+      setLoading(true);
+      console.log('Updating booking status:', { roomId, bookingId, statusData });
+      
+      const response = await updateBookingStatus(roomId, bookingId, statusData);
+      if (response.success) {
+        console.log('Booking status updated successfully');
+        fetchBookings(); // Refresh bookings
+      }
+    } catch (err) {
+      console.error('Error updating booking status:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteBooking = async (roomId, bookingId) => {
+    if (!window.confirm('Are you sure you want to delete this booking?')) {
+      return;
+    }
+    
+    try {
+      setLoading(true);
+      console.log('Deleting booking:', { roomId, bookingId });
+      
+      const response = await deleteHotelBooking(roomId, bookingId);
+      if (response.success) {
+        console.log('Booking deleted successfully');
+        fetchBookings(); // Refresh bookings
+      }
+    } catch (err) {
+      console.error('Error deleting booking:', err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const handleWhatsAppMessage = (phone) => {
+    if (phone) {
+      const message = `Hello, this is regarding your booking at our hotel.`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+    }
   };
 
   return (
-    <div className="hoteldash-bookings">
-      <div className="hoteldash-bookings-header">
-        <h2>Manage Bookings</h2>
-        <div className="hoteldash-bookings-filters">
+    <div className="hotel-bookings-container">
+      <div className="hotel-bookings-header">
+        <h1>Manage Bookings</h1>
+        <div className="hotel-bookings-controls">
+          <div className="filter-buttons">
+            <button 
+              onClick={() => setFilter('all')} 
+              className={filter === 'all' ? 'active' : ''}
+            >
+              All Bookings
+            </button>
+            <button 
+              onClick={() => setFilter('confirmed')} 
+              className={filter === 'confirmed' ? 'active' : ''}
+            >
+              Reserved
+            </button>
+            <button 
+              onClick={() => setFilter('checked-in')} 
+              className={filter === 'checked-in' ? 'active' : ''}
+            >
+              Checked In
+            </button>
+            <button 
+              onClick={() => setFilter('checked-out')} 
+              className={filter === 'checked-out' ? 'active' : ''}
+            >
+              Checked Out
+            </button>
+            <button 
+              onClick={() => setFilter('cancelled')} 
+              className={filter === 'cancelled' ? 'active' : ''}
+            >
+              Cancelled
+            </button>
+          </div>
           <button 
-            onClick={() => setFilter('all')} 
-            className={filter === 'all' ? 'active' : ''}
+            onClick={() => setShowWalkInModal(true)}
+            className="add-walkin-btn"
           >
-            All
-          </button>
-          <button 
-            onClick={() => setFilter('reserved')} 
-            className={filter === 'reserved' ? 'active' : ''}
-          >
-            Reserved
-          </button>
-          <button 
-            onClick={() => setFilter('checked-in')} 
-            className={filter === 'checked-in' ? 'active' : ''}
-          >
-            Checked In
-          </button>
-          <button 
-            onClick={() => setFilter('checked-out')} 
-            className={filter === 'checked-out' ? 'active' : ''}
-          >
-            Checked Out
-          </button>
-          <button 
-            onClick={() => setFilter('canceled')} 
-            className={filter === 'canceled' ? 'active' : ''}
-          >
-            Canceled
+            Add Walk-In Booking
           </button>
         </div>
       </div>
 
+      {error && <div className="error-message">{error}</div>}
+
       {loading ? (
-        <div className="hoteldash-loading">Loading bookings...</div>
+        <Loader />
+      ) : bookings.length === 0 ? (
+        <div className="no-bookings">
+          <p>No bookings found for the selected filter.</p>
+        </div>
       ) : (
-        <div className="hoteldash-bookings-table">
-          <table>
+        <div className="bookings-table-container">
+          <table className="bookings-table">
             <thead>
               <tr>
                 <th>Guest</th>
-                <th>Room Type</th>
+                <th>Room</th>
                 <th>Check-In</th>
                 <th>Check-Out</th>
                 <th>Status</th>
@@ -104,31 +153,54 @@ const ManageBookings = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredBookings.map(booking => (
-                <tr key={booking.id}>
-                  <td>{booking.guestName}</td>
-                  <td>{booking.roomType}</td>
-                  <td>{booking.checkIn}</td>
-                  <td>{booking.checkOut}</td>
+              {bookings.map(booking => (
+                <tr key={booking._id}>
                   <td>
-                    <span className={`hoteldash-status ${booking.status}`}>
-                      {booking.status}
-                    </span>
+                    {booking.guest 
+                      ? `${booking.guest.first_name} ${booking.guest.last_name}`
+                      : booking.guestInfo?.name || 'Walk-In Guest'}
                   </td>
-                  <td>${booking.totalPrice}</td>
                   <td>
-                    <Link 
-                      to={`/hotel/bookings/${booking.id}`} 
-                      className="hoteldash-btn-small"
-                    >
-                      View
-                    </Link>
+                    {booking.roomType} (#{booking.roomNumber})
+                  </td>
+                  <td>{formatDate(booking.checkInDate)}</td>
+                  <td>{formatDate(booking.checkOutDate)}</td>
+                  <td>
+                    <BookingStatusBadge status={booking.status} />
+                  </td>
+                  <td>{formatCurrency(booking.totalPrice)}</td>
+                  <td>
+                    <BookingActions 
+                      booking={booking}
+                      onStatusUpdate={handleStatusUpdate}
+                      onDelete={handleDeleteBooking}
+                      onWhatsApp={handleWhatsAppMessage}
+                      onViewDetails={() => setSelectedBooking(booking)}
+                    />
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+      )}
+
+      {showWalkInModal && (
+        <WalkInBookingModal 
+          onClose={() => setShowWalkInModal(false)}
+          onSuccess={() => {
+            setShowWalkInModal(false);
+            fetchBookings();
+          }}
+        />
+      )}
+
+      {selectedBooking && (
+        <BookingDetailsModal 
+          booking={selectedBooking}
+          onClose={() => setSelectedBooking(null)}
+          onStatusUpdate={handleStatusUpdate}
+        />
       )}
     </div>
   );
