@@ -29,6 +29,7 @@ const BookingForm = ({ hotelId, room }) => {
         setError(null);
 
         try {
+            console.log('Hotel ID', hotelId);
             const response = await createBooking(hotelId, room._id, formData);
             
             if (response.success) {

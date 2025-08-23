@@ -135,7 +135,7 @@ const hotelSchema = new mongoose.Schema({
     images: [{
         type: String,
     }],
-    ratings: {
+     ratings: {
         average: {
             type: Number,
             default: 0,
@@ -166,7 +166,7 @@ const hotelSchema = new mongoose.Schema({
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
-        required: true,
+        required: true 
     },
         rooms: [RoomSchema],
 }, {
@@ -174,7 +174,7 @@ const hotelSchema = new mongoose.Schema({
 })
 
 
-// code to Hash password before saving
+// code to Hash password befor saving
 
 hotelSchema.pre('save', async function(next) {
     if(!this.isModified('password')) return next();
