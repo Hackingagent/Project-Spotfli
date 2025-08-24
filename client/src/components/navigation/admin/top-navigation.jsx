@@ -5,7 +5,7 @@ import { FiSearch, FiBell, FiUser } from 'react-icons/fi';
 const TopNavigation = ({heading}) => {
 
     const [searchQuery, setSearchQuery] = useState('');
-
+    const admin = JSON.parse(localStorage.getItem('admin'));
     
     return (
         <>
@@ -33,7 +33,7 @@ const TopNavigation = ({heading}) => {
                     <div className="profile-icon">
                     <FiUser />
                     </div>
-                    <span>Admin User</span>
+                    <span>{admin?.first_name} {admin?.second_name}</span>
                 </div>
                 </div>
             </div>

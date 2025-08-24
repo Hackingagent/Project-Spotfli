@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Your backend base URL
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
   timeout: 10000, // 10 seconds timeout
 });
 
@@ -18,13 +18,15 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (email, password) => {
   try {
-
+    console.log('Starting Login');
     const response = await api.post('/user/login', { email, password });
     
     // Store token in localStorage or cookies
     if (response.data.token) {
       localStorage.setItem('user_token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       // Set default Authorization header for future requests
+
       api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
       return {
@@ -62,6 +64,7 @@ export const logoutUser = async() => {
     const response = await api.post('/user/logout');
     if(response){
       localStorage.removeItem('user_token');
+      localStorage.removeItem('user');
 
       return {
         success: true,

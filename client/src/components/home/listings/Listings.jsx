@@ -1,21 +1,30 @@
 import React from 'react';
 import './listings.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 const Listings = (props) => {
+
+  const navigate = useNavigate();
+
+  
+  const handleViewProperty = () => {
+    navigate(`/propertyDetails/${props.id}`)
+  }
+
   return (
     <>
-    <Link className='links' to='/propertydetails'>
-    <div className='listing'>
+    {/* <Link className='links' to='/propertydetails'> */}
+    <div className='listing' onClick={handleViewProperty}>
       <div className="img">
         <i className="fa fa-heart"></i>
         <img src={props.image} alt="" />
       </div>
       <div className="listing-description">
         <div className="descriptions">
-          <div className='listing-title'>{props.title}</div>
-          <span className="distance">{props.type}</span>
-          <div className="price">XAF {props.price}/<span>Month</span></div>
+          <div className='listing-title'>{props.name}</div>
+          <span className="distance">{props.floors} Floors <tr /> {props.rooms} Rooms</span>
+          <div className="price"><FaMapMarkerAlt /> {props.location}</div>
         </div>
 
         <div className="rating">
@@ -25,7 +34,7 @@ const Listings = (props) => {
       </div>
 
     </div>
-    </Link>
+    {/* </Link> */}
     </>
   )
 }

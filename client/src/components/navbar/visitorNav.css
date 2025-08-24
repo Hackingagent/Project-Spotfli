@@ -1,6 +1,8 @@
 .navbar-container{
     position: sticky;
     top: 0;
+    z-index: 4;
+    
 }
 nav{
     display: flex;
@@ -8,7 +10,7 @@ nav{
     align-items: center;
     background-color: var(--bg-w2);
     color: var(--bg-white);
-    padding: 0.3rem 2rem;
+    padding: 0.8rem 2rem;
 }
 nav .logo{
     width: 7rem;
@@ -26,4 +28,37 @@ nav .logo{
 }
 .nav-links .link i{
     color: var(--bg-4);
+}
+.navbar-container nav .bars{
+    display: none;
+    color: var(--bg-1);
+    font-size: 1.4rem;
+}
+.mobile-nav-links{
+    position: absolute;
+    top: 3.5rem;
+    right: 0;
+    background-color: var(--bg-2);
+    z-index: 3;
+    width: 100vw;
+}
+.mobile-nav-links li{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5rem 0;
+    padding: 0.7rem 0.5rem;
+}
+.mobile-nav-links li .links{
+    color: var(--bg-white);
+}
+
+@media screen and (max-width: 800px){
+    .nav-links{
+        display: none;
+    }
+    .navbar-container nav .bars{
+    display: block;
+}
 }

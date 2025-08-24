@@ -1,5 +1,5 @@
 .logo{
-    width: 6rem;
+    width: 5.7rem;
 }
 .loggedin-nav{
     background-color: var(--bg-white);
@@ -11,53 +11,43 @@
     top: 0;
     z-index: 2;
 }
+.loggedinNavIcons{
+    font-size: 1.6rem;
+}
 .nav-left{
     display: flex;
     align-items: center;
 }
-.nav-left .search-bar{
-    /* background-color: var(--bg-w2); */
+.search-bar-nav{
+    background-color: rgba(47, 0, 177, 0.07);
     display: flex;
-    border-radius: 10px;
+    padding: 0.4rem;
+    border-radius: 25px;
     padding-left: 0.3rem;
     margin-left: 1.5rem;
-    border: 2px solid var(--bg-2);
     justify-content: center;
     align-items: center;
-}
-.nav-left .search-bar i{
+} 
+.search-bar-nav i{
     margin: 0 0.3rem;
     color: var(--bg-3);
 }
-.nav-left .search-bar input{
+ .search-bar-nav input{
+    background-color: transparent;
+    padding: 0.5rem;
     border: none;
-    /* background-color: var(--bg-w2); */
     color: var(--bg-1);
     width: 17rem;
     outline: none;
 }
-.nav-left .search-bar .fa-search{
-    color: var(--bg-white);
-}
-.nav-left .search-bar button{
-    padding: 0.6rem 1rem;
-    border: none;
-    border-top-right-radius: 7px;
-    border-bottom-right-radius: 7px;
-    background-color: var(--bg-2);
-    color: var(--bg-white);
-    cursor: pointer;
-    margin-left: 0.5rem;
-}
+
 .nav-right{
     display: flex;
     justify-content: space-between;
     align-items: center;
     
 }
-.nav-right i{
-    font-size: 1.2rem;
-}
+
 .nav-right .profile-settings{
     margin-left: 1rem;
     height: 3rem;
@@ -73,4 +63,10 @@
 }
 .nav-right .theme img{
     width: 1.8rem;
+}
+
+@media screen and (max-width: 700px){
+    .search-bar-nav{
+        display: none;
+    }
 }

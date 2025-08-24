@@ -1,0 +1,22 @@
+/* pages/Properties.module.css */
+.container {
+    padding: 24px;
+    background: var(--background-color);
+    min-height: 100vh;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--bg-2);
+    margin-bottom: 30px;
+  }
+  
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: var(--bg-1);
+    font-size: 1.2rem;
+  }

@@ -34,13 +34,13 @@ const Login = () => {
 
     try {
       const response = await loginUser(formData.email, formData.password);
-      console.log('Login successful', response);
+      console.log('Login Status', response);
 
-        if(response.success){
-          navigate('/', {replace: true});
-        }else{
-          setError(response.message)
-        }
+      if(response.success){
+        navigate('/', {replace: true});
+      }else{
+        setError(response.message)
+      }
 
 
       // if(response.isAdmin){
@@ -66,7 +66,7 @@ const Login = () => {
         <>
             <Navbar />
             <div className='register-container'>
-            <div className="register">
+            <div className="fade-up register">
                 <div className="register-form-container">
                     <div className="register-img">
                         <img src={login} alt="" />

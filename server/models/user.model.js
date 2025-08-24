@@ -55,42 +55,36 @@ const userSchema = new mongoose.Schema({
         select: false,
     },
 
-
-    service_approved: {
-        status: {
-            type: String,
-            enum: ['not_set', 'pending', 'approved', 'rejected'],
-            default: 'not_set'
-        },
-        approved_by: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Admin'
-        },
-        approved_at: Date,
-        rejection_reason: String
+    is_service_provider: {
+        type: String,
+        enum: ['yes', 'no'],
+        default: 'no',
+        required: true,
     },
-
     // Approval tracking for property owners
     owner_approved: {
-        status: {
-            type: String,
-            enum: ['not_set', 'pending', 'approved', 'rejected'],
-            default: 'not_set'
-        },
-        approved_by: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Admin'
-        },
-        approved_at: Date,
-        rejection_reason: String
+        type: String,
+        enum: ['yes', 'no'],
+        default: 'no',
+        required: true,
     },
 
     // Track which admin last updated the user
     last_updated_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin'
-    }
+    },
+    
 
+    //
+    role: {
+        type: String,
+        enum: ['user', 'service_provider', 'admin'], default: 'user'
+    },
+isApprovedProvider: {
+    type: Boolean, 
+    default: false
+}
 
 }, {
     timestamps: true // createdAt and updatedAt in the document

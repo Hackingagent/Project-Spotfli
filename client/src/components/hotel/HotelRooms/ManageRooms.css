@@ -1,0 +1,97 @@
+.hoteldash-room-types{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 2rem;
+    margin-top: 0.8rem;
+    width: 100%;
+}
+.hoteldash-room-card img{
+    width: 100%;
+    border-radius: 1rem;
+
+}
+.hoteldash-room-card{
+    background: var(--bg-w2);
+    border-radius: 1rem;
+    padding: 0.7rem 0.3rem;
+    box-shadow: 4px 4px 7px rgba(0, 0, 0, 0.185);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease-in;
+    width: 100%;
+}
+.hoteldash-room-card:hover{
+    transform: translateY(-5px);
+
+}
+.hoteldash-room-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.hoteldash-room-actions{
+    margin: 0.7rem 0;
+    display: flex;
+    gap: 0.7rem;
+}
+.hoteldash-room-actions .delete{
+    background: rgb(153, 5, 5);
+    color: var(--bg-w2);
+}
+.hoteldash-room-actions .delete:hover{
+    background-color: transparent;
+    border: 2px solid rgb(153, 5, 5);
+    color: rgb(153, 5, 5);
+}
+
+/* Confirmation dialog styles */
+.confirm-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.confirm-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 1000px){
+    .hoteldash-room-types{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 1rem;
+        margin-top: 0.8rem;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .hoteldash-room-types{
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+        width: 100%;
+    }
+}

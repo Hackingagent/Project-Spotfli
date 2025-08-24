@@ -17,6 +17,7 @@ const Home = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+   
   // function to open account bar
   const [isAccountbarOpen, setIsAccountbarOpen] = useState(false); // state to control account bar visibility
   const toggleAccountBar = () => {

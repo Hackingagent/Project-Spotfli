@@ -6,7 +6,7 @@ import TableComponent from "../../../sections/table/table-component";
 
 const RejectedUnits = () => {
     
-
+//Bug Push
      	//Table Head values
 	const tableHeader = [
         "Id",

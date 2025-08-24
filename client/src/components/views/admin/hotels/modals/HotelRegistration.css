@@ -1,0 +1,197 @@
+/* Modal overlay */
+.hotel-application-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+}
+
+/* Modal container */
+.hotel-application-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: var(--bg-white);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.hotel-application-form-container {
+  position: relative;
+  padding: 2rem;
+}
+
+.hotel-application-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--bg-w1);
+  transition: color 0.2s;
+}
+
+.hotel-application-close-btn:hover {
+  color: var(--bg-1);
+}
+
+.hotel-application-title {
+  color: var(--bg-1);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hotel-application-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hotel-application-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hotel-application-label {
+  font-weight: 500;
+  color: var(--bg-1);
+  font-size: 0.9rem;
+}
+
+.hotel-application-input,
+.hotel-application-textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--bg-w1);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.hotel-application-input:focus,
+.hotel-application-textarea:focus {
+  outline: none;
+  border-color: var(--bg-4);
+  box-shadow: 0 0 0 2px rgba(15, 123, 205, 0.2);
+}
+
+.hotel-application-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.hotel-application-file-input {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.hotel-application-rating {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hotel-application-rating-input {
+  display: none;
+}
+
+.hotel-application-rating-input + .hotel-application-rating-label {
+  color: var(--bg-w1);
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+}
+
+.hotel-application-rating-input:checked + .hotel-application-rating-label,
+.hotel-application-rating-input:checked ~ .hotel-application-rating-label {
+  color: var(--bg-4);
+}
+
+.hotel-application-rating-label:hover {
+  color: var(--bg-3);
+}
+
+.hotel-application-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.hotel-application-cancel-btn,
+.hotel-application-submit-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.hotel-application-cancel-btn {
+  background-color: var(--bg-w2);
+  color: var(--bg-1);
+  border: 1px solid var(--bg-w1);
+}
+
+.hotel-application-cancel-btn:hover {
+  background-color: #e0dcd4;
+}
+
+.hotel-application-submit-btn {
+  background-color: var(--bg-4);
+  color: white;
+  border: none;
+}
+
+.hotel-application-submit-btn:hover {
+  background-color: var(--bg-3);
+}
+
+.hotel-application-submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* Responsive layout */
+@media (min-width: 600px) {
+  .hotel-application-form-row {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .hotel-application-form-row .hotel-application-form-group {
+    flex: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .hotel-application-modal {
+    width: 95%;
+    padding: 1rem;
+  }
+  
+  .hotel-application-form-container {
+    padding: 1rem;
+  }
+  
+  .hotel-application-form-actions {
+    flex-direction: column;
+  }
+  
+  .hotel-application-cancel-btn,
+  .hotel-application-submit-btn {
+    width: 100%;
+  }
+}

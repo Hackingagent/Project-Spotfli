@@ -1,0 +1,83 @@
+/* src/components/hotel/HotelDetailsPage.css */
+.hotel-details-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.hotel-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.hotel-header h1 {
+    color: var(--bg-1);
+    margin-bottom: 0.5rem;
+}
+
+.hotel-location {
+    color: var(--bg-w1);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.star-rating {
+    margin-top: 0.5rem;
+}
+
+.star-rating .star {
+    color: #FFD700;
+    font-size: 1.2rem;
+    margin: 0 2px;
+}
+
+.hotel-content {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.hotel-main {
+    flex: 2;
+}
+
+.hotel-sidebar {
+    flex: 1;
+}
+
+.hotel-description {
+    margin-bottom: 2rem;
+}
+
+.hotel-description h2 {
+    color: var(--bg-1);
+    margin-bottom: 1rem;
+}
+
+.hotel-description p {
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.error-container {
+    text-align: center;
+    padding: 2rem;
+    color: red;
+}
+
+.not-found {
+    text-align: center;
+    padding: 2rem;
+    color: var(--bg-w1);
+}
+
+@media (max-width: 768px) {
+    .hotel-content {
+        flex-direction: column;
+    }
+    
+    .hotel-main,
+    .hotel-sidebar {
+        width: 100%;
+    }
+}

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Your backend base URL
-  timeout: 10000, // 10 seconds timeout
+    baseURL: import.meta.env.VITE_API_URL ||  "http://localhost:5000/api",
+    timeout: 10000,
 });
 
 export const loginAdmin = async (email, password) => {
@@ -12,14 +12,15 @@ export const loginAdmin = async (email, password) => {
         
         // Store token in localStorage or cookies
         if (response.data.admin_token) {
-        localStorage.setItem('admin_token', response.data.admin_token);
-        // Set default Authorization header for future requests
-        api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+            localStorage.setItem('admin_token', response.data.admin_token);
+            localStorage.setItem('admin', JSON.stringify(response.data.admin));
+            // Set default Authorization header for future requests
+            api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
-        return {
-            success: true,
-            admin: response.data.admin,
-        };
+            return {
+                success: true,
+                admin: response.data.admin,
+            };
         }
 
         if(!response.data.success){

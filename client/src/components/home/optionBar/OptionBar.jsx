@@ -7,6 +7,13 @@ import hotel from '../../../assets/option-icons/hotel.png';
 import guest from '../../../assets/option-icons/furniture.png';
 import mate from '../../../assets/option-icons/shared-flat.png';
 import service from '../../../assets/option-icons/services.png';
+import { GrServices } from "react-icons/gr";
+import { FaHotel } from "react-icons/fa6";
+import { FaHouseChimneyUser } from "react-icons/fa6";
+import { RiMenuUnfoldFill } from "react-icons/ri";
+import { MdApartment,MdRealEstateAgent,MdOutlineMeetingRoom } from "react-icons/md";
+import { TbLayoutSidebarLeftExpandFilled } from "react-icons/tb";
+
 import './optionBar.css';
 import { Link } from 'react-router-dom';
 
@@ -15,23 +22,21 @@ const OptionBar = ({ toggleSidebar, toggleFilter }) => { // Receive toggleSideba
   return (
     <div className="option-bar">
       <div className="menu" onClick={toggleSidebar}> {/* Add onClick event */}
-        <img src={menu} alt="menu button" />
+        <RiMenuUnfoldFill className='sidebar-menu' />
       </div>
       <div className="all-optionsB">
-      <i className="scroll fa fa-chevron-left"></i>
-
       <div className="options">
        <Link className='links' to='/rent'>
         <div className="option option1">
           
-            <img src={rent} alt="Rent-icon" />
+            < MdApartment className='optionbar-icons'/>
             <span>Rent</span>
         </div>
         </Link>
 
         <Link className='links' to='/buy'>
         <div className="option option1">
-            <img src={buy} alt="Rent-icon" />
+            <MdRealEstateAgent className='optionbar-icons'/>
             <span>Buy</span>
         </div>
         </Link>
@@ -39,31 +44,31 @@ const OptionBar = ({ toggleSidebar, toggleFilter }) => { // Receive toggleSideba
 
         <Link className='links' to='/hotels'>
         <div className="option option1">
-            <img src={hotel} alt="Rent-icon" />
+            <FaHotel className='optionbar-icons'/>
             <span>Hotel</span>
         </div>
         </Link>
 
-
+{/* 
         <Link className='links' to='/'>
         <div className="option option1">
             <img src={beach} alt="Rent-icon" />
             <span>Vacation</span>
         </div>
-        </Link>
+        </Link> */}
 
 
-        <Link className='links' to='/coliving'>
+        {/* <Link className='links' to='/coliving'>
         <div className="option option1">
-            <img src={mate} alt="Rent-icon" />
+            <MdOutlineMeetingRoom className='optionbar-icons'/>
             <span>Co-Living</span>
         </div>
-        </Link>
+        </Link> */}
 
 
         <Link className='links' to='/'>
         <div className="option option1">
-            <img src={guest} alt="Rent-icon" />
+            <FaHouseChimneyUser className='optionbar-icons'/>
             <span>Guest House</span>
         </div>
         </Link>
@@ -71,13 +76,12 @@ const OptionBar = ({ toggleSidebar, toggleFilter }) => { // Receive toggleSideba
 
         <Link className='links' to='/serviceProvider'>
         <div className="option option1">
-            <img src={service} alt="Rent-icon" />
-            <span>Service Provider</span>
+            <GrServices className='optionbar-icons'/>
+            <span>Services</span>
         </div>
         </Link>
         
       </div>
-      <i className="scroll fa fa-chevron-right"></i>
       </div>
     </div>
   )

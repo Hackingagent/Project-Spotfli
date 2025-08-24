@@ -34,7 +34,8 @@ export const registerUser = async(req, res) => {
             email,
             gender,
             dob,
-            password: hashedPassword
+            password: hashedPassword,
+            is_service_provider: 'no',
         });
 
         // 5. Save user to database
@@ -68,6 +69,7 @@ export const registerUser = async(req, res) => {
 
 // User login
 export const loginUser = asyncHandler(async (req, res) => {
+    
     const { email, password } = req.body;
     
     console.log(req.body); // Check the incoming request data
@@ -114,6 +116,7 @@ export const loginUser = asyncHandler(async (req, res) => {
             last_name: user.name,
             email: user.email,
             token,
+            user:  await User.findOne({ email }),
         });
     }
 
