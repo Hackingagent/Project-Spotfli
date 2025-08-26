@@ -2,8 +2,10 @@
 import Hotel from '../../models/Hotel.model.js';
 import User from '../../models/user.model.js';
 
-export const createBooking = async (req, res) => {
+export const createHotelBooking = async (req, res) => {
     try {
+
+        // console.log('Request: ', req.body);
         const { hotelId, roomId } = req.params;
         const { checkInDate, checkOutDate, guests, specialRequests } = req.body;
         const userId = req.user._id;

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api/service-provider",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
   timeout: 10000,
 });
 
@@ -23,7 +23,7 @@ export const createMyService = async (serviceData) => {
       }
     }
 
-    const response = await api.post("/", serviceData, {
+    const response = await api.post("service-provider/", serviceData, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
@@ -53,7 +53,7 @@ export const createMyService = async (serviceData) => {
 export const getMyService = async () => {
   const token = localStorage.getItem("user_token");
   try {
-    const response = await api.get("/my-service", {
+    const response = await api.get("/service-provider/my-service", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -76,7 +76,7 @@ export const updateService = async (id, updated) => {
   try {
     const token = localStorage.getItem("user_token");
     console.log("Token: ", token);
-    const response = await api.put(`${id}`, updated, {
+    const response = await api.put(`/service-provider/${id}`, updated, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -99,7 +99,7 @@ export const deleteService = async (id) => {
   try {
     const token = localStorage.getItem("user_token");
 
-    const response = await api.delete(`${id}`, {
+    const response = await api.delete(`service-provider/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

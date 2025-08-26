@@ -10,7 +10,7 @@ import adminRoutes from './routes/admin.route.js';
 import serviceProviderRoutes from './routes/serviceProvider.route.js';
 import bookingRoutes from './routes/booking.route.js';
 import hotelRoutes from './routes/hotel.js'
-import bookingRoutes from './routes/booking.route.js';
+// import bookingRoutes from './routes/booking.route.js';
 
 
 dotenv.config();

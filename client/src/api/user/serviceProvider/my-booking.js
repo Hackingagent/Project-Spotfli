@@ -1,7 +1,8 @@
 import axios from "axios";
 
+
 const api = axios.create({
-  baseURL: "http://localhost:5000/api/bookings",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
   timeout: 10000,
 });
 
@@ -9,7 +10,7 @@ const api = axios.create({
 export const createBooking = async (bookingData) => {
   const token = localStorage.getItem("user_token");
   try {
-    const response = await api.post("/", bookingData, {
+    const response = await api.post("/bookings", bookingData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -32,7 +33,7 @@ export const createBooking = async (bookingData) => {
 export const getMyBookings = async () => {
   const token = localStorage.getItem("user_token");
   try {
-    const response = await api.get("/my-bookings", {
+    const response = await api.get("/bookings/my-bookings", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -55,7 +56,7 @@ export const getMyBookings = async () => {
 export const updateBookingStatus = async (bookingId, status) => {
   const token = localStorage.getItem("user_token");
   try {
-    const response = await api.patch(`/${bookingId}/status`, { status }, {
+    const response = await api.patch(`/bookings/${bookingId}/status`, { status }, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
