@@ -112,7 +112,7 @@ const handleUpdateRoom = async (roomId, formData) => {
             <div key={room._id} className="hoteldash-room-card">
               {room.images?.length > 0 ? (
                 <img 
-                  src={`http://localhost:5000/${room.images[0]}`} 
+                  src={`${import.meta.env.VITE_FILE_API_URL}/${room.images[0]}`} 
                   alt={`${room.roomType} room`}
                   onError={(e) => {
                     e.target.src = '/default-room.jpg'; // Fallback image

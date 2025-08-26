@@ -15,7 +15,7 @@ const RoomList = ({ rooms, onSelectRoom }) => {
                         <div className="room-image">
                             {room.images?.length > 0 ? (
                                 <img 
-                                    src={`http://localhost:5000/${room.images[0]}`} 
+                                    src={`${import.meta.env.VITE_FILE_API_URL}/${room.images[0]}`} 
                                     alt={room.roomType}
                                     onError={(e) => {
                                         e.target.src = '/default-room.jpg';

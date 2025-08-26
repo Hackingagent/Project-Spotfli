@@ -104,7 +104,7 @@ const AdminPendingProvider = () => {
                 />
             }
 
-            <TopNavigation heading={'Service Providers: Declined'} />
+            <TopNavigation heading={'Service Providers: Pending'} />
             {/* <div className="addServiceBtn" onClick={toggleAddService}>
                 Add Service <i className="fa fa-plus"></i>
             </div> */}

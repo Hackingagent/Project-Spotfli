@@ -47,7 +47,7 @@ const PropertyCard = ({ property, onClick }) => {
         {property.files.length > 0 ? (
           <>
             <img 
-              src={`http://localhost:5000${property.files[currentImageIndex].url}`} 
+              src={`${import.meta.env.VITE_FILE_API_URL}${property.files[currentImageIndex].url}`} 
               alt={`Property ${currentImageIndex + 1}`}
               className={styles.propertyImage}
               onError={(e) => {
@@ -95,16 +95,16 @@ const PropertyCard = ({ property, onClick }) => {
 
       <div className={styles.cardContent}>
         <div className={styles.priceBadge}>
-          ${property.data.price?.toLocaleString() || 'N/A'}
+          {property.data.name || 'Untitled Property'}
         </div>
         <h3 className={styles.propertyTitle}>
-          {property.data.title || 'Untitled Property'}
+          {property.data.location || 'Location not specified' }
         </h3>
         <p className={styles.propertyLocation}>
-          {property.data.location || 'Location not specified'}
+          Rooms: {property.data.rooms}
         </p>
         
-        {keyFeatures.length > 0 && (
+        {/* {keyFeatures.length > 0 && (
           <div className={styles.propertyFeatures}>
             {keyFeatures.map(feature => (
               <span key={feature}>
@@ -112,15 +112,27 @@ const PropertyCard = ({ property, onClick }) => {
               </span>
             ))}
           </div>
-        )}
+        )} */}
 
         {/* Display property type if available */}
-        {property.category?.name && (
-          <div className={styles.propertyType}>
-            {property.category.name}
-            {property.subcategory?.name && ` • ${property.subcategory.name}`}
-          </div>
-        )}
+        <div className={styles.propertyBottom}>
+          {property.category?.name && (
+            <div className={styles.propertyType}>
+              {property.category.name}
+              {property.subcategory?.name && ` • ${property.subcategory.name}`}
+            </div>
+          )}
+
+          {property.status === 'submitted' && (
+              <div className={`${styles.propertyStatus} ${styles.submitted}`}> <p>Property Under Review</p> </div>
+
+          )}
+
+          {property.status === 'declined' && (
+              <div className={`${styles.propertyStatus} ${styles.declined}`}> <p>Property Declined</p> </div>
+
+          )}
+        </div>
       </div>
     </div>
   );

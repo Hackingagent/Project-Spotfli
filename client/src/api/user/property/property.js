@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
-    timeout: 10000,
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+    timeout: 100000,
 });
 
 export const getCategories = async ()=>{
@@ -22,6 +22,10 @@ export const getCategories = async ()=>{
         };
 
     }catch(error){
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
         return {
             success: false,
             error
@@ -46,6 +50,10 @@ export const getUserProperties = async() => {
 
         };
     } catch (error) {
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
         return {
             success: true,
             error: error.message
@@ -70,6 +78,11 @@ export const getSingleProperty = async (id) => {
             property: response.data.property,
         }
     } catch (error) {
+
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
         return {
             success: false,
             error: error.message
@@ -94,6 +107,10 @@ export const getPropertySubcategory = async(id) => {
 
 
     } catch (error) {
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
         return {
             success: false,
             error: error.message
@@ -127,6 +144,10 @@ export const addProperty = async(formData) => {
         }
 
     } catch (error) {
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
         return {
             success: false,
             error: error.message
@@ -150,7 +171,157 @@ export const updateProperty = async(id, formData) => {
             message: response.data.message
         }
     } catch (error) {
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
         return {
+            success: false,
+            error: error.message
+        }
+    }
+}
+
+export const deletePropertyFile = async(id, fileId) => {
+    try{
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.delete(`user/${id}/deletePropertyFile/${fileId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        return {
+            success: true,
+            message: response.data.message,
+        }
+
+    }catch(error){
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
+        return {
+            success: false,
+            error: error.message
+        }
+    }
+}
+
+
+
+export const addPropertyRoom = async(formData, propertyId) => {
+
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.post(`user/addPropertyRoom/${propertyId}`, formData, {
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+
+            }
+        });
+
+        return {
+            success: false,
+            message: response.data.message,
+        }
+    } catch (error) {
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
+        return{
+            success: false,
+            error: error.message
+        }
+    }
+}
+
+
+export const getPropertyRooms = async (propertyId) => {
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.get(`user/getPropertyRooms/${propertyId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+
+        console.log('Response from backend: ', response);
+
+        return {
+            success: true,
+            propertyRooms: response.data.propertyRooms,
+        }
+    } catch (error) {
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
+        return {
+            success: false,
+            error: error.message,
+        }
+    }
+}
+
+
+
+export const getAllProperties = async() => {
+
+    try {
+        const response = await api.get('/user/getAllProperties');
+        console.log(response);
+
+        return {
+            success: true,
+            properties: response.data.properties,
+        };
+
+    
+
+    }catch(error){
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
+        return {
+            success: false,
+            error
+        }
+    }
+}
+
+
+
+
+export const UpdatePropertyRoom = async(formData, propertyId) => {
+
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.post(`user/updatePropertyRoom/${propertyId}`, formData, {
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+
+            }
+        });
+
+        return {
+            success: false,
+            message: response.data.message,
+        }
+    } catch (error) {
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
+        return{
             success: false,
             error: error.message
         }

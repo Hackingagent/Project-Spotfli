@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
     timeout: 10000,
 });
 
@@ -71,7 +71,7 @@ export const addSubCategory = async(data, id) => {
         const token = localStorage.getItem('admin_token');
         console.log('Token: ', token);
 
-        const response = await api.put(`/admin/addSubCategory/${id}`, data, {
+        const response = await api.put(`/admin/addSubcategory/${id}`, data, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -99,11 +99,11 @@ export const addSubCategory = async(data, id) => {
 }
 
 
-export const getSubCategories = async (id)=>{
+export const getSubcategories = async (id)=>{
 
     const token = localStorage.getItem('admin_token');
     try {
-        const response = await api.get(`/admin/getSubCategories/${id}`, {
+        const response = await api.get(`/admin/getSubcategories/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -111,7 +111,7 @@ export const getSubCategories = async (id)=>{
         console.log(response);
         return {
             success: true,
-            subCategory: response.data.subCategories,
+            subcategory: response.data.subcategories,
         };
 
     }catch(error){

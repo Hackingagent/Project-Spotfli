@@ -4,10 +4,10 @@ import Rent from '../../home/listings/rent/Rent'
 
 const RentView = () => {
   return (
-            <>
+      <>
         <Home />
         <Rent />
-        </>
+       </>
   )
 }
 

@@ -72,7 +72,7 @@ const HotelOverview = () => {
             {hotelData.images.map((image, index) => (
               <div key={index} className="gallery-image">
                 <img 
-                  src={`http://localhost:5000/${image}`} 
+                  src={`${import.meta.env.VITE_FILE_API_URL}/${image}`} 
                   alt={`Hotel view ${index + 1}`}
                   onError={(e) => {
                     e.target.src = '/default-hotel.jpg';

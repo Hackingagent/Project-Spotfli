@@ -1,0 +1,12 @@
+.cardBody{
+    display: flex;
+    flex-direction: column;
+    gap: 0.1em;
+    align-items: center;
+    justify-content: center;
+}
+.cardHeader{
+    justify-content: center;
+    align-items: center;
+
+}

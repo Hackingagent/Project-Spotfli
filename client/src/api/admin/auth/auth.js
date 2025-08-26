@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Your backend base URL
-  timeout: 10000, // 10 seconds timeout
+    baseURL: import.meta.env.VITE_API_URL ||  "http://localhost:5000/api",
+    timeout: 10000,
 });
 
 export const loginAdmin = async (email, password) => {

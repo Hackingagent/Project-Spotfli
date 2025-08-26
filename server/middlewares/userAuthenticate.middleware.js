@@ -8,7 +8,8 @@ const userAuthenticate = async(req, res, next) => {
     if(!token){
         console.log('Access Denied');
         return res.status(401).json({
-            message: 'Access denied. No token provided'
+            message: 'Access denied. No token provided',
+            redirectTo: '/login' // Indicate to redirect to login
         });
     }
 
@@ -20,6 +21,7 @@ const userAuthenticate = async(req, res, next) => {
             console.log('User not found');
             return res.status(404).json({
                 message: 'User not Found',
+                redirectTo: '/login' // Indicate to redirect to login
             })
         }
 
@@ -28,6 +30,7 @@ const userAuthenticate = async(req, res, next) => {
         console.log('Invalid Token')
         return res.status(400).json({
             message: 'Invalid Token',
+            redirectTo: '/login' // Indicate to redirect to login
         })
     }
 }

@@ -5,8 +5,11 @@ import {
   FiSave, FiX, FiHeart, FiImage, FiUpload 
 } from 'react-icons/fi';
 import styles from './PropertyDetailPage.module.css';
-import { getPropertySubcategory, getSingleProperty, updateProperty } from '../../../api/user/property/property';
+import { addPropertyRoom, deletePropertyFile, getPropertySubcategory, getSingleProperty, updateProperty } from '../../../api/user/property/property';
 import Notification from '../../notification/notification';
+import { FaPlus } from 'react-icons/fa';
+import PropertyRoomModal from './modal/PropertyRoomModal';
+import PropertyRoomsList from './PropertyRoomList/PropertyRoomList';
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
@@ -24,6 +27,7 @@ const PropertyDetailPage = () => {
   const [activeEditField, setActiveEditField] = useState(null);
   const [subcategory, setSubcategory] = useState([]);
   const [message, setMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -34,7 +38,7 @@ const PropertyDetailPage = () => {
         setFormData(response.property.data || {});
         // setIsFavorite(response.data.isFavorite);
         
-        const subcategoryResponse = await getPropertySubcategory(response.property.subcategory);
+        const subcategoryResponse = await getPropertySubcategory(response.property.subcategory._id);
         setSubcategory(subcategoryResponse.subcategory);
         setFieldDefinitions(subcategoryResponse.subcategory.fields || []);
         
@@ -54,7 +58,9 @@ const PropertyDetailPage = () => {
 
   const handleDeleteImage = async (imageId) => {
     try {
-      await api.deleteImage(id, imageId);
+      const response = await deletePropertyFile(id, imageId);
+
+      setMessage(response.message);
       setProperty(prev => ({
         ...prev,
         files: prev.files.filter(file => file._id !== imageId)
@@ -155,6 +161,14 @@ const PropertyDetailPage = () => {
       console.error('Error updating property:', err);
     }
   };
+
+  const handleAddPropertyRoom = async (formData) => {
+    console.log('User section id: ', id);
+    console.log('User section Form Data: ', formData);
+    const response = await addPropertyRoom(formData, id);
+
+    setMessage(response.message);
+  }
 
   // const toggleEditField = (fieldKey) => {
   //   setActiveEditField(activeEditField === fieldKey ? null : fieldKey);
@@ -301,7 +315,14 @@ const PropertyDetailPage = () => {
         type='success'
       />
 
-      
+      {showModal && (
+        <PropertyRoomModal 
+          onClose={() => setShowModal(false)}
+          onSubmit={handleAddPropertyRoom}
+        />
+      )}
+
+
       <div className={styles.container}>
         <button className={styles.backButton} onClick={() => navigate(-1)}>
           <FiChevronLeft /> Back to Properties
@@ -309,6 +330,19 @@ const PropertyDetailPage = () => {
 
         <div className={styles.header}>
           <h1>{property.data?.title || 'Untitled Property'}</h1>
+
+          {property.status === 'submitted' && (
+            <div className={`${styles.propertyStatus} ${styles.submitted}`}>
+              <p>Property Under Review</p>
+            </div>
+          )}
+
+          {property.status === 'declined' && (
+            <div className={`${styles.propertyStatus} ${styles.declined}`}>
+              <p>Property had been Declined</p>
+            </div>
+          )}
+          
           <div className={styles.actionButtons}>
             <button 
               className={`${styles.iconButton} ${isFavorite ? styles.favorite : ''}`}
@@ -339,7 +373,7 @@ const PropertyDetailPage = () => {
               <>
                 <div className={styles.mainImageContainer}>
                   <img
-                    src={`http://localhost:5000${property.files[currentImageIndex].url}`}
+                    src={`${import.meta.env.VITE_FILE_API_URL}${property.files[currentImageIndex].url}`}
                     alt={`Property ${currentImageIndex + 1}`}
                     className={styles.mainImage}
                     onError={(e) => {
@@ -361,7 +395,7 @@ const PropertyDetailPage = () => {
                     {property.files.map((file, index) => (
                       <div key={file._id} className={styles.thumbnailWrapper}>
                         <img
-                          src={`http://localhost:5000${file.url}`}
+                          src={`${import.meta.env.VITE_FILE_API_URL}${file.url}`}
                           alt={`Thumbnail ${index + 1}`}
                           className={`${styles.thumbnail} ${index === currentImageIndex ? styles.active : ''}`}
                           onClick={() => handleImageChange(index)}
@@ -422,6 +456,10 @@ const PropertyDetailPage = () => {
                 )}
               </div>
             )}
+
+            <button className={styles.addRoom} onClick={() => setShowModal(true)} > <FaPlus /> Add Room</button>
+
+            <PropertyRoomsList />
           </div>
 
           <div className={styles.detailsSection}>

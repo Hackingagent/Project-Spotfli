@@ -1,47 +1,97 @@
-import React, { useState } from "react";
-import styles from '../sidebar.module.css';
-import { Outlet } from "react-router-dom";
-import { FaBars, FaWindowClose } from "react-icons/fa";
+import React, { useState } from 'react';
+import {FiHome,FiUsers,FiCheckCircle,FiDollarSign,FiPieChart,FiAlertTriangle,FiSettings,FiMenu, FiChevronDown, FiChevronRight} from 'react-icons/fi';
+import { FaBuilding, FaTools } from "react-icons/fa";
+import { replace, useNavigate } from 'react-router-dom';
+// import './Sidebar.css';
 
-const ServiceProviderSidebar = () => {
+const ServiceProviderSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) => {
+  const navigate = useNavigate();
+  const [isServiceProviderOpen, setIsServiceProviderOpen] = useState(false);
+  const [hotelDrop, isHotelDrop] = useState(false)
 
-    const [isOpen, setIsOpen] = useState(false);
+  // toggle service provider menu dropdown
+  const toggleServiceProvider = () => {
+    setIsServiceProviderOpen(!isServiceProviderOpen);
+  };
 
-    const toggleSidebar = () => {
-      setIsOpen(!isOpen);
-    };
+  // toggle hotel menu deropdown
+  const toggleHotelDrop = () => {
+    isHotelDrop(!hotelDrop);
+  }
+
+  return (
+    <div className={`sidebar ${open ? 'open' : 'closed'} ${mobileOpen ? 'mobile-open' : ''}`}>
+      <div className="sidebar-header">
+        {open ? (
+          <h2>SERVICE DASHBAORD</h2>
+        ) : (
+          <div className="sidebar-logo">SF</div>
+        )}
+      </div>
+      <div className="sidebar-menu">
+        <SidebarItem
+          icon={<FiHome />}
+          text="Dashboard"
+          active={activeTab === 'dashboard'}
+          onClick={() => {
+            onTabChange('dashboard')
+            navigate('/service-provider', {replace: true})
+          }}
+          open={open}
+        />
+        <SidebarItem
+          icon={<FiHome />}
+          text="My Bookings"
+          active={activeTab === 'property-owner'}
+          onClick={() => {
+            onTabChange('property-owner')
+            navigate('/service-provider/my-booking', {replace: true})
+          }}
+          open={open}
+        />
+        <SidebarItem
+          icon={<FaTools />}
+          text="My Services"
+          active={activeTab === 'services'}
+          onClick={() => {
+            onTabChange('services')
+            navigate('/service-provider/my-service', {replace: true})
+          }}
+          open={open}
+        />
 
 
-    return (
-        <div className={styles.app}>
-            <div className={styles.navbar}>
-                <div><h2>LOGO</h2></div>
-                <div style={{display: "flex"}}>
-                    UserName
-                    <button onClick={toggleSidebar} className={styles.toggle_button}>
-                        {isOpen ? <FaWindowClose size={20} /> : <FaBars size={20}/>}
-                    </button>
-                </div>
-            </div>
-            <div className={styles.mainContent}>
-                <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
-                    <ul>
-                        <li>DashBoard</li>
-                        <li>Client</li>
-                        <li>View Bookings</li>
-                        <li>Add Services</li>
-                        <li>View Services</li>
-                    </ul>
-                </div>
+        <SidebarItem
+          icon={<FiSettings />}
+          text="Settings"
+          active={activeTab === 'settings'}
+          onClick={() => onTabChange('settings')}
+          open={open}
+        />
+      </div>
+      <div className="sidebar-footer">
+        <button
+          onClick={onToggle}
+          className="collapse-button"
+        >
+          <FiMenu />
+          {open && <span>Collapse</span>}
+        </button>
+      </div>
+    </div>
+  );
+};
 
-                <div className={styles.outlet}>
-                    <Outlet />
-                </div>
-            </div>
+const SidebarItem = ({ icon, text, active, onClick, open, isSubItem }) => {
+  return (
+    <div
+      onClick={onClick}
+      className={`sidebar-item ${active ? 'active' : ''} ${isSubItem ? 'sub-item' : ''}`}
+    >
+      {icon && <div className="sidebar-icon">{icon}</div>}
+      {open && <span>{text}</span>}
+    </div>
+  );
+};
 
-        </div>  
-    )
-
-}
-
-export default ServiceProviderSidebar
+export default ServiceProviderSidebar;

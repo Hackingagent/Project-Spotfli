@@ -5,6 +5,8 @@ import logoLight from '../../../assets/logo2.png';
 import './sideBar.css';
 
 const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSidebar as props
+  const [isApprovedProvider, setApprovedProivider] = useState(true);
+  
   const [isServiceProvider, setServiceProvider] = useState(true);
   return (
     <div className={`sidebar-container ${isOpen ? 'open' : ''}`}>
@@ -14,6 +16,15 @@ const SideBar = ({ isOpen, toggleSidebar }) => { // Receive isOpen and toggleSid
           <IoMdExit className='exit-side-bar'  onClick={toggleSidebar} /> {/* Use the toggle function */}
         </div>
         <ul className="sidebar-content">
+          { isApprovedProvider &&
+            <>
+            <li>
+            <Link className="sideLinks" to="/service-provider/my-service">
+              Manage Services <i className="fa fa-dashboard"></i>{' '}
+            </Link>
+          </li>
+</>
+}
           {isServiceProvider && <>
           <li>
             <Link className="sideLinks" to="/">

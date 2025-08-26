@@ -10,9 +10,13 @@
   --bg-w1: #ADB8BB;
   --bg-w2: #EDEAE4;
 }
+
+
+
 .container{
   padding: 1.7rem 2rem;
 }
+
 .preloader{
   margin-top: 10%;
   width: 100%;

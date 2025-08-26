@@ -61,6 +61,7 @@
     color: rgba(0, 0, 0, 0.582);
 }
 .listing-description .price{
+    margin-top: 5px;
     color: var(--text-color);
     font-size: 0.9rem;
     span{
