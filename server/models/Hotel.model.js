@@ -8,7 +8,7 @@ const BookingSchema = new mongoose.Schema({
         ref: User,
         request: true
     },
-        room: {  // ADD THIS FIELD
+        room: {
         type: mongoose.Schema.Types.ObjectId,
     },
     checkInDate: {
