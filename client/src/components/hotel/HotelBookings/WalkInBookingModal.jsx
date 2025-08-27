@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { createWalkInBooking } from '../../../api/hotel/hotelApi';
+// import { createWalkInBooking } from '../../../api/hotel/hotelApi';
 import './css/WalkInBookingModal.css';
+import { createBooking } from '../../../api/booking';
 
 const WalkInBookingModal = ({ onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -44,7 +45,7 @@ const WalkInBookingModal = ({ onClose, onSuccess }) => {
     setError(null);
 
     try {
-      const response = await createWalkInBooking(formData);
+      const response = await createBooking(formData);
       if (response.success) {
         onSuccess();
       }

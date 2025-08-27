@@ -23,10 +23,12 @@ hotelRoutes.put('/rooms/:roomId', hotelAuthenticate, upload.array('images', 5), 
 hotelRoutes.put('/editProfile/:hotelId', hotelAuthenticate,upload.array('images', 10), updateHotelProfile);
 hotelRoutes.put('/update-password', hotelAuthenticate, updatePassword);
 hotelRoutes.get('/overview', hotelAuthenticate, getHotelOverview);
+
 hotelRoutes.get('/bookings', hotelAuthenticate, getHotelBookings);
 
+
 hotelRoutes.put('/rooms/:roomId/bookings/:bookingId/status', hotelAuthenticate, updateBookingStatus);
-hotelRoutes.post('/walk-in-booking', hotelAuthenticate, createWalkInBooking);
+// hotelRoutes.post('/walk-in-booking', hotelAuthenticate, createWalkInBooking);
 hotelRoutes.delete('/rooms/:roomId/bookings/:bookingId', hotelAuthenticate, deleteBooking);
 
 hotelRoutes.get('/', getAllHotels);
