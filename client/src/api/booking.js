@@ -12,6 +12,16 @@ const getAuthHeaders = () => {
     };
 };
 
+
+const getHotelAuthHeaders = () => {
+    const token = localStorage.getItem('hotel_token');
+    return {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    };
+};
+
 export const createBooking = async (hotelId, roomId, bookingData) => {
     try {
         const response = await axios.post(
@@ -49,3 +59,23 @@ export const cancelUserBooking = async (hotelId, roomId, bookingId) => {
         throw new Error(error.response?.data?.message || 'Failed to cancel booking');
     }
 };
+
+export const createWalkInBooking = async(formData) => {
+    const token = localStorage.getItem('hotel_token');
+
+  try {
+    const response = await api.post('/hotel/walk-in-booking', formData, getHotelAuthHeaders(),
+        {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    }
+);
+    return response.data;
+  } catch (error) {
+
+    throw new Error(error.response?.data?.message || 'Failed to fetch hotel details');
+
+  }
+}

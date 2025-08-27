@@ -238,7 +238,8 @@ export const cancelBooking = async (req, res) => {
 export const getHotelBookings = async (req, res) => {
     try {
         const hotelId = req.hotel._id;
-        const { status } = req.query;
+        console.log("I'm Here", hotelId);
+        // const { status } = req.params;
 
         const hotel = await Hotel.findById(hotelId)
             .select('hotelName rooms')
@@ -252,7 +253,7 @@ export const getHotelBookings = async (req, res) => {
         const bookings = [];
         hotel.rooms.forEach(room => {
             room.bookings.forEach(booking => {
-                if (!status || booking.status === status) {
+                // if (!status || booking.status === status) {
                     bookings.push({
                         _id: booking._id,
                         roomId: room._id,  // This is crucial!
@@ -268,17 +269,19 @@ export const getHotelBookings = async (req, res) => {
                         paymentStatus: booking.paymentStatus,
                         createdAt: booking.createdAt
                     });
-                }
+                // }
             });
         });
 
         // Sort by check-in date (ascending)
         bookings.sort((a, b) => new Date(a.checkInDate) - new Date(b.checkInDate));
 
+        // console.log('Booking: ', bookings);
+
         res.status(200).json({
             success: true,
             count: bookings.length,
-            data: bookings
+            bookings: bookings
         });
 
     } catch (error) {
@@ -292,7 +295,7 @@ export const updateBookingStatus = async (req, res) => {
     try {
         const hotelId = req.hotel._id;
         const { roomId, bookingId } = req.params;
-        const { status, checkedStatus } = req.body;
+        const { status, checkedStatus } = req.body; 
 
         console.log('Attempting to update booking status:', {
             hotelId,
@@ -317,7 +320,7 @@ export const updateBookingStatus = async (req, res) => {
 
         console.log(`Found hotel with ${hotel.rooms.length} rooms`);
 
-        // Find the room using string comparison
+        // Find the room
         const room = hotel.rooms.find(r => r._id.toString() === roomId);
         if (!room) {
             console.error('Room not found in hotel. Provided roomId:', roomId);
@@ -327,8 +330,8 @@ export const updateBookingStatus = async (req, res) => {
 
         console.log(`Found room with ${room.bookings.length} bookings`);
 
-        // Find the booking using string comparison
-        const booking = room.bookings.find(b => b._id.toString() === bookingId);
+        // Find the booking
+        const booking = room.bookings.id(bookingId);
         if (!booking) {
             console.error('Booking not found in room. Provided bookingId:', bookingId);
             console.error('Available booking IDs:', room.bookings.map(b => b._id.toString()));

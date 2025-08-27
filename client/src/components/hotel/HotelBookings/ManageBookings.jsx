@@ -9,7 +9,8 @@ import Loader from '../../common/Loader';
 import './css/ManageBookings.css';
 
 const ManageBookings = () => {
-  const [bookings, setBookings] = useState([]);
+  const [allBookings, setAllBookings] = useState([]); // Store all bookings
+  const [filteredBookings, setFilteredBookings] = useState([]); // Store filtered bookings
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,10 +20,11 @@ const ManageBookings = () => {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const response = await getHotelBookings(filter === 'all' ? '' : filter);
+      const response = await getHotelBookings();
       if (response.success) {
         console.log('Fetched bookings:', response.data);
-        setBookings(response.data);
+        setAllBookings(response.data);
+        applyFilter(response.data, filter); // Apply current filter to new data
       }
     } catch (err) {
       console.error('Error fetching bookings:', err);
@@ -32,9 +34,40 @@ const ManageBookings = () => {
     }
   };
 
+  // Function to apply filter to bookings
+  const applyFilter = (bookings, currentFilter) => {
+    let filtered = bookings;
+    
+    switch (currentFilter) {
+      case 'confirmed':
+        filtered = bookings.filter(booking => booking.status === 'confirmed');
+        break;
+      case 'checked-in':
+        filtered = bookings.filter(booking => booking.status === 'checked-in');
+        break;
+      case 'checked-out':
+        filtered = bookings.filter(booking => booking.status === 'checked-out');
+        break;
+      case 'cancelled':
+        filtered = bookings.filter(booking => booking.status === 'cancelled');
+        break;
+      case 'all':
+      default:
+        filtered = bookings; // Show all bookings
+        break;
+    }
+    
+    setFilteredBookings(filtered);
+  };
+
+  // Update filtered bookings when filter changes
+  useEffect(() => {
+    applyFilter(allBookings, filter);
+  }, [filter, allBookings]);
+
   useEffect(() => {
     fetchBookings();
-  }, [filter]);
+  }, []);
 
   const handleStatusUpdate = async (roomId, bookingId, statusData) => {
     try {
@@ -76,12 +109,16 @@ const ManageBookings = () => {
     }
   };
 
-
   const handleWhatsAppMessage = (phone) => {
     if (phone) {
       const message = `Hello, this is regarding your booking at our hotel.`;
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
     }
+  };
+
+  // Update filter function
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
   };
 
   return (
@@ -91,31 +128,31 @@ const ManageBookings = () => {
         <div className="hotel-bookings-controls">
           <div className="filter-buttons">
             <button 
-              onClick={() => setFilter('all')} 
+              onClick={() => handleFilterChange('all')} 
               className={filter === 'all' ? 'active' : ''}
             >
               All Bookings
             </button>
             <button 
-              onClick={() => setFilter('confirmed')} 
+              onClick={() => handleFilterChange('confirmed')} 
               className={filter === 'confirmed' ? 'active' : ''}
             >
               Reserved
             </button>
             <button 
-              onClick={() => setFilter('checked-in')} 
+              onClick={() => handleFilterChange('checked-in')} 
               className={filter === 'checked-in' ? 'active' : ''}
             >
               Checked In
             </button>
             <button 
-              onClick={() => setFilter('checked-out')} 
+              onClick={() => handleFilterChange('checked-out')} 
               className={filter === 'checked-out' ? 'active' : ''}
             >
               Checked Out
             </button>
             <button 
-              onClick={() => setFilter('cancelled')} 
+              onClick={() => handleFilterChange('cancelled')} 
               className={filter === 'cancelled' ? 'active' : ''}
             >
               Cancelled
@@ -134,12 +171,15 @@ const ManageBookings = () => {
 
       {loading ? (
         <Loader />
-      ) : bookings.length === 0 ? (
+      ) : filteredBookings.length === 0 ? (
         <div className="no-bookings">
-          <p>No bookings found for the selected filter.</p>
+          <p>No {filter !== 'all' ? filter : ''} bookings found.</p>
         </div>
       ) : (
         <div className="bookings-table-container">
+          <div className="filter-info">
+            <p>Showing {filteredBookings.length} of {allBookings.length} bookings ({filter})</p>
+          </div>
           <table className="bookings-table">
             <thead>
               <tr>
@@ -153,7 +193,7 @@ const ManageBookings = () => {
               </tr>
             </thead>
             <tbody>
-              {bookings.map(booking => (
+              {filteredBookings.map(booking => (
                 <tr key={booking._id}>
                   <td>
                     {booking.guest 

@@ -92,6 +92,81 @@
   background-color: rgba(15, 123, 205, 0.05);
 }
 
+
+/* Filter buttons styling */
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.filter-buttons button {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-buttons button:hover {
+  background: #f5f5f5;
+}
+
+.filter-buttons button.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Filter info styling */
+.filter-info {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border-left: 4px solid #007bff;
+}
+
+.filter-info p {
+  margin: 0;
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Add walk-in button */
+.add-walkin-btn {
+  padding: 10px 20px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-walkin-btn:hover {
+  background: #218838;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hotel-bookings-controls {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .filter-buttons {
+    justify-content: center;
+  }
+  
+  .filter-buttons button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
+
 .no-bookings {
   text-align: center;
   padding: 2rem;
