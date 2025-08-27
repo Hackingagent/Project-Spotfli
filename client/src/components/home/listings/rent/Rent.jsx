@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import rentPropertyList from './rentPropertyList';
+// import rentPropertyList from './rentPropertyList';
 import RentProperty from './RentProperty';
 import '../../home.css';
 import { getAllProperties } from '../../../../api/user/property/property';

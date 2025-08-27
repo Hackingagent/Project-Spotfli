@@ -1,16 +1,14 @@
 // src/components/hotel/BookingForm.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createBooking } from '../../../../api/booking';
+import { bookPropertyRoom } from '../../../../api/user/property/property';
 // import './css/BookingForm.css';
 
 const RentBookingForm = ({ propertyId, room }) => {
     const [formData, setFormData] = useState({
-        checkInDate: '',
-        checkOutDate: '',
+        checkInMonth: '',
         number: '',
-        guests: 1,
-        specialRequests: ''
+        specialRequests: '',
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -30,16 +28,18 @@ const RentBookingForm = ({ propertyId, room }) => {
         setError(null);
 
         try {
-            const response = await createBooking(propertyId, room._id, formData);
+            const response = await bookPropertyRoom(propertyId, room._id, formData);
             
             if (response.success) {
                 // Redirect to bookings page or show success message
-                navigate('/user/bookings', { 
-                    state: { 
-                        bookingSuccess: true,
-                        bookingId: response.booking._id 
-                    } 
-                });
+                // navigate('/user/bookings', { 
+                //     state: { 
+                //         bookingSuccess: true,
+                //         bookingId: response.booking._id 
+                //     } 
+                // });
+
+                alert('Booking Create successfully');
             }
         } catch (err) {
             setError(err.message);
@@ -48,16 +48,7 @@ const RentBookingForm = ({ propertyId, room }) => {
         }
     };
 
-    // Calculate total price preview
-    const calculateTotal = () => {
-        if (formData.checkInDate && formData.checkOutDate) {
-            const checkIn = new Date(formData.checkInDate);
-            const checkOut = new Date(formData.checkOutDate);
-            const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-            return nights * room.pricePerNight;
-        }
-        return 0;
-    };
+
 
     return (
         <div className="booking-form-container">
@@ -70,27 +61,31 @@ const RentBookingForm = ({ propertyId, room }) => {
             
             <form onSubmit={handleSubmit}>
                 <div className="form-group" style={{marginTop: '10px'}}>
-                    <label>Check-in Date</label>
-                    <input
-                        type="date"
-                        name="checkInDate"
-                        value={formData.checkInDate}
+                    <label>Check In Month</label>
+                    <select
+                        // type="date"
+                        name="checkInMonth"
+                        value={formData.checkInMonth}
                         onChange={handleChange}
                         required
                         min={new Date().toISOString().split('T')[0]}
-                    />
-                </div>
-                
-                <div className="form-group">
-                    <label>Check-out Date</label>
-                    <input
-                        type="date"
-                        name="checkOutDate"
-                        value={formData.checkOutDate}
-                        onChange={handleChange}
-                        required
-                        min={formData.checkInDate || new Date().toISOString().split('T')[0]}
-                    />
+                    >
+
+                        <option value="">Select Month</option>
+                        <option value="january">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+
                 </div>
 
                 <div className="form-group">
@@ -106,22 +101,6 @@ const RentBookingForm = ({ propertyId, room }) => {
                 </div>
                 
                 <div className="form-group">
-                    <label>Number of Guests</label>
-                    <select
-                        name="guests"
-                        value={formData.guests}
-                        onChange={handleChange}
-                        required
-                    >
-                        {[...Array(room.capacity).keys()].map(num => (
-                            <option key={num + 1} value={num + 1}>
-                                {num + 1}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                
-                <div className="form-group">
                     <label>Special Requests</label>
                     <textarea
                         name="specialRequests"
@@ -131,22 +110,6 @@ const RentBookingForm = ({ propertyId, room }) => {
                         placeholder="Any special requirements?"
                     />
                 </div>
-
-                {formData.checkInDate && formData.checkOutDate && (
-                    <div className="price-summary">
-                        <div className="price-line">
-                            <span>{room.pricePerNight.toLocaleString()} XAF × </span>
-                            <span>{Math.ceil(
-                                (new Date(formData.checkOutDate) - new Date(formData.checkInDate)) / 
-                                (1000 * 60 * 60 * 24)
-                            )} nights</span>
-                        </div>
-                        <div className="total-price">
-                            <span>Total:</span>
-                            <span>{calculateTotal().toLocaleString()} XAF</span>
-                        </div>
-                    </div>
-                )}
                 
                 {error && <div className="error-message">{error}</div>}
                 

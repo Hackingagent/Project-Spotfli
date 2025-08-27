@@ -1,4 +1,5 @@
-import PropertyRoom from '../../../models/property-rooms.model.js';
+import PropertyRoomBooking from '../../../models/property/property-rooms-booking.model.js';
+import PropertyRoom from '../../../models/property/property-rooms.model.js';
 import fs from 'fs';
 
 
@@ -184,5 +185,42 @@ export const updatePropertyRoom = async (req, res) => {
         message: error.message || 'Failed to update room'
         });
   
+    }
+}
+
+
+export const bookPropertyRoom = async(req, res) => {
+    try {
+
+        const {propertyId, roomId} = req.params;
+
+        const {checkInMonth, number, specialRequests} = req.body;
+
+        console.log(propertyId, roomId, checkInMonth, number, specialRequests)
+
+
+        const newBooking = new PropertyRoomBooking({
+            checkInMonth: checkInMonth,
+            number: number,
+            specialRequests: specialRequests,
+            room: roomId,
+            user: req.user,
+        })
+
+        await newBooking.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Bookings Created Successfully',
+        })
+
+
+        
+    } catch (error) {
+        console.log('Error Booking this room', error);
+        res.status(500).json({
+            success: false,
+            message: error.message || 'Failed to book room',
+        });
     }
 }
