@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import './Payment.css';
 
-const Payment = () => {
+const Payment = ({onClose, handleSubmit}) => {
     const [number, setNumber] = useState('');
     const [amount] = useState('2'); // Set the amount here or make it dynamic
     const [loading, setLoading] = useState(false);
@@ -17,6 +17,8 @@ const Payment = () => {
     };
 
     const handlePayment = async () => {
+
+        
         setLoading(true);
         setError(null);
 
@@ -42,7 +44,7 @@ const Payment = () => {
             maxBodyLength: Infinity,
             url: 'https://demo.campay.net/api/collect/',
             headers: {
-                'Authorization': 'Token e3209039b0163470526c713039b51b8016074b48',
+                'Authorization': `Token ${import.meta.env.VITE_PAYMENT_API_TOKEN}`,
                 'Content-Type': 'application/json'
             },
             data: data
@@ -65,12 +67,14 @@ const Payment = () => {
     };
 
     const pollTransactionStatus = async (reference) => {
+
+
         const config = {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://demo.campay.net/api/transaction/${reference}/`,
             headers: {
-                'Authorization': 'Token e3209039b0163470526c713039b51b8016074b48',
+                'Authorization': `Token ${import.meta.env.VITE_PAYMENT_API_TOKEN}`,
                 'Content-Type': 'application/json'
             }
         };
@@ -85,6 +89,8 @@ const Payment = () => {
 
                 if (response.data.status === 'SUCCESSFUL') {
                     isApproved = true;
+                    await handleSubmit();
+                    onClose();
                     // Handle approved transaction (e.g., show success message)
                 } else if (response.data.status === 'FAILED') {
                     setError('Transaction failed.');
@@ -107,7 +113,7 @@ const Payment = () => {
                 <div className="main">
                     <div className="head">
                         <h1>Booking Fee</h1>
-                        <span>X</span>
+                        <span onClick={onClose} >X</span>
                     </div>
                     <div className="body">
                         <div className="input">

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { bookPropertyRoom } from '../../../../api/user/property/property';
 // import './css/BookingForm.css';
 import Payment from '../../../payments/Payment';
+import Notification from '../../../notification/notification';
 
 const RentBookingForm = ({ propertyId, room }) => {
     const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const RentBookingForm = ({ propertyId, room }) => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [isModal, setIsModal] = useState(false);
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -23,8 +26,8 @@ const RentBookingForm = ({ propertyId, room }) => {
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
+        // e.preventDefault();
         setLoading(true);
         setError(null);
 
@@ -40,7 +43,7 @@ const RentBookingForm = ({ propertyId, room }) => {
                 //     } 
                 // });
 
-                alert('Booking Create successfully');
+                setMessage(response.message);
             }
         } catch (err) {
             setError(err.message);
@@ -53,7 +56,18 @@ const RentBookingForm = ({ propertyId, room }) => {
 
     return (
         <>
-            <Payment />
+            {isModal && <Payment 
+                onClose={() => setIsModal(false)}
+                handleSubmit={handleSubmit}
+            />
+            }
+
+            {message && (
+                <Notification 
+                    message={message}
+                    noMessage={()=>setMessage('')}
+                />
+            )}
             <div className="booking-form-container">
                 <h3>Book {room.roomType}</h3>
                 <div className="booking-price">
@@ -62,7 +76,7 @@ const RentBookingForm = ({ propertyId, room }) => {
                 <small  >XAF {room.price * 12} <span>per year</span></small>
 
                 
-                <form onSubmit={handleSubmit}>
+                <form>
                     <div className="form-group" style={{marginTop: '10px'}}>
                         <label>Check In Month</label>
                         <select
@@ -119,7 +133,11 @@ const RentBookingForm = ({ propertyId, room }) => {
                     <button 
                         type="submit" 
                         className="book-now-btn"
-                        disabled={loading}
+                        disabled={loading || formData.number=='' || formData.checkInMonth == ''}
+                        onClick={(e) => {
+                            e.preventDefault(); // Prevents the default form submission
+                            setIsModal(true);
+                        }}
                     >
                         {loading ? 'Processing...' : 'Book Now'}
                     </button>
