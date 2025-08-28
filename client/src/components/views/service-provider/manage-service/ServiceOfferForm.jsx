@@ -1,168 +1,314 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./ServiceOfferForm.module.css";
-const ServiceOfferForm = ({ onClose, onSubmit, isLoading }) => {
+
+const ServiceOfferForm = ({ onClose, onSubmit, isLoading, userServices }) => {
   const [formData, setFormData] = useState({
-    name: "",
+    title: "",
     description: "",
-    pricePerDay: null,
+    price: "",
+    experience: "",
+    service: "",
+    userServiceId: "",
     images: [],
-    tell: null,
-    days: "",
-    experience: null,
+    availability: {
+      days: [],
+      startTime: "",
+      endTime: ""
+    }
   });
 
   const [error, setError] = useState("");
+  const [selectedDays, setSelectedDays] = useState([]);
+
+  const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  // Set default service if user has only one approved service
+  useEffect(() => {
+    if (userServices && userServices.length === 1) {
+      const service = userServices[0];
+      setFormData(prev => ({
+        ...prev,
+        service: service.service?._id || "",
+        userServiceId: service._id
+      }));
+    }
+  }, [userServices]);
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
 
-    setFormData((prev) => ({
+    if (name.startsWith('availability.')) {
+      const field = name.split('.')[1];
+      setFormData(prev => ({
+        ...prev,
+        availability: {
+          ...prev.availability,
+          [field]: value
+        }
+      }));
+    } else if (name === 'service') {
+      // When service is selected, find the corresponding userServiceId
+      const selectedService = userServices.find(s => s.service?._id === value);
+      setFormData(prev => ({
+        ...prev,
+        service: value,
+        userServiceId: selectedService ? selectedService._id : ""
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: name === 'price' || name === 'experience'
+          ? value === '' ? '' : isNaN(value) ? prev[name] : Number(value)
+          : value
+      }));
+    }
+  };
+
+  const handleDayToggle = (day) => {
+    const newSelectedDays = selectedDays.includes(day)
+      ? selectedDays.filter(d => d !== day)
+      : [...selectedDays, day];
+    
+    setSelectedDays(newSelectedDays);
+    setFormData(prev => ({
       ...prev,
-      [name]:
-
-      //Convert these fields to numbers
-      name === 'tell' || name === 'experience' ||  name === 'pricePerDay'
-      ? value === ''
-      ? '' 
-      : isNaN(value)
-      ? prev[name]
-      : Number(value) 
-      : value
+      availability: {
+        ...prev.availability,
+        days: newSelectedDays
+      }
     }));
- 
   };
 
   const handleFileChange = (e) => {
-    if (e.target.files.length > 0) {
-      setFormData((prev) => ({
-        ...prev,
-        images: Array.from(e.target.files),
-      }));
+    const files = Array.from(e.target.files);
+    if (files.length > 5) {
+      setError("Maximum 5 images allowed");
+      return;
     }
+    
+    setFormData(prev => ({
+      ...prev,
+      images: files,
+    }));
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    
+    // Validate form
+    if (!formData.title || !formData.description || !formData.price || !formData.experience) {
+      setError("Please fill in all required fields");
+      return;
+    }
+
+    if (!formData.service || !formData.userServiceId) {
+      setError("Please select a service");
+      return;
+    }
+
+    if (formData.images.length === 0) {
+      setError("Please upload at least one image");
+      return;
+    }
+
     try {
       const formDataToSend = new FormData();
 
-      //Append all text fields
-      Object.keys(formData).forEach((key) => {
-        if(key !== "images" && formData[key]) {
-          formDataToSend.append(key, formData[key]);
-        }
+      // Append all text fields
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('price', formData.price);
+      formDataToSend.append('experience', formData.experience);
+      formDataToSend.append('service', formData.service);
+      formDataToSend.append('userServiceId', formData.userServiceId);
+      
+      // Append availability data
+      if (formData.availability.days.length > 0) {
+      // Append each day individually
+      formData.availability.days.forEach(day => {
+        formDataToSend.append('availability[days][]', day);
       });
+    }
+    
+    if (formData.availability.startTime) {
+      formDataToSend.append('availability[startTime]', formData.availability.startTime);
+    }
+    
+    if (formData.availability.endTime) {
+      formDataToSend.append('availability[endTime]', formData.availability.endTime);
+    }
 
-      //Append all images files
+
+      // Append all image files
       formData.images.forEach((image) => {
         formDataToSend.append("images", image);
       });
 
-      //Log form data before sending
-      console.log("Form data being sent", {
-        ...formData,
-        images: formData.images.map((imgm) => imgm.name),
-      });
-
-      //Call the Submit prop with the form data
-await onSubmit(formDataToSend);
+      // Call the onSubmit prop with the form data
+      await onSubmit(formDataToSend);
 
     } catch (error) {
       console.log("Submission error:", error);
-      setError(error.message || "Failed to save service offer");
+      setError(error.message || "Failed to save offer");
     } 
   };
 
   return (
-    <div className="hoteldash-modal-overlay">
-      <div className="hoteldash-modal">
-        <button className="hoteldash-modal-close" onClick={onClose}>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modal}>
+        <button className={styles.modalClose} onClick={onClose}>
           &times;
         </button>
-        <h2 className="hoteldash-modal-header">Post New Offers</h2>
-        {error && <div className="error-message">{error}</div>}
+        <h2 className={styles.modalHeader}>Create New Offer</h2>
+        {error && <div className={styles.errorMessage}>{error}</div>}
 
-        <form className="hoteldash-form" onSubmit={handleSubmit}>
-          <div className="hoteldash-form-group">
-            <label>Service Name</label>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          {/* Service Selection Dropdown */}
+          {userServices && userServices.length > 0 && (
+            <div className={styles.formGroup}>
+              <label>Select Service *</label>
+              <select
+                name="service"
+                value={formData.service}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Choose a service</option>
+                {userServices.map((userService) => (
+                  <option key={userService._id} value={userService.service?._id}>
+                    {userService.service?.name || userService.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div className={styles.formGroup}>
+            <label>Offer Title *</label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="title"
+              value={formData.title}
               onChange={handleChange}
               required
-            />
-          </div>
-          <div className="form-group">
-            <label>Price Per Day (XAF)</label>
-            <input
-              type="number"
-              name="pricePerDay"
-              value={formData.pricePerDay}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="hoteldash-form-group">
-            <label>Phone Number</label>
-            <input
-              type="number"
-              name="tell"
-              value={formData.tell}
-              onChange={handleChange}
-              required
+              placeholder="e.g., Professional Roofing Service"
             />
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label>Open Hours</label>
-              <input
-                type="text"
-                name="days"
-                value={formData.days}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label>Experience Level</label>
-              <input
-                id="experience"
-                type="number"
-                name="experience"
-                min="0"
-                max="30"
-                value={formData.experience}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Description</label>
+          <div className={styles.formGroup}>
+            <label>Description *</label>
             <textarea
-              type="text"
               name="description"
               value={formData.description}
               onChange={handleChange}
               rows="3"
               required
+              placeholder="Describe your service in detail..."
             />
           </div>
-          <div className="form-group">
-            <label>Service Image</label>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
+
+          <div className={styles.formRow}>
+            <div className={styles.formGroup}>
+              <label>Price Per Day (XAF) *</label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                min="0"
+                step="0.01"
+                required
+                placeholder="0.00"
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Experience (Years) *</label>
+              <input
+                type="number"
+                name="experience"
+                value={formData.experience}
+                onChange={handleChange}
+                min="0"
+                max="50"
+                required
+                placeholder="0"
+              />
+            </div>
           </div>
 
-          <div className="form-actions">
-            <button className="#" onClick={onClose} disabled={isLoading}>
+          <div className={styles.formGroup}>
+            <label>Availability Days</label>
+            <div className={styles.daysContainer}>
+              {daysOfWeek.map(day => (
+                <button
+                  key={day}
+                  type="button"
+                  className={`${styles.dayButton} ${
+                    selectedDays.includes(day) ? styles.dayButtonSelected : ''
+                  }`}
+                  onClick={() => handleDayToggle(day)}
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.formRow}>
+            <div className={styles.formGroup}>
+              <label>Start Time</label>
+              <input
+                type="time"
+                name="availability.startTime"
+                value={formData.availability.startTime}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>End Time</label>
+              <input
+                type="time"
+                name="availability.endTime"
+                value={formData.availability.endTime}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Service Images * (Max 5)</label>
+            <input 
+              type="file" 
+              accept="image/*" 
+              onChange={handleFileChange}
+              multiple
+              required
+            />
+            <small>Select up to 5 images of your work</small>
+            {formData.images.length > 0 && (
+              <small>{formData.images.length} file(s) selected</small>
+            )}
+          </div>
+
+          <div className={styles.formActions}>
+            <button 
+              type="button" 
+              className={styles.cancelButton}
+              onClick={onClose} 
+              disabled={isLoading}
+            >
               Cancel
             </button>
-            <button className="#" type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save"}
+            <button 
+              type="submit" 
+              className={styles.submitButton}
+              disabled={isLoading}
+            >
+              {isLoading ? "Creating..." : "Create Offer"}
             </button>
           </div>
         </form>

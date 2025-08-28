@@ -17,7 +17,7 @@ const AvailabilitySchema = new mongoose.Schema({
 }, { _id: false });
 
 // Booking Schema
-const BookingSchema = new mongoose.Schema({
+const ServiceBookingSchema = new mongoose.Schema({
   serviceId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Service', 
@@ -61,20 +61,73 @@ const BookingSchema = new mongoose.Schema({
     type: String, 
     enum: ['pending', 'confirmed', 'completed', 'cancelled'],
     default: 'pending'
-  }
+  },
 }, { 
   timestamps: true 
 });
 
 // Add indexes for better performance
-BookingSchema.index({ providerId: 1, status: 1 });
-BookingSchema.index({ clientId: 1 });
-BookingSchema.index({ date: 1 });
+ServiceBookingSchema.index({ providerId: 1, status: 1 });
+ServiceBookingSchema.index({ clientId: 1 });
+ServiceBookingSchema.index({ date: 1 });
 
-// Gig Schema
-const GigSchema = new mongoose.Schema({
+// Offer Schema
+const OfferSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  service: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Service',
+    required: true
+  },
+  serviceProvider: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+images: [{
+  path: String,
+  filename: String,
+  mimetype: String,
+  size: Number
+}],
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  experience: {
+    type: Number,
+    required: false
+  },
+  availability: [AvailabilitySchema],
+  userService: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'UserService'
+  },
+}, {
+  timestamps: true
+});
+
+// Add indexes for Offer schema
+OfferSchema.index({ serviceProvider: 1, service: 1 });
+OfferSchema.index({ service: 1, isActive: 1 });
+
+// Service Schema
+const ServiceTypeSchema = new mongoose.Schema({
   bookings: {
-    type: BookingSchema,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'ServiceBooking',
     required: false
   },
   name: {
@@ -89,10 +142,12 @@ const GigSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  images: {
-    type: String,
-    required: true
-  },
+images: [{
+  path: String,
+  filename: String,
+  mimetype: String,
+  size: Number
+}],
   isActive: {
     type: Boolean,
     default: true
@@ -104,7 +159,7 @@ const GigSchema = new mongoose.Schema({
   experience: {
     type: Number,
     required: true
-  }
+  },
 }, {
   timestamps: true
 });
@@ -118,6 +173,14 @@ const userServiceSchema = new mongoose.Schema({
   service: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Service',
+  },
+
+    thumbnail: {
+    path: String,
+    filename: String,
+    mimetype: String,
+    size: Number,
+    url: String
   },
   toggledBY: {
     type: mongoose.Schema.Types.ObjectId,
@@ -152,20 +215,26 @@ const userServiceSchema = new mongoose.Schema({
     default: false,
     required: true,
   },
+  offers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Offer'
+  }],
 }, {
   timestamps: true,
 });
 
 // Create and export models
-export const Booking = mongoose.model('Booking', BookingSchema);
-export const Gig = mongoose.model('Gig', GigSchema);
+export const ServiceBooking = mongoose.model('ServiceBooking', ServiceBookingSchema);
+export const ServiceType = mongoose.model('ServiceCategory', ServiceTypeSchema);
 export const UserService = mongoose.model('UserService', userServiceSchema);
+export const Offer = mongoose.model('Offer', OfferSchema);
 
 // Optional: Export as object
 export const Models = {
-  Booking,
-  Gig,
-  UserService
+  ServiceBooking,
+  ServiceType,
+  UserService,
+  Offer
 };
 
 export default UserService;
