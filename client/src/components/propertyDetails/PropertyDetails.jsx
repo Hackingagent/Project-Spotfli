@@ -215,9 +215,9 @@ const PropertyDetails = ({  onClose }) => {
         <div className="hotel-sidebar">
             {selectedRoom ? (
                 <RentBookingForm 
-                    hotelId={property._id}
+                    propertyId={property._id}
                     room={selectedRoom}
-                    priceRange={property.priceRange}
+                    // priceRange={property.priceRange}
                 />
             ) : (
                 <div className="booking-placeholder">

@@ -8,6 +8,9 @@ const BookingSchema = new mongoose.Schema({
         ref: User,
         request: true
     },
+        room: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
     checkInDate: {
         type: Date,
         required: true,
@@ -26,12 +29,12 @@ const BookingSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'confirmed', 'cancelled', 'completed'],
+   enum: ['pending', 'confirmed', 'cancelled', 'completed', 'checked-in', 'checked-out'],
         default: 'confirmed'
     },
     checkedStatus: {
         type: String,
-        enum: ['not checked', 'checked in', 'checked out'],
+    enum: ['not checked', 'checked in', 'checked out'],
         default: 'not checked'
     },
     paymentStatus: {
@@ -46,11 +49,10 @@ const BookingSchema = new mongoose.Schema({
 
 
 // Rooms Schema with bookings embeded into it 
-const RoomSchema = new mongoose.Schema({
+const RoomSchema = new mongoose.Schema({ 
   roomNumber: {
     type: String,
     required: true,
-    unique: true
   },
   roomType: {
     type: String,
@@ -132,7 +134,7 @@ const hotelSchema = new mongoose.Schema({
     images: [{
         type: String,
     }],
-    ratings: {
+     ratings: {
         average: {
             type: Number,
             default: 0,
@@ -163,7 +165,7 @@ const hotelSchema = new mongoose.Schema({
     addedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin',
-        required: true,
+        required: true 
     },
         rooms: [RoomSchema],
 }, {
@@ -171,7 +173,7 @@ const hotelSchema = new mongoose.Schema({
 })
 
 
-// code to Hash password before saving
+// code to Hash password befor saving
 
 hotelSchema.pre('save', async function(next) {
     if(!this.isModified('password')) return next();

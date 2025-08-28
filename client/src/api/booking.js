@@ -1,4 +1,3 @@
-// src/api/booking.js
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL ||  'http://localhost:5000/api'; // Your backend base URL
@@ -6,6 +5,16 @@ const API_URL = import.meta.env.VITE_API_URL ||  'http://localhost:5000/api'; //
 // Helper function to get auth headers
 const getAuthHeaders = () => {
     const token = localStorage.getItem('user_token');
+    return {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    };
+};
+
+
+const getHotelAuthHeaders = () => {
+    const token = localStorage.getItem('hotel_token');
     return {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -50,3 +59,23 @@ export const cancelUserBooking = async (hotelId, roomId, bookingId) => {
         throw new Error(error.response?.data?.message || 'Failed to cancel booking');
     }
 };
+
+export const createWalkInBooking = async(formData) => {
+    const token = localStorage.getItem('hotel_token');
+
+  try {
+    const response = await api.post('/hotel/walk-in-booking', formData, getHotelAuthHeaders(),
+        {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    }
+);
+    return response.data;
+  } catch (error) {
+
+    throw new Error(error.response?.data?.message || 'Failed to fetch hotel details');
+
+  }
+}

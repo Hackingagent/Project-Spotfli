@@ -1,19 +1,21 @@
 // src/components/hotel/BookingForm.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createBooking } from '../../../../api/booking';
+import { bookPropertyRoom } from '../../../../api/user/property/property';
 // import './css/BookingForm.css';
+import Payment from '../../../payments/Payment';
+import Notification from '../../../notification/notification';
 
 const RentBookingForm = ({ propertyId, room }) => {
     const [formData, setFormData] = useState({
-        checkInDate: '',
-        checkOutDate: '',
+        checkInMonth: '',
         number: '',
-        guests: 1,
-        specialRequests: ''
+        specialRequests: '',
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [isModal, setIsModal] = useState(false);
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -24,22 +26,24 @@ const RentBookingForm = ({ propertyId, room }) => {
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
+        // e.preventDefault();
         setLoading(true);
         setError(null);
 
         try {
-            const response = await createBooking(propertyId, room._id, formData);
+            const response = await bookPropertyRoom(propertyId, room._id, formData);
             
             if (response.success) {
                 // Redirect to bookings page or show success message
-                navigate('/user/bookings', { 
-                    state: { 
-                        bookingSuccess: true,
-                        bookingId: response.booking._id 
-                    } 
-                });
+                // navigate('/user/bookings', { 
+                //     state: { 
+                //         bookingSuccess: true,
+                //         bookingId: response.booking._id 
+                //     } 
+                // });
+
+                setMessage(response.message);
             }
         } catch (err) {
             setError(err.message);
@@ -48,117 +52,98 @@ const RentBookingForm = ({ propertyId, room }) => {
         }
     };
 
-    // Calculate total price preview
-    const calculateTotal = () => {
-        if (formData.checkInDate && formData.checkOutDate) {
-            const checkIn = new Date(formData.checkInDate);
-            const checkOut = new Date(formData.checkOutDate);
-            const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-            return nights * room.pricePerNight;
-        }
-        return 0;
-    };
+
 
     return (
-        <div className="booking-form-container">
-            <h3>Book {room.roomType}</h3>
-            <div className="booking-price">
-                XAF {room.price.toLocaleString()} <span>per Month</span>
-            </div>
-            <small  >XAF {room.price * 12} <span>per year</span></small>
+        <>
+            {isModal && <Payment 
+                onClose={() => setIsModal(false)}
+                handleSubmit={handleSubmit}
+            />
+            }
 
-            
-            <form onSubmit={handleSubmit}>
-                <div className="form-group" style={{marginTop: '10px'}}>
-                    <label>Check-in Date</label>
-                    <input
-                        type="date"
-                        name="checkInDate"
-                        value={formData.checkInDate}
-                        onChange={handleChange}
-                        required
-                        min={new Date().toISOString().split('T')[0]}
-                    />
+            {message && (
+                <Notification 
+                    message={message}
+                    noMessage={()=>setMessage('')}
+                />
+            )}
+            <div className="booking-form-container">
+                <h3>Book {room.roomType}</h3>
+                <div className="booking-price">
+                    XAF {room.price.toLocaleString()} <span>per Month</span>
                 </div>
-                
-                <div className="form-group">
-                    <label>Check-out Date</label>
-                    <input
-                        type="date"
-                        name="checkOutDate"
-                        value={formData.checkOutDate}
-                        onChange={handleChange}
-                        required
-                        min={formData.checkInDate || new Date().toISOString().split('T')[0]}
-                    />
-                </div>
+                <small  >XAF {room.price * 12} <span>per year</span></small>
 
-                <div className="form-group">
-                    <label>Number of people</label>
-                    <input
-                        type="number"
-                        name="number"
-                        value={formData.number}
-                        onChange={handleChange}
-                        required
-                        min={1}
-                    />
-                </div>
                 
-                <div className="form-group">
-                    <label>Number of Guests</label>
-                    <select
-                        name="guests"
-                        value={formData.guests}
-                        onChange={handleChange}
-                        required
-                    >
-                        {[...Array(room.capacity).keys()].map(num => (
-                            <option key={num + 1} value={num + 1}>
-                                {num + 1}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                
-                <div className="form-group">
-                    <label>Special Requests</label>
-                    <textarea
-                        name="specialRequests"
-                        value={formData.specialRequests}
-                        onChange={handleChange}
-                        rows="3"
-                        placeholder="Any special requirements?"
-                    />
-                </div>
+                <form>
+                    <div className="form-group" style={{marginTop: '10px'}}>
+                        <label>Check In Month</label>
+                        <select
+                            // type="date"
+                            name="checkInMonth"
+                            value={formData.checkInMonth}
+                            onChange={handleChange}
+                            required
+                            min={new Date().toISOString().split('T')[0]}
+                        >
 
-                {formData.checkInDate && formData.checkOutDate && (
-                    <div className="price-summary">
-                        <div className="price-line">
-                            <span>{room.pricePerNight.toLocaleString()} XAF × </span>
-                            <span>{Math.ceil(
-                                (new Date(formData.checkOutDate) - new Date(formData.checkInDate)) / 
-                                (1000 * 60 * 60 * 24)
-                            )} nights</span>
-                        </div>
-                        <div className="total-price">
-                            <span>Total:</span>
-                            <span>{calculateTotal().toLocaleString()} XAF</span>
-                        </div>
+                            <option value="">Select Month</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+
                     </div>
-                )}
-                
-                {error && <div className="error-message">{error}</div>}
-                
-                <button 
-                    type="submit" 
-                    className="book-now-btn"
-                    disabled={loading}
-                >
-                    {loading ? 'Processing...' : 'Book Now'}
-                </button>
-            </form>
-        </div>
+
+                    <div className="form-group">
+                        <label>Number of people</label>
+                        <input
+                            type="number"
+                            name="number"
+                            value={formData.number}
+                            onChange={handleChange}
+                            required
+                            min={1}
+                        />
+                    </div>
+                    
+                    <div className="form-group">
+                        <label>Special Requests</label>
+                        <textarea
+                            name="specialRequests"
+                            value={formData.specialRequests}
+                            onChange={handleChange}
+                            rows="3"
+                            placeholder="Any special requirements?"
+                        />
+                    </div>
+                    
+                    {error && <div className="error-message">{error}</div>}
+                    
+                    <button 
+                        type="submit" 
+                        className="book-now-btn"
+                        disabled={loading || formData.number=='' || formData.checkInMonth == ''}
+                        onClick={(e) => {
+                            e.preventDefault(); // Prevents the default form submission
+                            setIsModal(true);
+                        }}
+                    >
+                        {loading ? 'Processing...' : 'Book Now'}
+                    </button>
+                </form>
+            </div>
+        </>
     );
 };
 

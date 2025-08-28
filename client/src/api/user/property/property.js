@@ -327,3 +327,25 @@ export const UpdatePropertyRoom = async(formData, propertyId) => {
         }
     }
 }
+
+
+export const bookPropertyRoom = async(propertyId, roomId, formData) => {
+    try {
+        const token = localStorage.getItem('user_token');
+        const response = await api.post(`user/bookProperty/${propertyId}/room/${roomId}`, formData, {
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+            }
+        });
+
+        return {
+            success: true,
+            message: response.data.message,
+        }
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message,
+        }
+    }
+}

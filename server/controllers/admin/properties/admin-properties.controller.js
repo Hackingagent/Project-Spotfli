@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import User from "../../../models/user.model.js";
 import Admin from "../../../models/admin.model.js";
 import Category from "../../../models/category.model.js";
-import Property from '../../../models/property.model.js';
+import Property from '../../../models/property/property.model.js';
 
 
 export const getProperties = async (req, res) => {
