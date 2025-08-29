@@ -1,31 +1,31 @@
 import React, { useState } from "react";
+import momoLogo from '../../assets/MTN_Mobile_money.jpg'
+import omLogo from '../../assets/Orange money.png'
+
 import axios from 'axios';
 import './Payment.css';
 
-const Payment = ({onClose, handleSubmit}) => {
+const Payment = ({ onClose, handleSubmit }) => {
     const [number, setNumber] = useState('');
-    const [amount] = useState('2'); // Set the amount here or make it dynamic
+    const [amount] = useState('2');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [paymentRequestSent, setPaymentRequestSent] = useState(false);
 
     const handleChange = (event) => {
         const value = event.target.value;
-        // Allow only digits
         if (/^\d*$/.test(value)) {
             setNumber(value);
         }
     };
 
     const handlePayment = async () => {
-
-        
         setLoading(true);
         setError(null);
+        setPaymentRequestSent(false);
 
-        // Prepend '237' to the phone number
-        const phoneNumber = `237${number.replace(/^237/, '')}`; // Remove any existing '237' before prepending
+        const phoneNumber = `237${number.replace(/^237/, '')}`;
 
-        // Validate phone number length (Cameroon numbers are usually 9 digits after the country code)
         if (number.length !== 9) {
             setError('Please enter a valid phone number (9 digits after country code).');
             setLoading(false);
@@ -35,7 +35,7 @@ const Payment = ({onClose, handleSubmit}) => {
         const data = JSON.stringify({
             amount: amount,
             from: phoneNumber,
-            description: "Test",
+            description: "Booking Payment",
             external_reference: ""
         });
 
@@ -53,22 +53,23 @@ const Payment = ({onClose, handleSubmit}) => {
         try {
             const response = await axios(config);
             console.log(JSON.stringify(response.data));
-
-            // Poll for transaction status
+            
+            // Show the payment request sent message
+            setPaymentRequestSent(true);
+            
             const transactionReference = response.data.reference;
             await pollTransactionStatus(transactionReference);
 
         } catch (error) {
             console.log(error);
             setError('Payment failed. Please try again.');
+            setPaymentRequestSent(false);
         } finally {
             setLoading(false);
         }
     };
 
     const pollTransactionStatus = async (reference) => {
-
-
         const config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -81,7 +82,6 @@ const Payment = ({onClose, handleSubmit}) => {
 
         let isApproved = false;
 
-        // Poll every 2 seconds
         while (!isApproved) {
             try {
                 const response = await axios(config);
@@ -91,48 +91,105 @@ const Payment = ({onClose, handleSubmit}) => {
                     isApproved = true;
                     await handleSubmit();
                     onClose();
-                    // Handle approved transaction (e.g., show success message)
                 } else if (response.data.status === 'FAILED') {
                     setError('Transaction failed.');
+                    setPaymentRequestSent(false);
                     break;
                 }
             } catch (error) {
                 console.log(error);
                 setError('Error checking transaction status.');
+                setPaymentRequestSent(false);
                 break;
             }
 
-            // Wait for 2 seconds before the next check
             await new Promise(resolve => setTimeout(resolve, 2000));
         }
     };
 
     return (
-        <>
-            <div className="payment-container">
-                <div className="main">
-                    <div className="head">
-                        <h1>Booking Fee</h1>
-                        <span onClick={onClose} >X</span>
+        <div className="payment-overlay">
+            <div className="payment-modal">
+                <div className="payment-header">
+                    <h2>Complete Your Booking</h2>
+                    <button className="close-btn" onClick={onClose}>
+                        &times;
+                    </button>
+                </div>
+                
+                <div className="payment-content">
+                    <div className="payment-amount">
+                        <span className="amount-label">Total Amount</span>
+                        <span className="amount-value">XAF {amount}.00</span>
                     </div>
-                    <div className="body">
-                        <div className="input">
-                            <label>Enter Phone Number to make payment</label>
-                            <input 
-                                name="number"
-                                value={number}
-                                onChange={handleChange}
-                                placeholder="Phone number (9 digits)"
-                            />
+                    
+                    <div className="payment-methods">
+                        <p className="methods-label">Select Payment Method</p>
+                        <div className="method-logos">
+                            <div className="method-logo active">
+                                <img src={omLogo} />
+                                <span>Orange Money</span>
+                            </div>
+                            <div className="method-logo">
+                                <img src={momoLogo} alt="MTN Mobile Money" />
+                                <span>MTN MoMo</span>
+                            </div>
                         </div>
-                        <button onClick={handlePayment} disabled={loading}>
-                            {loading ? 'Processing...' : 'Pay'}
+                    </div>
+                    
+                    <div className="payment-form">
+                        <div className="input-group">
+                            <label htmlFor="phone">Phone Number</label>
+                            <div className="input-prefix">
+                                <span>+237</span>
+                                <input 
+                                    type="text"
+                                    id="phone"
+                                    name="number"
+                                    value={number}
+                                    onChange={handleChange}
+                                    placeholder="6XX XXX XXX"
+                                    maxLength="9"
+                                />
+                            </div>
+                        </div>
+                        
+                        <button 
+                            className="pay-btn" 
+                            onClick={handlePayment} 
+                            disabled={loading || number.length !== 9}
+                        >
+                            {loading ? (
+                                <>
+                                    <div className="spinner"></div>
+                                    Processing Payment...
+                                </>
+                            ) : (
+                                `Pay XAF ${amount}.00`
+                            )}
                         </button>
-                        {error && <div className="error">{error}</div>}
+                        
+                        {paymentRequestSent && (
+                            <div className="payment-instruction">
+                                <div className="instruction-icon">💡</div>
+                                <p>Payment request sent! Please confirm with your PIN code or dial *126# to complete the transaction.</p>
+                            </div>
+                        )}
+                        
+                        {error && (
+                            <div className="error-message">
+                                <div className="error-icon">⚠️</div>
+                                <p>{error}</p>
+                            </div>
+                        )}
                     </div>
                 </div>
+                
+                <div className="payment-footer">
+                    <p>Your payment is secure and encrypted</p>
+                </div>
             </div>
-        </>
+        </div>
     );
 }
 

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createBooking } from '../../../../api/booking';
 import './css/BookingForm.css';
+import Payment from '../../../payments/Payment';
 
 const BookingForm = ({ hotelId, room }) => {
     const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const BookingForm = ({ hotelId, room }) => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [paymentModal, setPaymentModal] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -23,8 +25,8 @@ const BookingForm = ({ hotelId, room }) => {
         }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
+        // e.preventDefault();
         setLoading(true);
         setError(null);
 
@@ -60,6 +62,11 @@ const BookingForm = ({ hotelId, room }) => {
     };
 
     return (
+        <>
+        {paymentModal && <Payment
+             onClose={() => setPaymentModal(false)}
+             handleSubmit={handleSubmit}
+        />}
         <div className="hotels-booking-form-modal">
          <div className="booking-form-container">
             <h3>Book {room.roomType} Room</h3>
@@ -67,7 +74,7 @@ const BookingForm = ({ hotelId, room }) => {
                 XAF {room.pricePerNight.toLocaleString()} <span>per night</span>
             </div>
             
-            <form onSubmit={handleSubmit}>
+            <form>
                 <div className="form-group">
                     <label>Check-in Date</label>
                     <input
@@ -140,13 +147,18 @@ const BookingForm = ({ hotelId, room }) => {
                 <button 
                     type="submit" 
                     className="book-now-btn"
-                    disabled={loading}
+                    disabled={loading || formData.checkInDate == '' || formData.checkOutDate == ''}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        setPaymentModal(true);
+                    }}
                 >
                     {loading ? 'Processing...' : 'Book Now'}
                 </button>
             </form>
         </div>
         </div>
+        </>
     );
 };
 
