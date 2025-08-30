@@ -1,0 +1,270 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(11, 95, 159, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: var(--bg-white);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid var(--bg-w2);
+  background-color: var(--background-color);
+  border-radius: 12px 12px 0 0;
+}
+
+.modalHeader h2 {
+  color: var(--text-color);
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.closeButton {
+  background: var(--bg-w2);
+  color: var(--text-color);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: var(--bg-w1);
+  transform: scale(1.05);
+}
+
+.modalContent {
+  padding: 25px;
+}
+
+.error {
+  background-color: rgba(198, 40, 40, 0.1);
+  color: #c62828;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #c62828;
+}
+
+.success {
+  background-color: rgba(46, 125, 50, 0.1);
+  color: #2e7d32;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border-left: 4px solid #2e7d32;
+}
+
+.loading, .noBookings {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-color);
+  font-size: 1.1rem;
+}
+
+.bookingsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bookingCard {
+  border: 1px solid var(--bg-w2);
+  border-radius: 10px;
+  padding: 20px;
+  background: var(--bg-white);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bookingCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bookingHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.bookingHeader h3 {
+  margin: 0 0 5px 0;
+  color: var(--text-color);
+  font-size: 1.2rem;
+}
+
+.contactInfo {
+  margin: 0;
+  color: var(--bg-3);
+  font-size: 0.9rem;
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.statusConfirmed {
+  background-color: rgba(255, 193, 7, 0.2);
+  color: #f57f17;
+}
+
+.statusCheckedIn {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: #2e7d32;
+}
+
+.statusCheckedOut {
+  background-color: rgba(33, 150, 243, 0.2);
+  color: #0b5f9f;
+}
+
+.statusCancelled {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: #c62828;
+}
+
+.bookingDetails {
+  margin-bottom: 15px;
+}
+
+.detailRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  margin-bottom: 3px;
+}
+
+.detailValue {
+  color: var(--bg-1);
+  font-size: 1rem;
+}
+
+.bookingActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.checkInButton {
+  background-color: var(--bg-3);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.checkInButton:hover {
+  background-color: var(--bg-4);
+}
+
+.checkOutButton {
+  background-color: var(--bg-4);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.checkOutButton:hover {
+  background-color: var(--bg-2);
+}
+
+.completedText {
+  color: #2e7d32;
+  font-weight: 600;
+  padding: 10px 0;
+}
+
+.cancelledText {
+  color: #c62828;
+  font-weight: 600;
+  padding: 10px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .modalOverlay {
+    padding: 10px;
+  }
+  
+  .modal {
+    max-height: 90vh;
+  }
+  
+  .modalHeader {
+    padding: 15px;
+  }
+  
+  .modalHeader h2 {
+    font-size: 1.3rem;
+  }
+  
+  .modalContent {
+    padding: 15px;
+  }
+  
+  .bookingHeader {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .detailRow {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .detailItem {
+    min-width: 100%;
+  }
+}

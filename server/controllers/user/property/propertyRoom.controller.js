@@ -1,6 +1,7 @@
 import PropertyRoomBooking from '../../../models/property/property-rooms-booking.model.js';
 import PropertyRoom from '../../../models/property/property-rooms.model.js';
 import fs from 'fs';
+import User from '../../../models/user.model.js';
 
 
 export const getPropertyRooms = async (req, res) => {
@@ -222,5 +223,49 @@ export const bookPropertyRoom = async(req, res) => {
             success: false,
             message: error.message || 'Failed to book room',
         });
+    }
+}
+
+
+export const getPropertyRoomBookings = async(req, res) => {
+    try {
+        const {roomId} = req.params;
+
+        const bookings = await PropertyRoomBooking.find({room: roomId}).populate({
+            path: 'user',
+            select: 'first_name last_name email tell profile',
+            model: User
+        })
+        .sort({ createdAt: -1 }).lean();
+
+
+        const formattedBookings = bookings.map(booking => ({
+            _id: booking._id,
+            month: booking.checkInMonth,
+            number: booking.number,
+            specialRequests: booking.specialRequests,
+            status: booking.status,
+            user: booking.user ? {
+                _id: booking.user._id,
+                first_name: booking.user.first_name,
+                last_name: booking.user.last_name,
+                email: booking.user.email,
+                tell: booking.user.tell,
+                profile: booking.user.profile
+            } : null,
+
+        }))
+
+
+        res.status(200).json({
+            success: true,
+            bookings: formattedBookings
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message,
+        })
     }
 }

@@ -4,7 +4,7 @@ import styles from './PropertyRoomsList.module.css';
 import { getPropertyRooms, UpdatePropertyRoom } from '../../../../api/user/property/property';
 import ViewPropertyRoomModal from '../modal/ViewPropertyRoomModal';
 import Notification from '../../../notification/notification';
-import RoomBookingModal from '../modal/RoomBookingsModal';
+import RoomBookingsModal from '../modal/RoomBookingsModal';
 
 const PropertyRoomsList = () => {
   const { id } = useParams();
@@ -153,8 +153,9 @@ const PropertyRoomsList = () => {
       )}
 
       { showBookingsModal && (
-        <RoomBookingModal 
-          
+        <RoomBookingsModal 
+          room={currentRoom}
+          onClose={() => setShowBookingsModal(false)}
         />
       )}
 

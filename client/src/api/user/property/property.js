@@ -349,3 +349,32 @@ export const bookPropertyRoom = async(propertyId, roomId, formData) => {
         }
     }
 }
+
+
+export const getPropertyRoomBookings = async(roomId) => {
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.get(`user/getPropertyRoomBookings/${roomId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+
+        console.log('Response from backend: ', response);
+
+        return {
+            success: true,
+            bookings: response.data.bookings,
+        }
+    } catch (error) {
+        if (error.response && error.response.data.redirectTo) {
+            // Redirect user to login page
+            window.location.href = error.response.data.redirectTo;
+        }
+        return {
+            success: false,
+            error: error.message,
+        }
+    }
+}
