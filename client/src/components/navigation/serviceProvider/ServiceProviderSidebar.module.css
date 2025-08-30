@@ -1,0 +1,230 @@
+/* Sidebar Container */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 260px;
+  background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
+  color: white;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.closed {
+  width: 70px;
+}
+
+/* Sidebar Header */
+.sidebarHeader {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebarTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  color: white;
+}
+
+.sidebarLogo {
+  width: 40px;
+  height: 40px;
+  background: white;
+  color: #3498db;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Sidebar Menu */
+.sidebarMenu {
+  flex: 1;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+/* Sidebar Item */
+.sidebarItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  margin: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.sidebarItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.sidebarItem.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.sidebarIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  font-size: 18px;
+}
+
+.sidebarText {
+  margin-left: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tooltip for closed state */
+.tooltip {
+  position: absolute;
+  left: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #2c3e50;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1001;
+}
+
+.sidebarItem:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Sidebar Footer */
+.sidebarFooter {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.collapseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 12px;
+}
+
+.collapseButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 260px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .sidebar.mobileOpen {
+    transform: translateX(0);
+  }
+  
+  .sidebar.closed {
+    width: 70px;
+  }
+  
+  /* Overlay for mobile */
+  .sidebar::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100vw - 260px);
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: -1;
+  }
+  
+  .sidebar.mobileOpen::after {
+    opacity: 1;
+    visibility: visible;
+    right: -100vw;
+    width: 100vw;
+  }
+  
+  .sidebar.closed::after {
+    width: calc(100vw - 70px);
+  }
+}
+
+/* Scrollbar Styling */
+.sidebarMenu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebarMenu::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.sidebarMenu::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.sidebarMenu::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Animation for sidebar items */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.sidebarItem {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.sidebarItem:nth-child(1) { animation-delay: 0.05s; }
+.sidebarItem:nth-child(2) { animation-delay: 0.1s; }
+.sidebarItem:nth-child(3) { animation-delay: 0.15s; }
+.sidebarItem:nth-child(4) { animation-delay: 0.2s; }
+.sidebarItem:nth-child(5) { animation-delay: 0.25s; }

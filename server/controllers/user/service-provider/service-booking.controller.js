@@ -1,26 +1,25 @@
 import UserService from "../../../models/pivots/UserService.model.js";
-// import Notification from "../../models/notification.model.js";
-import { Booking } from "../../../models/pivots/UserService.model.js";
+
 
 // Book a service (for client)
 export const createBooking = async (req, res) => {
   try {
-    const { gigId, date, timeSlot, location, description, contactNumber, specialRequests } = req.body;
+    const { serviceId, date, timeSlot, location, description, contactNumber, specialRequests } = req.body;
     const clientId = req.user._id;
 
     // Validate required fields
-    if (!gigId || !date || !timeSlot || !location || !description || !contactNumber) {
+    if (!serviceId || !date || !timeSlot || !location || !description || !contactNumber) {
       return res.status(400).json({
         success: false,
         message: 'Missing required booking information'
       });
     }
 
-    // Get the gig/service details
-    const gig = await UserService.findById(gigId)
+    // Get the service/service details
+    const service = await UserService.findById(serviceId)
       .populate('createdBy', 'name email');
     
-    if (!gig) {
+    if (!serviceId) {
       return res.status(404).json({
         success: false,
         message: "Service not found"
@@ -29,9 +28,9 @@ export const createBooking = async (req, res) => {
 
     // Create new booking
     const booking = new Booking({
-      gig: gigId,
-      serviceName: gig.title,
-      provider: gig.createdBy._id,
+      service: serviceId,
+      serviceName: service.title,
+      provider: service.createdBy._id,
       client: clientId,
       date,
       timeSlot,
@@ -43,7 +42,7 @@ export const createBooking = async (req, res) => {
         specialRequests: specialRequests || '',
         bookedAt: new Date()
       },
-      price: gig.price
+      price: service.price
     });
 
     await booking.save();
@@ -52,12 +51,12 @@ export const createBooking = async (req, res) => {
       success: true,
       booking: {
         id: booking._id,
-        serviceName: gig.title,
-        provider: gig.createdBy,
+        serviceName: service.title,
+        provider: service.createdBy,
         date,
         timeSlot,
         status: 'pending',
-        price: gig.price,
+        price: service.price,
         clientDetails: booking.clientDetails
       }
     });
@@ -78,13 +77,13 @@ export const getProviderBookings = async (req, res) => {
     
     const bookings = await Booking.find({ provider: providerId })
       .populate('client', 'name email avatar')
-      .populate('gig', 'title price')
+      .populate('service', 'title price')
       .sort({ date: -1, createdAt: -1 });
 
     const formattedBookings = bookings.map(booking => ({
       id: booking._id,
       serviceName: booking.serviceName,
-      gig: booking.gig,
+      service: booking.service,
       client: booking.client,
       date: booking.date,
       timeSlot: booking.timeSlot,
@@ -117,13 +116,13 @@ export const getClientBookings = async (req, res) => {
     
     const bookings = await Booking.find({ client: clientId })
       .populate('provider', 'name email avatar')
-      .populate('gig', 'title price')
+      .populate('service', 'title price')
       .sort({ date: -1, createdAt: -1 });
 
     const formattedBookings = bookings.map(booking => ({
       id: booking._id,
       serviceName: booking.serviceName,
-      gig: booking.gig,
+      service: booking.service,
       provider: booking.provider,
       date: booking.date,
       timeSlot: booking.timeSlot,
@@ -180,7 +179,7 @@ export const updateBookingStatus = async (req, res) => {
     )
     .populate('client', 'name email')
     .populate('provider', 'name email')
-    .populate('gig', 'title price');
+    .populate('service', 'title price');
 
     if (!booking) {
       return res.status(404).json({

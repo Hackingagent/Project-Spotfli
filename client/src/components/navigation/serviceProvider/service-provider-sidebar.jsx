@@ -1,34 +1,39 @@
 import React, { useState } from 'react';
-import {FiHome,FiUsers,FiCheckCircle,FiDollarSign,FiPieChart,FiAlertTriangle,FiSettings,FiMenu, FiChevronDown, FiChevronRight} from 'react-icons/fi';
+import {
+  FiHome, FiUsers, FiCheckCircle, FiDollarSign, 
+  FiPieChart, FiAlertTriangle, FiSettings, FiMenu, 
+  FiChevronDown, FiChevronRight
+} from 'react-icons/fi';
 import { FaBuilding, FaTools } from "react-icons/fa";
 import { replace, useNavigate } from 'react-router-dom';
-// import './Sidebar.css';
+import styles from './ServiceProviderSidebar.module.css';
 
 const ServiceProviderSidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) => {
   const navigate = useNavigate();
   const [isServiceProviderOpen, setIsServiceProviderOpen] = useState(false);
-  const [hotelDrop, isHotelDrop] = useState(false)
+  const [hotelDrop, isHotelDrop] = useState(false);
 
   // toggle service provider menu dropdown
   const toggleServiceProvider = () => {
     setIsServiceProviderOpen(!isServiceProviderOpen);
   };
 
-  // toggle hotel menu deropdown
+  // toggle hotel menu dropdown
   const toggleHotelDrop = () => {
     isHotelDrop(!hotelDrop);
   }
 
   return (
-    <div className={`sidebar ${open ? 'open' : 'closed'} ${mobileOpen ? 'mobile-open' : ''}`}>
-      <div className="sidebar-header">
+    <div className={`${styles.sidebar} ${open ? styles.open : styles.closed} ${mobileOpen ? styles.mobileOpen : ''}`}>
+      <div className={styles.sidebarHeader}>
         {open ? (
-          <h2>SERVICE DASHBAORD</h2>
+          <h2 className={styles.sidebarTitle}>SERVICE DASHBOARD</h2>
         ) : (
-          <div className="sidebar-logo">SF</div>
+          <div className={styles.sidebarLogo}>SF</div>
         )}
       </div>
-      <div className="sidebar-menu">
+      
+      <div className={styles.sidebarMenu}>
         <SidebarItem
           icon={<FiHome />}
           text="Dashboard"
@@ -59,8 +64,6 @@ const ServiceProviderSidebar = ({ open, mobileOpen, activeTab, onTabChange, onTo
           }}
           open={open}
         />
-
-
         <SidebarItem
           icon={<FiSettings />}
           text="Settings"
@@ -69,10 +72,11 @@ const ServiceProviderSidebar = ({ open, mobileOpen, activeTab, onTabChange, onTo
           open={open}
         />
       </div>
-      <div className="sidebar-footer">
+      
+      <div className={styles.sidebarFooter}>
         <button
           onClick={onToggle}
-          className="collapse-button"
+          className={styles.collapseButton}
         >
           <FiMenu />
           {open && <span>Collapse</span>}
@@ -86,10 +90,11 @@ const SidebarItem = ({ icon, text, active, onClick, open, isSubItem }) => {
   return (
     <div
       onClick={onClick}
-      className={`sidebar-item ${active ? 'active' : ''} ${isSubItem ? 'sub-item' : ''}`}
+      className={`${styles.sidebarItem} ${active ? styles.active : ''} ${isSubItem ? styles.subItem : ''}`}
     >
-      {icon && <div className="sidebar-icon">{icon}</div>}
-      {open && <span>{text}</span>}
+      {icon && <div className={styles.sidebarIcon}>{icon}</div>}
+      {open && <span className={styles.sidebarText}>{text}</span>}
+      {!open && <div className={styles.tooltip}>{text}</div>}
     </div>
   );
 };

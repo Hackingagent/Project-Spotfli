@@ -19,17 +19,26 @@ const app = express();
 
 
 app.use(express.json());
-app.use(cors());  // Add this line before your routes
+app.use(cors({
+  origin: true, // Allow all origins (or specify your frontend URL)
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+app.use('/uploads', (req, res, next) => {
+  console.log('Static file request:', req.path);
+  next();
+});
+
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use('/api/service-provider', serviceProviderRoutes);
-app.use('/api/bookings', bookingRoutes); 
 
 app.use('/api/hotel', hotelRoutes);
 app.use('/api', bookingRoutes);
@@ -44,5 +53,3 @@ app.listen('5000', ()=>{
     console.log('Server is Running');
 })
 
-
-// fS2p1S0VCAvKXwK4 
