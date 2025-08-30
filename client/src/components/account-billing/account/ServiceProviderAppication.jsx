@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { FiX, FiUser, FiBriefcase, FiMail, FiPhone, FiCheck } from 'react-icons/fi';
+import React, { useEffect, useRef, useState } from 'react';
+import { FiX, FiUser, FiBriefcase, FiMail, FiPhone, FiCheck, FiUpload, FiTrash2 } from 'react-icons/fi';
 import './ServiceProviderApplication.css';
-import { becomeServiceProvider, userGetServices } from '../../../api/user/serviceProvider/service-provider';
+import { createService, userGetServices,  } from '../../../api/user/serviceProvider/my-service';
 
 const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
   const [formData, setFormData] = useState({
@@ -13,11 +13,14 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
     termsAccepted: false
   });
 
+  const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [services, setServices] = useState([]);
   const [error, setError] = useState('');
   const [isLoadingServices, setIsLoadingServices] = useState(true);
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,53 +30,107 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
     }));
   };
 
-  const fetchServices = async () => {
-    setIsLoadingServices(true);
+  const handleThumbnailChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setError('Please select an image file (JPEG, PNG, etc.)');
+      return;
+    }
+
+    // Validate file size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      setError('Image size must be less than 2MB');
+      return;
+    }
+
     setError('');
-    try {
-      const response = await userGetServices();
-      console.log('Services response:', response); // Debug log
-      
-      if (response?.success) {
-        // Handle different possible response structures
-        const receivedServices = response.services || response.data?.services || [];
-        setServices(Array.isArray(receivedServices) ? receivedServices : []);
-      } else {
-        setError(response?.error || 'Failed to load services');
-      }
-    } catch (err) {
-      console.error('Service fetch error:', err);
-      setError('Failed to load services. Please try again later.');
-    } finally {
-      setIsLoadingServices(false);
+    setThumbnail(file);
+
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setThumbnailPreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeThumbnail = () => {
+    setThumbnail(null);
+    setThumbnailPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
+
+const fetchServices = async () => {
+  setIsLoadingServices(true);
+  setError('');
+  try {
+    const response = await userGetServices();
+    console.log('Services response:', response);
+    
+    if (response?.success) {
+      const receivedServices = response.services || [];
+      setServices(Array.isArray(receivedServices) ? receivedServices : []);
+    } else {
+      setError(response?.error || 'Failed to load services');
+    }
+  } catch (err) {
+    console.error('Service fetch error:', err);
+    setError('Failed to load services. Please try again later.');
+    setServices([]);
+  } finally {
+    setIsLoadingServices(false);
+  }
+};
 
   useEffect(() => {
     fetchServices();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setError('');
 
-    try {
-      const response = await becomeServiceProvider(formData);
-      console.log('Submission response:', response); // Debug log
-      
-      if (response?.success) {
-        setSubmitSuccess(true);
-      } else {
-        setError(response?.error || 'Submission failed. Please try again.');
-      }
-    } catch (err) {
-      console.error('Submission error:', err);
-      setError('An unexpected error occurred');
-    } finally {
-      setIsSubmitting(false);
+  try {
+    // Create FormData to handle file upload
+    const submissionData = new FormData();
+    
+    // Append all form fields
+    Object.keys(formData).forEach(key => {
+      submissionData.append(key, formData[key]);
+    });
+    
+    // Append thumbnail if selected
+    if (thumbnail) {
+      submissionData.append('thumbnail', thumbnail);
     }
-  };
+
+    // Use createService API call
+    const response = await createService(submissionData);
+    console.log('Submission response:', response);
+    
+    if (response?.success) {
+      setSubmitSuccess(true);
+      
+      setTimeout(() => {
+        toggleUpdatePanel();
+      }, 2000);
+      
+    } else {
+      setError(response?.error || 'Submission failed. Please try again.');
+    }
+  } catch (err) {
+    console.error('Submission error:', err);
+    setError('An unexpected error occurred');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="spa-modal-overlay">
@@ -104,7 +161,48 @@ const ServiceProviderApplication = ({ toggleUpdatePanel }) => {
               {error && <div className="spa-error-message">{error}</div>}
             </div>
 
-            <form onSubmit={handleSubmit} className="spa-form">
+            <form onSubmit={handleSubmit} className="spa-form" encType="multipart/form-data">
+              {/* Thumbnail Upload Section */}
+              <div className="spa-form-group">
+                <label htmlFor="thumbnail">
+                  Service Thumbnail Image
+                </label>
+                <div className="spa-thumbnail-upload-container">
+                  <input
+                    type="file"
+                    id="thumbnail"
+                    name="thumbnail"
+                    ref={fileInputRef}
+                    onChange={handleThumbnailChange}
+                    accept="image/*"
+                    className="spa-thumbnail-input"
+                  />
+                  
+                  {thumbnailPreview ? (
+                    <div className="spa-thumbnail-preview-container">
+                      <img 
+                        src={thumbnailPreview} 
+                        alt="Thumbnail preview" 
+                        className="spa-thumbnail-preview"
+                      />
+                      <button 
+                        type="button" 
+                        className="spa-remove-thumbnail"
+                        onClick={removeThumbnail}
+                      >
+                        <FiTrash2 size={16} />
+                      </button>
+                    </div>
+                  ) : (
+                    <label htmlFor="thumbnail" className="spa-thumbnail-upload-area">
+                      <FiUpload size={24} />
+                      <span>Click to upload or drag and drop</span>
+                      <p>PNG, JPG up to 2MB</p>
+                    </label>
+                  )}
+                </div>
+              </div>
+
               <div className="spa-form-group">
                 <label htmlFor="service">
                   <FiBriefcase className="spa-input-icon" />

@@ -20,11 +20,11 @@ export const createHotelBooking = async (req, res) => {
             });
         }
 
-        if (checkIn < new Date()) {
-            return res.status(400).json({ 
-                message: 'Check-in date cannot be in the past' 
-            });
-        }
+        // if (checkIn < new Date()) {
+        //     return res.status(400).json({ 
+        //         message: 'Check-in date cannot be in the past' 
+        //     });
+        // }
 
         // Find the hotel and room
         const hotel = await Hotel.findById(hotelId);
@@ -54,11 +54,11 @@ export const createHotelBooking = async (req, res) => {
             );
         });
 
-        if (overlappingBooking) {
-            return res.status(400).json({ 
-                message: 'Room is already booked for the selected dates' 
-            });
-        }
+        // if (overlappingBooking) {
+        //     return res.status(400).json({ 
+        //         message: 'Room is already booked for the selected dates' 
+        //     });
+        // }
 
         // Calculate total price
         const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));

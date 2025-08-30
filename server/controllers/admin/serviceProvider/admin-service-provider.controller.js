@@ -1,4 +1,4 @@
-import { Booking, UserService } from "../../../models/pivots/UserService.model.js";
+import UserService from "../../../models/pivots/UserService.model.js";
 import Service from "../../../models/service.model.js";
 import User from "../../../models/user.model.js";
 import mongoose from "mongoose";

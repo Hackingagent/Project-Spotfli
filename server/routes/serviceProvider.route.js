@@ -1,22 +1,30 @@
 import express from "express"
 import userAuthenticate from "../middlewares/userAuthenticate.middleware.js";
-import providerCheck from "../middlewares/providerCheck.js";
-import { createService, getMyService } from "../controllers/user/service-provider/serviceController.js";
+import { createService, getAvailableServices, getMyService } from "../controllers/user/service-provider/service-provider.controller.js";
 import { deleteService, updateService } from "../controllers/admin/services/service.controller.js";
-
+import { 
+  createOffer, 
+  getOffer, 
+  getOfferById, 
+  updateOffer, 
+  deleteOffer 
+} from "../controllers/user/service-provider/service-provider.controller.js";
+import { upload } from "../utils/serviceFilesUpload.js";
 
 const serviceProviderRoutes = express.Router();
 
-
-//POST /api/gigs
-// serviceProviderRoutes.post('/', [userAuthenticate, providerCheck], createService);
-serviceProviderRoutes.post('/', userAuthenticate, createService);
-//GET /api/gigs/my-gigs
+// Service routes
+serviceProviderRoutes.post('/', userAuthenticate, upload.single('thumbnail'), createService);
 serviceProviderRoutes.get('/my-service', userAuthenticate, getMyService);
-//PATCH /api/gigs/:id
-serviceProviderRoutes.patch('/:id', [userAuthenticate, providerCheck], updateService);
-//DELETE /api/gigs/:id
-serviceProviderRoutes.delete('/:id', [userAuthenticate, providerCheck], deleteService);
+serviceProviderRoutes.get('/available-services', userAuthenticate, getAvailableServices);
+serviceProviderRoutes.put('/:id', userAuthenticate, updateService);
+serviceProviderRoutes.delete('/:id', userAuthenticate, deleteService);
 
+// Offer routes
+serviceProviderRoutes.post('/offers', userAuthenticate, upload.array('images', 5), createOffer);
+serviceProviderRoutes.get('/offers', userAuthenticate, getOffer);
+serviceProviderRoutes.get('/offers/service/:serviceId', userAuthenticate, getOfferById);
+serviceProviderRoutes.patch('/offers/:id', userAuthenticate, upload.array('images', 5), updateOffer);
+serviceProviderRoutes.delete('/offers/:id', userAuthenticate, deleteOffer);
 
 export default serviceProviderRoutes;
