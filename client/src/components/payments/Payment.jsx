@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import momoLogo from '../../assets/MTN_Mobile_money.jpg'
+import momoLogo from '../../assets/MTN_Mobile_Money.jpg'
 import omLogo from '../../assets/Orange money.png'
 
 import axios from 'axios';
