@@ -4,6 +4,7 @@ import styles from './PropertyRoomsList.module.css';
 import { getPropertyRooms, UpdatePropertyRoom } from '../../../../api/user/property/property';
 import ViewPropertyRoomModal from '../modal/ViewPropertyRoomModal';
 import Notification from '../../../notification/notification';
+import RoomBookingModal from '../modal/RoomBookingsModal';
 
 const PropertyRoomsList = () => {
   const { id } = useParams();
@@ -13,6 +14,7 @@ const PropertyRoomsList = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [currentRoom, setCurrentRoom] = useState([]);
   const [message, setMessage] = useState('');
+  const [showBookingsModal, setShowBookingsModal] = useState(false);
 
 
   const fetchRooms = async () => {
@@ -101,15 +103,27 @@ const PropertyRoomsList = () => {
               <span key={i} className={styles.amenityTag}>{amenity}</span>
             ))}
           </div>
-          <button 
-            className={styles.viewButton} 
-            onClick={() => {
-              setShowViewModal(true);
-              setCurrentRoom(room);
-            }}
-          >
-            View Details
-          </button>
+          <div className={styles.buttons}>
+            <button 
+              className={styles.viewButton} 
+              onClick={() => {
+                setShowViewModal(true);
+                setCurrentRoom(room);
+              }}
+            >
+              View Details
+            </button>
+
+            <button
+              className={styles.manageButton}
+              onClick={()=>{
+                setShowBookingsModal(true);
+                setCurrentRoom(room)
+              }}
+            >
+              Manage Bookings
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -136,6 +150,12 @@ const PropertyRoomsList = () => {
           onClose={() => setShowViewModal(false)}
         />
 
+      )}
+
+      { showBookingsModal && (
+        <RoomBookingModal 
+          
+        />
       )}
 
 

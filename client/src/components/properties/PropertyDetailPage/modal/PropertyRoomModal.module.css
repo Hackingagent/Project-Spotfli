@@ -581,3 +581,17 @@
 .addAmenityButton:hover {
   background-color: #2563eb;
 }
+
+.bookingDetails{
+  width: 100%;
+  display: flex;
+}
+
+.bookingDetails img{
+  width: 50px;
+  height: 50px;
+}
+
+.bookingImage {
+  
+}

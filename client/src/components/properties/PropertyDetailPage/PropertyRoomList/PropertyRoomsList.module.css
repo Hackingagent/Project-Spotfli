@@ -114,9 +114,34 @@
   border-radius: 4px;
   cursor: pointer;
   margin-top: 1rem;
-  width: 100%;
+  font-size: 1.1rem;
+
+  /* width: 100%; */
+}
+
+.manageButton {
+  background-color: var(--bg-w1);
+  color: black;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-size: 1.1rem;
 }
 
 .viewButton:hover {
   background-color: var(--bg-3);
+}
+
+.manageButton:hover {
+  background-color: var(--bg-w2);
+}
+
+.buttons {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  
+  
 }
