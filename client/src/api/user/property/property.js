@@ -378,3 +378,27 @@ export const getPropertyRoomBookings = async(roomId) => {
         }
     }
 }
+
+
+export const updatePropertyBookingStatus = async(roomId, bookingId, status) => {
+    try {
+        const token = localStorage.getItem('user_token');
+
+        const response = await api.put(`user/update/${roomId}/Booking/${bookingId}/status/${status}`, {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            return {
+                success: true,
+                message: response.data.message,
+            }
+        
+        
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message,
+        }
+    }
+}

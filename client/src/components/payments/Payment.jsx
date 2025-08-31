@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import momoLogo from '../../assets/MTN_Mobile_money.jpg'
+import momoLogo from '../../assets/MTN_Mobile_Money.jpg'
 import omLogo from '../../assets/Orange money.png'
 
 import axios from 'axios';
@@ -8,7 +8,7 @@ import './Payment.css';
 const Payment = ({ onClose, handleSubmit }) => {
     const [number, setNumber] = useState('');
     const [amount] = useState('2');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);  
     const [error, setError] = useState(null);
     const [paymentRequestSent, setPaymentRequestSent] = useState(false);
 
