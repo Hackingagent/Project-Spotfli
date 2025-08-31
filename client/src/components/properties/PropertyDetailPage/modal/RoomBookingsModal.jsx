@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './RoomBookingsModal.module.css';
-import { getPropertyRoomBookings } from '../../../../api/user/property/property';
+import { getPropertyRoomBookings, updatePropertyBookingStatus } from '../../../../api/user/property/property';
 
 const RoomBookingsModal = ({ room, onClose }) => {
   const [bookings, setBookings] = useState([]);
@@ -8,63 +8,21 @@ const RoomBookingsModal = ({ room, onClose }) => {
   const [error, setError] = useState(null);
   const [message, setMessage] = useState('');
 
+  const fetchBookings = async () => {
+    try {
+      const response = await getPropertyRoomBookings(room._id);
+      console.log('Bookings response:', response);
+      if(response.success){
+        setBookings(response.bookings);
+      } 
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   // Fetch bookings for this room
   useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        // Replace with your actual API call
-        // const response = await getRoomBookings(room._id);
-        // setBookings(response.bookings);
-        
-        // Mock data for demonstration
-
-        const response = await getPropertyRoomBookings(room._id);
-        console.log('Bookings response:', response);
-        if(response.success){
-          setBookings(response.bookings);
-        } 
-        
-        // const mockBookings = [
-        //   {
-        //     _id: '1',
-        //     guestName: 'John Doe',
-        //     checkInDate: '2023-10-15',
-        //     checkOutDate: '2023-10-20',
-        //     status: 'confirmed', // confirmed, checked-in, checked-out, cancelled
-        //     numberOfGuests: 2,
-        //     specialRequests: 'Need early check-in if possible',
-        //     contactInfo: 'john.doe@example.com'
-        //   },
-        //   {
-        //     _id: '2',
-        //     guestName: 'Jane Smith',
-        //     checkInDate: '2023-10-18',
-        //     checkOutDate: '2023-10-22',
-        //     status: 'checked-in',
-        //     numberOfGuests: 1,
-        //     specialRequests: '',
-        //     contactInfo: 'jane.smith@example.com'
-        //   },
-        //   {
-        //     _id: '3',
-        //     guestName: 'Robert Johnson',
-        //     checkInDate: '2023-10-25',
-        //     checkOutDate: '2023-10-28',
-        //     status: 'confirmed',
-        //     numberOfGuests: 3,
-        //     specialRequests: 'Extra towels needed',
-        //     contactInfo: 'robert.j@example.com'
-        //   }
-        // ];
-        // setBookings(mockBookings);
-      
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (room) {
       fetchBookings();
     }
@@ -72,17 +30,14 @@ const RoomBookingsModal = ({ room, onClose }) => {
 
   const handleCheckIn = async (bookingId) => {
     try {
-      // Replace with your actual API call
-      // await checkInBooking(bookingId);
-      setBookings(prevBookings => 
-        prevBookings.map(booking => 
-          booking._id === bookingId 
-            ? { ...booking, status: 'checked-in' } 
-            : booking
-        )
-      );
-      setMessage('Guest checked in successfully');
+     
+      const response = await updatePropertyBookingStatus(room._id, bookingId, 'checked in')
+
+      console.log(response);
+      fetchBookings()
+      setMessage(response.message);
       setTimeout(() => setMessage(''), 3000);
+
     } catch (err) {
       setError(err.message);
       setTimeout(() => setError(''), 3000);
@@ -91,17 +46,14 @@ const RoomBookingsModal = ({ room, onClose }) => {
 
   const handleCheckOut = async (bookingId) => {
     try {
-      // Replace with your actual API call
-      // await checkOutBooking(bookingId);
-      setBookings(prevBookings => 
-        prevBookings.map(booking => 
-          booking._id === bookingId 
-            ? { ...booking, status: 'checked-out' } 
-            : booking
-        )
-      );
-      setMessage('Guest checked out successfully');
-      setTimeout(() => setMessage(''), 3000);
+      const response = await updatePropertyBookingStatus(room._id, bookingId, 'checked out')
+  
+        console.log(response);
+        fetchBookings()
+        setMessage(response.message);
+        setTimeout(() => setMessage(''), 3000);
+      
+
     } catch (err) {
       setError(err.message);
       setTimeout(() => setError(''), 3000);
@@ -112,9 +64,9 @@ const RoomBookingsModal = ({ room, onClose }) => {
     switch (status) {
       case 'confirmed':
         return styles.statusConfirmed;
-      case 'checked-in':
+      case 'checked in':
         return styles.statusCheckedIn;
-      case 'checked-out':
+      case 'checked out':
         return styles.statusCheckedOut;
       case 'cancelled':
         return styles.statusCancelled;
@@ -171,14 +123,23 @@ const RoomBookingsModal = ({ room, onClose }) => {
                   
                   <div className={styles.bookingDetails}>
                     <div className={styles.detailRow}>
-                      <div className={styles.detailItem}>
-                        <span className={styles.detailLabel}>Check-in:</span>
-                        <span className={styles.detailValue}>{formatDate(booking.checkInDate)}</span>
-                      </div>
-                      <div className={styles.detailItem}>
-                        <span className={styles.detailLabel}>Check-out:</span>
-                        <span className={styles.detailValue}>{formatDate(booking.checkOutDate)}</span>
-                      </div>
+                        <div className={styles.detailItem}>
+                              <span className={styles.detailLabel}>Booking Date</span>
+                              <span className={styles.detailValue}>{formatDate(booking.createdAt)}</span>
+                          </div>
+                      {booking.status === 'checked in' && (
+                        <div className={styles.detailItem}>
+                          <span className={styles.detailLabel}>Check-in:</span>
+                          <span className={styles.detailValue}>{formatDate(booking.updatedAt)}</span>
+                        </div>
+                      )}
+                      {booking.status === 'checked out' && (
+                        <div className={styles.detailItem}>
+                          <span className={styles.detailLabel}>Check-out:</span>
+                          <span className={styles.detailValue}>{formatDate(booking.updatedAt)}</span>
+                        </div>
+                      )}
+                      
                     </div>
                     
                     <div className={styles.detailRow}>
@@ -199,16 +160,45 @@ const RoomBookingsModal = ({ room, onClose }) => {
                   </div>
                   
                   <div className={styles.bookingActions}>
-                    {booking.status === 'confirmed' && (
-                      <button 
-                        className={styles.checkInButton}
-                        onClick={() => handleCheckIn(booking._id)}
-                      >
-                        Check In
-                      </button>
+                    {room.quantityAvailable === 0 ? (
+                      <>
+                        {booking.status === 'checked out' && (
+                          <div>No more Rooms available</div>
+
+                        )}
+
+                        {booking.status === 'confirmed' && (
+                          <div>No more Rooms available</div>
+
+                        )}
+                      </>
+                      
+                    ): (
+                      <>
+                        {booking.status === 'checked out' && (
+                          <button 
+                            className={styles.checkInButton}
+                            onClick={() => handleCheckIn(booking._id)}
+                          >
+                            Check In
+                          </button>
+                        )}
+
+                        {booking.status === 'confirmed' && (
+                          <button 
+                            className={styles.checkInButton}
+                            onClick={() => handleCheckIn(booking._id)}
+                          >
+                            Check In
+                          </button>
+                        )}
+                      </>
+
                     )}
+
+
                     
-                    {booking.status === 'checked-in' && (
+                    {booking.status === 'checked in' && (
                       <button 
                         className={styles.checkOutButton}
                         onClick={() => handleCheckOut(booking._id)}

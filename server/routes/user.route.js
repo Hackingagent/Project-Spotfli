@@ -5,7 +5,7 @@ import { getCategory } from "../controllers/admin/category/category.controller.j
 import { addProperty, deletePropertyFile, getAllProperties, getPropertySubcategory, getSingleProperty, getUserProperties, updateProperty } from "../controllers/user/property/property.controller.js";
 import { upload } from "../utils/propertyFIleUpload.js";
 import { uploadRoom } from "../utils/propertyRoomFileUpload.js";
-import { addPropertyRoom, bookPropertyRoom, getPropertyRoomBookings, getPropertyRooms, updatePropertyRoom } from "../controllers/user/property/propertyRoom.controller.js";
+import { addPropertyRoom, bookPropertyRoom, getPropertyRoomBookings, getPropertyRooms, updatePropertyBookingStatus, updatePropertyRoom } from "../controllers/user/property/propertyRoom.controller.js";
 
 const userRoutes = express.Router();
 // const verifyToken = require('../middlewares/validationmidleware');
@@ -34,6 +34,7 @@ userRoutes.post('/updatePropertyRoom/:id', userAuthenticate, uploadRoom.array('f
 userRoutes.post('/bookProperty/:propertyId/room/:roomId', userAuthenticate, bookPropertyRoom);
 
 userRoutes.get('/getPropertyRoomBookings/:roomId', userAuthenticate, getPropertyRoomBookings);
+userRoutes.put('/update/:roomId/Booking/:bookingId/status/:status', userAuthenticate, updatePropertyBookingStatus)
 
 
 export default userRoutes;
