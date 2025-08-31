@@ -205,8 +205,8 @@
 }
 
 .checkOutButton {
-  background-color: var(--bg-4);
-  color: white;
+  background-color: var(--bg-w1);
+  color: black;
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
@@ -217,7 +217,7 @@
 }
 
 .checkOutButton:hover {
-  background-color: var(--bg-2);
+  background-color: var(--bg-1);
 }
 
 .completedText {

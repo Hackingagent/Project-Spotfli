@@ -245,6 +245,8 @@ export const getPropertyRoomBookings = async(req, res) => {
             number: booking.number,
             specialRequests: booking.specialRequests,
             status: booking.status,
+            updatedAt: booking.updatedAt,
+            createdAt: booking.createdAt,
             user: booking.user ? {
                 _id: booking.user._id,
                 first_name: booking.user.first_name,
@@ -266,6 +268,67 @@ export const getPropertyRoomBookings = async(req, res) => {
         res.status(500).json({
             success: false,
             error: error.message,
+        })
+    }
+}
+
+export const updatePropertyBookingStatus = async(req, res) => {
+    try {
+        const {roomId, bookingId, status} = req.params;
+
+        const propertyRoom = await PropertyRoom.findById(roomId)
+
+        if(propertyRoom.quantityAvailable === 0){
+
+            res.status(500).json({
+                success: false,
+                error: 'No more Rooms available',
+            })
+        }
+
+        const booking = await PropertyRoomBooking.findByIdAndUpdate(bookingId, {
+            checkedStatus: status,
+            status: status,
+        })
+
+        if(!booking){
+            return res.status(404).json({
+                success: false,
+                message: 'Booking not found'
+            });
+        }
+
+        let message
+
+        if(status === 'checked in'){
+            await PropertyRoom.findByIdAndUpdate(booking.room, {
+                $inc: {quantityAvailable: -1}
+                },
+                {new: true, runValidators: true}
+            )
+
+            message = 'Checked In successfully'
+
+        }else if(status === 'checked out'){
+            await PropertyRoom.findByIdAndUpdate(booking.room, {
+                $inc: {quantityAvailable: +1}
+            },
+            {new: true, runValidators: true}
+            )
+
+            message = 'Checked Out successfully'
+
+        }
+
+        res.status(200).json({
+            success: true,
+            message: message,
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message
         })
     }
 }

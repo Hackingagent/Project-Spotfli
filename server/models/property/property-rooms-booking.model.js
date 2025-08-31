@@ -24,7 +24,7 @@ const propertyRoomBookingSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'confirmed', 'cancelled', 'completed', 'checked-in', 'checked-out'],
+        enum: ['pending', 'confirmed', 'cancelled', 'completed', 'checked in', 'checked out'],
         default: 'confirmed'
     },
 

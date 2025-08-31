@@ -8,7 +8,7 @@ import './Payment.css';
 const Payment = ({ onClose, handleSubmit }) => {
     const [number, setNumber] = useState('');
     const [amount] = useState('2');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);  
     const [error, setError] = useState(null);
     const [paymentRequestSent, setPaymentRequestSent] = useState(false);
 
