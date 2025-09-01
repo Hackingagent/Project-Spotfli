@@ -5,26 +5,24 @@ import {  useNavigate } from 'react-router-dom';
 
 const PropertySidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle }) => {
   const navigate = useNavigate();
-  // const [isServiceProviderOpen, setIsServiceProviderOpen] = useState(false);
-  // const [hotelDrop, isHotelDrop] = useState(false)
-
-  // // toggle service provider menu dropdown
-  // const toggleServiceProvider = () => {
-  //   setIsServiceProviderOpen(!isServiceProviderOpen);
-  // };
-
-  // // toggle hotel menu deropdown
-  // const toggleHotelDrop = () => {
-  //   isHotelDrop(!hotelDrop);
-  // }
-
   return (
     <div className={`property_sidebar ${open ? 'open' : 'closed'} ${mobileOpen ? 'mobile-open' : ''}`}>
       <div className="sidebar-header">
         {open ? (
-          <h2>SPOTFLI</h2>
+          <>
+            <h2>SPOTFLI</h2>
+            <button onClick={onToggle} className="hoteldash-sidebar-toggle">
+              <i className='fa fa-times'></i>
+            </button>
+          </>
+          
         ) : (
-          <div className="sidebar-logo">SF</div>
+          <div className="sidebar-logo">
+            <h3>SF</h3>
+            <button onClick={onToggle} className="hoteldash-sidebar-toggle">
+              <i className='fa fa-bars'></i>
+            </button>
+          </div>
         )}
       </div>
       <div className="sidebar-menu">
@@ -79,57 +77,6 @@ const PropertySidebar = ({ open, mobileOpen, activeTab, onTabChange, onToggle })
           }}
           open={open}
         />
-
-        {/* hotel with dropdown
-        <div className={`sidebar-dropdown ${hotelDrop ? 'open' : ''}`}>
-          <div 
-            className={`sidebar-item ${activeTab.startsWith('service-provider') ? 'active' : ''}`}
-            onClick={toggleHotelDrop}
-          >
-            <div className="sidebar-icon"><FaBuilding /></div>
-            {open && (
-              <>
-                <span>Manage Hotels</span>
-                {isHotelDrop ? <FiChevronDown /> : <FiChevronRight />}
-              </>
-            )}
-          </div>
-          
-          {open && hotelDrop && (
-            <div className="sidebar-submenu">
-              <SidebarItem
-                text="Add Hotel"
-                active={activeTab === 'service-provider-approved'}
-                onClick={() => {
-                  onTabChange('add-hotel')
-                  navigate('/admin/hotel', {replace: true})
-                }}
-                open={open}
-                isSubItem
-              />
-              <SidebarItem
-                text="Manage"
-                active={activeTab === 'view-manage-hotels'}
-                onClick={() => {
-                  onTabChange('view-manage-hotels')
-                  navigate('/admin/manage-hotels', {replace: true})
-                }}
-                open={open}
-                isSubItem
-              />
-            </div>
-          )}
-        </div> */}
-
-      </div>
-      <div className="sidebar-footer">
-        <button
-          onClick={onToggle}
-          className="collapse-button"
-        >
-          <FiMenu />
-          {open && <span>Collapse</span>}
-        </button>
       </div>
     </div>
   );

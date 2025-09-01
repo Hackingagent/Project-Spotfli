@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2.5rem;
-  position: relative;
+  width: 100%;
 }
 
 .stepperStep {
@@ -514,13 +514,11 @@ textarea.formControl {
 
 @media (max-width: 768px) {
   .formBuilderContainer {
-    padding: 1rem;
-    margin: 1rem;
+    /* padding: 1rem; */
+    margin-top: 2rem;
+    width: 90%;
   }
   
-  .stepperHeader {
-    margin-bottom: 1.5rem;
-  }
   
   .stepLabel {
     display: none;
@@ -540,3 +538,5 @@ textarea.formControl {
     justify-content: center;
   }
 }
+
+
