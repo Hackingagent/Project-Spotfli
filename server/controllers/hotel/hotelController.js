@@ -343,6 +343,7 @@ export const updateRoom = async (req, res) => {
             roomType: req.body.roomType,
             pricePerNight: req.body.pricePerNight,
             capacity: req.body.capacity,
+            numAvailable: req.body.numAvailable,
             description: req.body.description,
             amenities: req.body.amenities?.split(',').map(item => item.trim()) || [],
             images: updatedImages

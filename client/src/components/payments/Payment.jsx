@@ -5,12 +5,13 @@ import omLogo from '../../assets/Orange money.png'
 import axios from 'axios';
 import './Payment.css';
 
-const Payment = ({ onClose, handleSubmit }) => {
+const Payment = ({ onClose, handleSubmit, amount, handleCommission }) => {
     const [number, setNumber] = useState('');
-    const [amount] = useState('2');
+    // const [amount] = useState('2');
     const [loading, setLoading] = useState(false);  
     const [error, setError] = useState(null);
     const [paymentRequestSent, setPaymentRequestSent] = useState(false);
+
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -58,7 +59,12 @@ const Payment = ({ onClose, handleSubmit }) => {
             setPaymentRequestSent(true);
             
             const transactionReference = response.data.reference;
+
+            console.log('Transaction Amount: ', amount)
+
             await pollTransactionStatus(transactionReference);
+
+            await handleCommission(amount);
 
         } catch (error) {
             console.log(error);
