@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { createBooking } from '../../../../api/booking';
 import './css/BookingForm.css';
 import Payment from '../../../payments/Payment';
+import axios from 'axios';
 
 const BookingForm = ({ hotelId, room }) => {
     const [formData, setFormData] = useState({
@@ -25,12 +26,43 @@ const BookingForm = ({ hotelId, room }) => {
         }));
     };
 
+    const commissionSplit = async(amount) => {
+        try {
+            const commission = Math.floor(0.65 * amount); // Always rounds down
+            console.log("Commission:",commission);
+
+            const data = JSON.stringify({
+                amount: commission.toString(),
+                to: '237683523840',
+                description: "Booking Fee Commission",
+                external_reference: ""
+            });
+    
+            const config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: 'https://demo.campay.net/api/withdraw/',
+                headers: {
+                    'Authorization': `Token ${import.meta.env.VITE_PAYMENT_API_TOKEN}`,
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
+            const response = await axios(config);
+
+        } catch (error) {
+            console.log('Error: ', error.message);
+        }
+    }
+
     const handleSubmit = async () => {
         // e.preventDefault();
         setLoading(true);
         setError(null);
 
         try {
+
             console.log('Hotel ID', hotelId);
             const response = await createBooking(hotelId, room._id, formData);
             
@@ -65,7 +97,9 @@ const BookingForm = ({ hotelId, room }) => {
         <>
         {paymentModal && <Payment
              onClose={() => setPaymentModal(false)}
+             amount={5}
              handleSubmit={handleSubmit}
+             handleCommission={commissionSplit}
         />}
         <div className="hotels-booking-form-modal">
          <div className="booking-form-container">
