@@ -54,10 +54,16 @@
   .main-content.sidebar-closed {
     margin-left: 80px;
   }
+
+
   
   @media (max-width: 992px) {
     .main-content {
-      margin-left: 0 !important;
+      margin-left: 0 ;
+    }
+
+    .main-content.sidebar-closed {
+      margin-left: 0;
     }
     
     .mobile-header {
@@ -76,4 +82,6 @@
       width: 100%;
       justify-content: space-between;
     }
+
+    
   }
