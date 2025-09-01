@@ -7,6 +7,7 @@ const EditRoomModal = ({ room, onClose, onSave }) => {
     roomType: 'single',
     pricePerNight: '',
     capacity: 1,
+    numAvailable: '',
     description: '',
     amenities: '',
     images: []
@@ -119,6 +120,7 @@ const handleSubmit = async (e) => {
               <option value="double">Double</option>
               <option value="suite">Suite</option>
               <option value="deluxe">Deluxe</option>
+              <option value="Executive">Executive</option>
               <option value="presidential">Presidential</option>
             </select>
           </div>
@@ -142,6 +144,17 @@ const handleSubmit = async (e) => {
                 type="number"
                 name="capacity"
                 value={formData.capacity}
+                onChange={handleChange}
+                min="1"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>How Many Available</label>
+              <input
+                type="number"
+                name="numAvailable"
+                value={formData.numAvailable}
                 onChange={handleChange}
                 min="1"
                 required
