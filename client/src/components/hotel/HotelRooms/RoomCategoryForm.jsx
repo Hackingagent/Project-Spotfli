@@ -86,7 +86,7 @@ const handleSubmit = async (e) => {
         
         <form className='hoteldash-form' onSubmit={handleSubmit}>
           <div className="hoteldash-form-group">
-            <label>Room Number</label>
+            <label>Category ID/number</label>
             <input
               type="text"
               name="roomNumber"
@@ -108,6 +108,7 @@ const handleSubmit = async (e) => {
               <option value="double">Double</option>
               <option value="suite">Suite</option>
               <option value="deluxe">Deluxe</option>
+              <option value="Executive">Executive</option>
               <option value="presidential">Presidential</option>
             </select>
           </div>
